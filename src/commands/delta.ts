@@ -6,7 +6,7 @@ import { ms } from "fero-ms";
 import { version } from "../../package.json";
 
 export default new Command({
-  name: "botinfo",
+  name: "delta",
   description: "Shows information about the bot",
   category: "Utility",
   guildIDs: ["759068727047225384"],
@@ -19,6 +19,9 @@ export default new Command({
         name: context.author.username || "",
         iconURL: context.author.avatarURL({ dynamic: true }) || ""
       })
+      .setDescription(
+        "Hi there, <:deltahi:713191592789409852>! I'm Delta, the Wings of Fire Wiki mascot. I'm a SkyWing/MudWing hybrid, and I go by they/them. I work as a barista. In my free time, I like reading, hanging out with my friends, offering help and advice, and trivia! <:delta:713191673924157471>."
+      )
       .setColor("BLURPLE")
       .setThumbnail(context.client.user?.avatarURL({ dynamic: true }) || "")
       .addFields([
@@ -57,11 +60,12 @@ export default new Command({
           inline: true
         }
       ])
+      .setTimestamp()
       .setFooter({
         text: "Delta, The Wings of Fire Moderation Bot",
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    context.interaction?.reply({ embeds: [embed] });
+    context.interaction?.followUp({ embeds: [embed] });
   }
 });

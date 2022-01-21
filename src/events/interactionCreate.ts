@@ -11,6 +11,12 @@ export default {
 
     const command = client.commands.get(context.command);
 
-    if (command) command.run(context);
+    if (command)
+      interaction
+        .deferReply({
+          ephemeral: false,
+          fetchReply: false
+        })
+        .then(() => command.run(context));
   }
 } as Event<"interactionCreate">;

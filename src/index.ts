@@ -1,5 +1,7 @@
 /** @format */
 
+console.clear();
+
 import { Client, ClientOptions } from "fero-dc";
 
 import options from "./config/config.json";

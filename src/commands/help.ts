@@ -44,7 +44,8 @@ export default new Command({
       )
       .setTimestamp(context.interaction.createdTimestamp)
       .setFooter({
-        text: "Sent at:"
+        text: "Delta, The Wings of Fire Moderation Bot",
+        iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
     if (command) {
@@ -120,6 +121,6 @@ export default new Command({
         .addFields(commands);
     }
 
-    return context.interaction.reply({ embeds: [embed], ephemeral: true });
+    return context.interaction.followUp({ embeds: [embed], ephemeral: true });
   }
 });
