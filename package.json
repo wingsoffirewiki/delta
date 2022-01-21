@@ -13,6 +13,13 @@
   "author": "wofwiki <wings.of.fire.fandom.wiki@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.178",
+    "discord.js": "^13.6.0",
+    "dotenv": "^14.2.0",
+    "fero-dc": "^3.0.3",
+    "fero-ms": "^2.0.7",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.1.7",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
