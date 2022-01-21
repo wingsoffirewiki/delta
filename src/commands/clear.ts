@@ -29,12 +29,13 @@ export default new Command({
       return;
 
     if (!context.member.permissions.has("MANAGE_MESSAGES"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "You do not have the correct permissions to run this command!"
+      });
 
     const messagesToDelete =
-      context.interaction?.options.getNumber("messages") || 1;
+      context.interaction.options.getNumber("messages") || 1;
 
     const channel = context.channel as GuildTextBasedChannel;
 
@@ -69,8 +70,6 @@ export default new Command({
         text: "Delta, The Wings of Fire Moderation Bot",
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
-
-    console.log(embed);
 
     return context.channel.send({
       embeds: [embed]
