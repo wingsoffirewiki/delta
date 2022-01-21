@@ -9,6 +9,9 @@ export default {
 
     const context = await client.getContext(interaction);
 
+    if (!context.guild || !context.member)
+      return interaction.reply("You cannot use commands outside of a server!");
+
     const command = client.commands.get(context.command);
 
     if (command)
