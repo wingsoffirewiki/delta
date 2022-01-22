@@ -2,38 +2,43 @@
 
 import { model, Schema } from "mongoose";
 
+const blankID = "000000000000000000";
+
 const schema = new Schema(
   {
     _id: String,
     channelIDs: {
       logs: {
         type: String,
-        default: ""
+        default: blankID
       },
       modLogs: {
         type: String,
-        default: ""
+        default: blankID
       },
       adminLogs: {
         type: String,
-        default: ""
+        default: blankID
       },
       funnies: {
         type: String,
-        default: ""
+        default: blankID
       }
     },
     roleIDs: {
       mute: {
         type: String,
-        default: ""
+        default: blankID
       },
-      mods: Array
+      mods: {
+        type: Array,
+        default: []
+      }
     },
     messages: {
       leaderboard: {
         type: String,
-        default: ""
+        default: blankID
       }
     },
     features: {
