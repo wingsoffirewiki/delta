@@ -40,7 +40,7 @@ export default new Command({
     const channel = context.channel as GuildTextBasedChannel;
 
     const messages = await channel.bulkDelete(messagesToDelete).catch(err => {
-      context.interaction?.followUp(`Error: \`${err}\``);
+      context.interaction?.followUp(`Error:\n\`${err}\``);
       return undefined;
     });
 

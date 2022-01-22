@@ -1,22 +1,25 @@
 {
+  "MongoDBURI": "mongodb://localhost:27017/Delta",
   "MongoDB": {
-    "url": "mongodb://localhost:27017/Delta",
-    "user": "",
-    "pass": "",
+    "user": "username",
+    "pass": "password",
     "auth": {
-      "user": "",
-      "pass": ""
+      "user": "username",
+      "pass": "password"
     },
     "useNewUrlParser": true,
     "useUnifiedTopology": true,
     "authMechanism": "SCRAM-SHA-256",
-    "authSource": "admin",
-    "useCreateIndex": true,
-    "useFindAndModify": false
+    "authSource": "admin"
   },
   "token": "env",
   "intents": [
-    "GUILDS"
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_PRESENCES",
+    "GUILD_EMOJIS_AND_STICKERS",
+    "GUILD_MEMBERS",
+    "GUILD_BANS"
   ],
   "commandsPath": "path-to-commands-dir",
   "eventsPath": "path-to-events-dir",

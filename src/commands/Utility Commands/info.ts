@@ -68,11 +68,11 @@ export default new Command({
         else
           return {
             name: `${toPascalCase(v.type)} ${v.name}`,
-            value: `Details: ${v.details ? v.details : "None"}\nState: ${
-              v.state ? v.state : "None"
-            }\nTime: ${v.timestamps?.start?.toUTCString()} ${
+            value: `Details: \`${v.details || "None"}\`\nState: \`${
+              v.state || "None"
+            }\`\nTime: \`${v.timestamps?.start?.toUTCString()}\` \`${
               v.timestamps?.end?.toUTCString() ? v.timestamps?.end : "None"
-            }`,
+            }\``,
             inline: true
           };
       }) || [];
@@ -109,7 +109,7 @@ export default new Command({
             inline: true
           },
           {
-            name: "Online State",
+            name: "Status",
             value: toPascalCase(member.presence?.status || "Offline"),
             inline: true
           },
