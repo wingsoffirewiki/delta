@@ -29,10 +29,9 @@ export default new Command({
       return;
 
     if (!context.member.permissions.has("MANAGE_MESSAGES"))
-      return context.interaction.followUp({
-        ephemeral: true,
-        content: "You do not have the correct permissions to run this command!"
-      });
+      return context.interaction.followUp(
+        "You do not have the correct permissions to run this command!"
+      );
 
     const messagesToDelete =
       context.interaction.options.getNumber("messages") || 1;

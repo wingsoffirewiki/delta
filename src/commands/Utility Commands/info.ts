@@ -33,10 +33,9 @@ export default new Command({
     const member = await context.guild.members.fetch(user);
 
     if (!member)
-      return context.interaction.followUp({
-        ephemeral: true,
-        content: "The member you provided is not a part of this server!"
-      });
+      return context.interaction.followUp(
+        "The member you provided is not a part of this server!"
+      );
 
     const clientStatus = member.presence?.clientStatus;
 
@@ -128,7 +127,6 @@ export default new Command({
       });
 
     return context.interaction.followUp({
-      ephemeral: false,
       embeds: [embed]
     });
   }

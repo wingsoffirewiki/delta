@@ -53,16 +53,12 @@ export default new Command({
       const amount = context.interaction.options.getInteger("amount", true);
 
       if (user.id === context.author.id)
-        return context.interaction.followUp({
-          ephemeral: true,
-          content: "You cannot pay yourself!"
-        });
+        return context.interaction.followUp("You cannot pay yourself!");
 
       if (amount < 1)
-        return context.interaction.followUp({
-          ephemeral: true,
-          content: "You cannot pay less than one scale!"
-        });
+        return context.interaction.followUp(
+          "You cannot pay less than one scale!"
+        );
 
       // @ts-ignore
       const userModel = await User.findOneAndUpdate(

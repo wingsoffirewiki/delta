@@ -121,6 +121,6 @@ export default new Command({
         .addFields(commands);
     }
 
-    return context.interaction.followUp({ embeds: [embed], ephemeral: true });
+    return context.interaction.followUp({ embeds: [embed] });
   }
 });
