@@ -6,25 +6,61 @@ const schema = new Schema(
   {
     _id: String,
     channelIDs: {
-      logs: String,
-      modLogs: String,
-      adminLogs: String,
-      funnies: String
+      logs: {
+        type: String,
+        default: ""
+      },
+      modLogs: {
+        type: String,
+        default: ""
+      },
+      adminLogs: {
+        type: String,
+        default: ""
+      },
+      funnies: {
+        type: String,
+        default: ""
+      }
     },
     roleIDs: {
-      mute: String,
+      mute: {
+        type: String,
+        default: ""
+      },
       mods: Array
     },
     messages: {
-      leaderboard: String
+      leaderboard: {
+        type: String,
+        default: ""
+      }
     },
     features: {
-      scales: Boolean,
-      logging: Boolean,
-      modLogging: Boolean,
-      adminLogging: Boolean,
-      moderation: Boolean,
-      starboard: Boolean
+      scales: {
+        type: Boolean,
+        default: true
+      },
+      logging: {
+        type: Boolean,
+        default: true
+      },
+      modLogging: {
+        type: Boolean,
+        default: true
+      },
+      adminLogging: {
+        type: Boolean,
+        default: true
+      },
+      moderation: {
+        type: Boolean,
+        default: true
+      },
+      starboard: {
+        type: Boolean,
+        default: true
+      }
     }
   },
   { timestamps: true }
