@@ -21,5 +21,11 @@ export default {
           fetchReply: false
         })
         .then(() => command.run(context));
+    else
+      interaction.reply({
+        ephemeral: true,
+        fetchReply: false,
+        content: `Command ${context.command} does not exist on this bot!`
+      });
   }
 } as Event<"interactionCreate">;

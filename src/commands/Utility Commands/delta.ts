@@ -3,7 +3,7 @@
 import { Command } from "fero-dc";
 import { MessageEmbed } from "discord.js";
 import { ms } from "fero-ms";
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 
 export default new Command({
   name: "delta",

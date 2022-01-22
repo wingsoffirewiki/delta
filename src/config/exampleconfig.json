@@ -1,0 +1,29 @@
+{
+  "MongoDB": {
+    "url": "mongodb://localhost:27017/Delta",
+    "user": "",
+    "pass": "",
+    "auth": {
+      "user": "",
+      "pass": ""
+    },
+    "useNewUrlParser": true,
+    "useUnifiedTopology": true,
+    "authMechanism": "SCRAM-SHA-256",
+    "authSource": "admin",
+    "useCreateIndex": true,
+    "useFindAndModify": false
+  },
+  "token": "env",
+  "intents": [
+    "GUILDS"
+  ],
+  "commandsPath": "path-to-commands-dir",
+  "eventsPath": "path-to-events-dir",
+  "commandLoadedMessage": true,
+  "eventLoadedMessage": true,
+  "deleteUnusedSlashCommands": true,
+  "editSlashCommands": true,
+  "builtInHelpCommand": "ts",
+  "permissionData": {}
+}
