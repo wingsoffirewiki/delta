@@ -28,7 +28,12 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    if (!context.interaction || !context.guild) return;
+    if (!context.interaction || !context.guild || !context.member) return;
+
+    if (!context.member.permissions.has("BAN_MEMBERS"))
+      return context.interaction.followUp(
+        "You do not have the correct permissions to run this command!"
+      );
 
     const user = context.interaction.options.getUser("member", true);
 
