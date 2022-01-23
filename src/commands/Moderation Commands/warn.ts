@@ -3,6 +3,7 @@
 import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { log } from "../../scripts/log";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "warn",
@@ -27,9 +28,15 @@ export default new Command({
     if (!context.interaction || !context.guild || !context.member) return;
 
     if (!context.member.permissions.has("MODERATE_MEMBERS"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const member = context.interaction.options.getMember(
       "member",
@@ -43,14 +50,16 @@ export default new Command({
     const guild = context.guild;
 
     if (!member)
-      return context.interaction.followUp(
-        "The member you provided is not a part of this server!"
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.missingMember
+      });
 
     log(context.client, "warn", guild, reason, context.author, member);
 
-    return context.interaction.followUp(
-      `Successfully warned ${member} (\`${member.user.tag}\`) (\`${member.id}\`)`
-    );
+    return context.interaction.followUp({
+      ephemeral: true,
+      content: `Successfully warned ${member} (\`${member.user.tag}\`) (\`${member.id}\`)`
+    });
   }
 });

@@ -8,6 +8,8 @@ export default new Command({
   category: "Fun",
   guildIDs: ["759068727047225384"],
   run: async context => {
-    context.interaction?.followUp("<:honk:639271354734215178>");
+    if (!context.interaction) return;
+
+    context.interaction.reply("<:honk:639271354734215178>");
   }
 });

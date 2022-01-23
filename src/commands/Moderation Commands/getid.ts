@@ -1,6 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "getid",
@@ -16,17 +17,19 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    if (!context.guild || !context.member || !context.interaction) return;
+    if (!context.interaction || !context.guild || !context.member) return;
 
     if (!context.member.permissions.has("BAN_MEMBERS"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
 
     const user = context.interaction.options.getUser("user", true);
 
-    return context.interaction.followUp(
-      `ID for user ${user.tag} is: \`${user.id}\``
-    );
+    return context.interaction.reply({
+      ephemeral: true,
+      content: `ID for user ${user.tag} is: \`${user.id}\``
+    });
   }
 });

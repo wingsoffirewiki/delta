@@ -1,6 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "kick",
@@ -25,9 +26,15 @@ export default new Command({
     if (!context.interaction || !context.guild || !context.member) return;
 
     if (!context.member.permissions.has("KICK_MEMBERS"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const user = context.interaction.options.getUser("member", true);
 
@@ -40,12 +47,14 @@ export default new Command({
     const result = await guild.members.kick(user.id, reason);
 
     if (result)
-      return context.interaction.followUp(
-        `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
+      });
     else
-      return context.interaction.followUp(
-        `Attempted kicking ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `Attempted kicking ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
+      });
   }
 });

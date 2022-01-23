@@ -3,6 +3,7 @@
 import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "timeout",
@@ -33,9 +34,15 @@ export default new Command({
     if (!context.interaction || !context.guild || !context.member) return;
 
     if (!context.member.permissions.has("MODERATE_MEMBERS"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const member = context.interaction.options.getMember(
       "member",
@@ -43,18 +50,20 @@ export default new Command({
     ) as GuildMember;
 
     if (!member)
-      return context.interaction.followUp(
-        "The member you provided is not a part of this server!"
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.missingMember
+      });
 
     const time = ms(context.interaction.options.getString("time", true), {
       returnDate: false
     });
 
     if (time > 2419200000)
-      return context.interaction.followUp(
-        `The time you entered (${ms(time)}) is longer than 28 days.`
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `The time you entered (${ms(time)}) is longer than 28 days.`
+      });
 
     const reason =
       context.interaction.options.getString("reason", false) ||
@@ -67,12 +76,13 @@ export default new Command({
 
     await member.timeout(time, reason);
 
-    return context.interaction.followUp(
-      `Successfully timed out ${member} (\`${member.user.tag}\`) (\`${
+    return context.interaction.followUp({
+      ephemeral: true,
+      content: `Successfully timed out ${member} (\`${member.user.tag}\`) (\`${
         member.id
       }\`) from \`${guild.name}\` for \`${ms(time, {
         unitTrailingSpace: true
       })}\``
-    );
+    });
   }
 });

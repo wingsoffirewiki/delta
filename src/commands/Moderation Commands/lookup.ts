@@ -5,6 +5,7 @@ import { Command, toPascalCase } from "fero-dc";
 import { Log, ILog } from "../../models/Log";
 import { Guild, IGuild } from "../../models/Guild";
 import { LogEnum } from "../../scripts/log";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "lookup",
@@ -41,6 +42,17 @@ export default new Command({
   guildIDs: ["759068727047225384"],
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
+
+    if (!context.member.permissions.has("BAN_MEMBERS"))
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const subCommand = context.interaction.options.getSubcommand(true);
 
@@ -83,7 +95,7 @@ export default new Command({
           iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
         });
 
-      return context.interaction.followUp({ embeds: [embed] });
+      return context.interaction.followUp({ ephemeral: true, embeds: [embed] });
     } else if (subCommand === "log") {
       const logID = context.interaction.options.getInteger("log", true);
 
@@ -105,6 +117,7 @@ export default new Command({
       const embedMessage = await logsChannel.messages.fetch(logModel.embedID);
 
       context.interaction.followUp({
+        ephemeral: true,
         embeds: [embedMessage.embeds[0] as MessageEmbed]
       });
     }

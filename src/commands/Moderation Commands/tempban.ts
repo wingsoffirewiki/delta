@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "tempban",
@@ -38,9 +39,15 @@ export default new Command({
     if (!context.interaction || !context.guild || !context.member) return;
 
     if (!context.member.permissions.has("BAN_MEMBERS"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const user = context.interaction.options.getUser("member", true);
 
@@ -63,12 +70,14 @@ export default new Command({
     const result = await guild.members.ban(user.id, { reason, days });
 
     if (result)
-      return context.interaction.followUp(
-        `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
+      });
     else
-      return context.interaction.followUp(
-        `Attempted banning ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `Attempted banning ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
+      });
   }
 });

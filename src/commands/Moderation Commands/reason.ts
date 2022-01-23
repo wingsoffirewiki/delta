@@ -4,6 +4,7 @@ import { Command } from "fero-dc";
 import { ILog, Log } from "../../models/Log";
 import { Guild, IGuild } from "../../models/Guild";
 import { GuildTextBasedChannel } from "discord.js";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "reason",
@@ -27,6 +28,17 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
+    if (!context.member.permissions.has("BAN_MEMBERS"))
+      return context.interaction.reply({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
+
     const logID = context.interaction.options.getInteger("log_id", true);
 
     const reason = context.interaction.options.getString("reason", true);
@@ -43,9 +55,10 @@ export default new Command({
     );
 
     if (!log)
-      return context.interaction.followUp(
-        `It appears log #${logID} does not exist in the database.`
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `It appears log #${logID} does not exist in the database.`
+      });
 
     const guildModel: IGuild = await Guild.findOne({
       _id: context.guild.id
@@ -56,9 +69,10 @@ export default new Command({
     ) as GuildTextBasedChannel;
 
     if (!logsChannel)
-      return context.interaction.followUp(
-        "This server does not have a logs channel set in the database!"
-      );
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "This server does not have a logs channel set in the database!"
+      });
 
     const embedMessage = await logsChannel.messages.fetch(log.embedID, {
       force: true,
@@ -79,8 +93,9 @@ export default new Command({
       embeds: [embed]
     });
 
-    return context.interaction.followUp(
-      `Successfully edited the reason for log #\`${logID}\` to \`${reason}\``
-    );
+    return context.interaction.followUp({
+      ephemeral: true,
+      content: `Successfully edited the reason for log #\`${logID}\` to \`${reason}\``
+    });
   }
 });

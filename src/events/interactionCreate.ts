@@ -14,13 +14,7 @@ export default {
 
     const command = client.commands.get(context.command);
 
-    if (command)
-      interaction
-        .deferReply({
-          ephemeral: false,
-          fetchReply: false
-        })
-        .then(() => command.run(context));
+    if (command) command.run(context);
     else
       interaction.reply({
         ephemeral: true,

@@ -13,6 +13,13 @@ export default new Command({
   category: "Fun",
   guildIDs: ["759068727047225384"],
   run: async context => {
+    if (!context.interaction) return;
+
+    await context.interaction.deferReply({
+      ephemeral: false,
+      fetchReply: false
+    });
+
     const response = await axios.get(apiURL);
 
     const randomFact: RandomFact = response.data;
@@ -37,6 +44,6 @@ export default new Command({
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    context.interaction?.followUp({ embeds: [embed] });
+    context.interaction.followUp({ embeds: [embed] });
   }
 });

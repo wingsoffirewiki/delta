@@ -2,6 +2,7 @@
 
 import { GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
+import configMessages from "../../config/messages.json";
 
 export default new Command({
   name: "clear",
@@ -20,17 +21,23 @@ export default new Command({
   guildIDs: ["759068727047225384"],
   run: async context => {
     if (
+      !context.interaction ||
       !context.guild ||
       !context.member ||
-      !context.channel ||
-      !context.interaction
+      !context.channel
     )
       return;
 
     if (!context.member.permissions.has("MANAGE_MESSAGES"))
-      return context.interaction.followUp(
-        "You do not have the correct permissions to run this command!"
-      );
+      return context.interaction.reply({
+        ephemeral: false,
+        content: configMessages.missingPermissions
+      });
+
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
 
     const messagesToDelete =
       context.interaction.options.getNumber("messages") || 1;
@@ -38,7 +45,10 @@ export default new Command({
     const channel = context.channel as GuildTextBasedChannel;
 
     const messages = await channel.bulkDelete(messagesToDelete).catch(err => {
-      context.interaction?.followUp(`Error:\n\`${err}\``);
+      context.interaction?.followUp({
+        ephemeral: true,
+        content: `Error:\n\`${err}\``
+      });
       return undefined;
     });
 

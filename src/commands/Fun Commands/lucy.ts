@@ -8,6 +8,8 @@ export default new Command({
   category: "Fun",
   guildIDs: ["759068727047225384"],
   run: async context => {
-    context.interaction?.followUp("Less goo <:lucypog:725923308486393967>");
+    if (!context.interaction) return;
+
+    context.interaction.reply("Less goo <:lucypog:725923308486393967>");
   }
 });
