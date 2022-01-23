@@ -22,6 +22,11 @@ export default new Command({
   run: async context => {
     if (!context.interaction) return;
 
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
+
     const command = context.client.commands.get(
       context.interaction.options.getString("command", false) || ""
     );
@@ -121,6 +126,6 @@ export default new Command({
         .addFields(commands);
     }
 
-    return context.interaction.followUp({ embeds: [embed] });
+    return context.interaction.followUp({ ephemeral: true, embeds: [embed] });
   }
 });

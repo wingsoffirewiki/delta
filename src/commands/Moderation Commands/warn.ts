@@ -1,24 +1,23 @@
 /** @format */
 
-import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { log } from "../../scripts/log";
 import messages from "../../config/messages.json";
 
 export default new Command({
   name: "warn",
-  description: "Warn a member",
+  description: "Warn a user",
   category: "Moderation",
   options: [
     {
-      name: "member",
-      description: "The member to warn",
+      name: "user",
+      description: "The user to warn",
       type: "USER",
       required: true
     },
     {
       name: "reason",
-      description: "The reason to warn the member",
+      description: "The reason to warn the user",
       type: "STRING",
       required: false
     }
@@ -38,10 +37,7 @@ export default new Command({
       fetchReply: false
     });
 
-    const member = context.interaction.options.getMember(
-      "member",
-      true
-    ) as GuildMember;
+    const user = context.interaction.options.getUser("member", true);
 
     const reason =
       context.interaction.options.getString("reason", false) ||
@@ -49,17 +45,17 @@ export default new Command({
 
     const guild = context.guild;
 
-    if (!member)
+    if (!user)
       return context.interaction.followUp({
         ephemeral: true,
         content: messages.missingMember
       });
 
-    log(context.client, "warn", guild, reason, context.author, member);
+    await log(context.client, "warn", guild, reason, context.author, user);
 
     return context.interaction.followUp({
       ephemeral: true,
-      content: `Successfully warned ${member} (\`${member.user.tag}\`) (\`${member.id}\`)`
+      content: `Successfully warned ${user} (\`${user.tag}\`) (\`${user.id}\`)`
     });
   }
 });

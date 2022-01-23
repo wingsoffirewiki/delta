@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
+import { log } from "../../scripts/log";
 
 export default new Command({
   name: "unban",
@@ -43,6 +44,17 @@ export default new Command({
       "No reason provided";
 
     const guild = context.guild;
+
+    try {
+      await guild.bans.fetch(user);
+    } catch (err) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "That user has not been banned!"
+      });
+    }
+
+    await log(context.client, "unban", guild, reason, context.author, user);
 
     const result = await guild.members.unban(user.id, reason);
 

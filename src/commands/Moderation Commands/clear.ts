@@ -79,7 +79,8 @@ export default new Command({
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    return context.channel.send({
+    return context.interaction.followUp({
+      ephemeral: true,
       embeds: [embed]
     });
   }

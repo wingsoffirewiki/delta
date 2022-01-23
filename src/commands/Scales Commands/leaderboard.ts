@@ -12,6 +12,11 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
+    await context.interaction.deferReply({
+      ephemeral: false,
+      fetchReply: false
+    });
+
     const userModels: IUser[] = await User.find({}, "_id scales").sort({
       scales: -1
     });
@@ -57,6 +62,6 @@ export default new Command({
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    context.interaction.followUp({ embeds: [embed] });
+    context.interaction.followUp({ ephemeral: true, embeds: [embed] });
   }
 });

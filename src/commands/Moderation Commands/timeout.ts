@@ -4,6 +4,7 @@ import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";
+import { log } from "../../scripts/log";
 
 export default new Command({
   name: "timeout",
@@ -55,9 +56,17 @@ export default new Command({
         content: messages.missingMember
       });
 
+    if (!member.moderatable)
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `I cannot timeout this member!`
+      });
+
     const time = ms(context.interaction.options.getString("time", true), {
       returnDate: false
     });
+
+    const date = new Date(time + Date.now());
 
     if (time > 2419200000)
       return context.interaction.followUp({
@@ -71,8 +80,16 @@ export default new Command({
 
     const guild = context.guild;
 
-    // TODO: perform logging
-    console.log(time);
+    await log(
+      context.client,
+      "timeout",
+      guild,
+      reason,
+      context.author,
+      member.user,
+      date,
+      time
+    );
 
     await member.timeout(time, reason);
 

@@ -2,6 +2,7 @@
 
 import { GuildMember, MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "info",
@@ -18,22 +19,24 @@ export default new Command({
   guildIDs: ["759068727047225384"],
   run: async context => {
     if (
+      !context.interaction ||
       !context.guild ||
       !context.member ||
       !context.author ||
-      !context.channel ||
-      !context.interaction
+      !context.channel
     )
       return;
+
+    await context.interaction.deferReply({
+      ephemeral: false,
+      fetchReply: false
+    });
 
     const member =
       (context.interaction.options.getMember("user", false) as GuildMember) ||
       context.member;
 
-    if (!member)
-      return context.interaction.followUp(
-        "The member you provided is not a part of this server!"
-      );
+    if (!member) return context.interaction.followUp(messages.missingMember);
 
     const clientStatus = member.presence?.clientStatus;
 
@@ -125,6 +128,7 @@ export default new Command({
       });
 
     return context.interaction.followUp({
+      ephemeral: false,
       embeds: [embed]
     });
   }

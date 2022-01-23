@@ -1,11 +1,12 @@
 /** @format */
 
-import { GuildMember, User } from "discord.js";
+import { User } from "discord.js";
 
 export interface LogData {
-  ban: [GuildMember];
-  tempban: [GuildMember, number];
-  timeout: [GuildMember];
+  ban: [User];
+  tempban: [User, Date, number];
+  timeout: [User, Date, number];
   unban: [User];
-  warn: [GuildMember];
+  warn: [User];
+  kick: [User];
 }

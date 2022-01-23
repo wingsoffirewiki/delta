@@ -57,7 +57,7 @@ export default new Command({
     if (!log)
       return context.interaction.followUp({
         ephemeral: true,
-        content: `It appears log #${logID} does not exist in the database.`
+        content: `It appears log #\`${logID}\` does not exist in the database.`
       });
 
     const guildModel: IGuild = await Guild.findOne({

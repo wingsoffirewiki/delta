@@ -3,6 +3,7 @@
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";
+import { log } from "../../scripts/log";
 
 export default new Command({
   name: "tempban",
@@ -51,9 +52,22 @@ export default new Command({
 
     const user = context.interaction.options.getUser("member", true);
 
+    const guild = context.guild;
+
+    if (
+      guild.members.cache.get(user.id) &&
+      !guild.members.cache.get(user.id)?.bannable
+    )
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: `I cannot ban this member!`
+      });
+
     const time = ms(context.interaction.options.getString("time", true), {
       returnDate: false
     });
+
+    const date = new Date(Date.now() + time);
 
     const reason =
       context.interaction.options.getString("reason", false) ||
@@ -62,10 +76,16 @@ export default new Command({
     const days =
       context.interaction.options.getBoolean("hardban", false) || false ? 7 : 0;
 
-    const guild = context.guild;
-
-    // TODO: perform logging
-    console.log(time);
+    await log(
+      context.client,
+      "tempban",
+      guild,
+      reason,
+      context.author,
+      user,
+      date,
+      time
+    );
 
     const result = await guild.members.ban(user.id, { reason, days });
 

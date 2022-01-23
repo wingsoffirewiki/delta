@@ -9,5 +9,10 @@ export default {
     //   .find(cmd => cmd.name === "lookup")
     //   ?.delete(client);
     // console.log(result);
+    // const commands = await client.application?.commands.fetch({
+    //   cache: true,
+    //   force: true
+    // });
+    // commands?.forEach(command => command.delete().then(console.log));
   }
 } as Event<"ready">;

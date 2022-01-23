@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
+import { log } from "../../scripts/log";
 
 export default new Command({
   name: "kick",
@@ -38,11 +39,19 @@ export default new Command({
 
     const user = context.interaction.options.getUser("member", true);
 
+    const guild = context.guild;
+
+    if (!guild.members.cache.get(user.id)?.kickable)
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "I cannot kick this member!"
+      });
+
     const reason =
       context.interaction.options.getString("reason", false) ||
       "No reason provided";
 
-    const guild = context.guild;
+    await log(context.client, "kick", guild, reason, context.author, user);
 
     const result = await guild.members.kick(user.id, reason);
 

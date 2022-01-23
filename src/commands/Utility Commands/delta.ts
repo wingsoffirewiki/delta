@@ -11,6 +11,8 @@ export default new Command({
   category: "Utility",
   guildIDs: ["759068727047225384"],
   run: async context => {
+    if (!context.interaction) return;
+
     const embed = new MessageEmbed();
 
     embed
@@ -66,6 +68,6 @@ export default new Command({
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    context.interaction?.followUp({ embeds: [embed] });
+    context.interaction.reply({ embeds: [embed] });
   }
 });

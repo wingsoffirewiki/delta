@@ -12,7 +12,7 @@ export interface ILog {
   reason: string;
   type: number;
   embedID: Snowflake;
-  undoBy: number;
+  undoBy: Date;
   undone: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -31,7 +31,11 @@ export const Log = model(
       reason: String,
       type: Number,
       embedID: String,
-      undoBy: Number,
+      undoBy: {
+        type: Date,
+        default: null,
+        required: false
+      },
       undone: Boolean
     },
     { timestamps: true }

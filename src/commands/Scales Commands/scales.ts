@@ -45,6 +45,11 @@ export default new Command({
   run: async context => {
     if (!context.interaction) return;
 
+    await context.interaction.deferReply({
+      ephemeral: false,
+      fetchReply: false
+    });
+
     const subCommand = context.interaction.options.getSubcommand(true);
 
     if (subCommand === "pay") {
@@ -53,12 +58,10 @@ export default new Command({
       const amount = context.interaction.options.getInteger("amount", true);
 
       if (user.id === context.author.id)
-        return context.interaction.followUp("You cannot pay yourself!");
+        return context.interaction.reply("You cannot pay yourself!");
 
       if (amount < 1)
-        return context.interaction.followUp(
-          "You cannot pay less than one scale!"
-        );
+        return context.interaction.reply("You cannot pay less than one scale!");
 
       const userModel: IUser = await User.findOneAndUpdate(
         {
@@ -90,9 +93,10 @@ export default new Command({
 
       if (!authorModel) throw `You are banned from the scales system.`;
 
-      context.interaction.followUp(
-        `Successfully paid \`${user.tag}\` \`${amount}\` scales!`
-      );
+      context.interaction.followUp({
+        ephemeral: false,
+        content: `Successfully paid \`${user.tag}\` \`${amount}\` scales!`
+      });
     } else if (subCommand === "balance") {
       const user =
         context.interaction.options.getUser("user", false) || context.author;
@@ -105,11 +109,13 @@ export default new Command({
         { upsert: true }
       );
 
-      context.interaction.followUp(
-        user.id === context.author.id
-          ? `You have \`${userModel.scales}\` scales!`
-          : `\`${user.tag}\` has \`${userModel.scales}\` scales!`
-      );
+      context.interaction.followUp({
+        ephemeral: false,
+        content:
+          user.id === context.author.id
+            ? `You have \`${userModel.scales}\` scales!`
+            : `\`${user.tag}\` has \`${userModel.scales}\` scales!`
+      });
     }
 
     return;

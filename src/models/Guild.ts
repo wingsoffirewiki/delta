@@ -14,8 +14,13 @@ export interface IGuild {
     funnies: Snowflake;
   };
   roleIDs: {
-    mute: Snowflake;
     mods: Snowflake[];
+  };
+  messages: {
+    verification: {
+      id: Snowflake;
+      channelID: Snowflake;
+    };
   };
   features: {
     scales: boolean;
@@ -52,13 +57,21 @@ export const Guild = model(
         }
       },
       roleIDs: {
-        mute: {
-          type: String,
-          default: blankID
-        },
         mods: {
           type: Array,
           default: []
+        }
+      },
+      messages: {
+        verification: {
+          id: {
+            type: String,
+            default: blankID
+          },
+          channelID: {
+            type: String,
+            default: blankID
+          }
         }
       },
       features: {
