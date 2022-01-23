@@ -100,8 +100,6 @@ export async function log<LT extends keyof LogData>(
         undone: false
       });
 
-      console.log(banLog);
-
       return banLog;
 
     case "tempban":
@@ -175,8 +173,6 @@ export async function log<LT extends keyof LogData>(
         undone: false
       });
 
-      console.log(tempbanLog);
-
       return tempbanLog;
 
     case "timeout":
@@ -249,8 +245,6 @@ export async function log<LT extends keyof LogData>(
         undone: false
       });
 
-      console.log(timeoutLog);
-
       return timeoutLog;
 
     case "unban":
@@ -318,8 +312,6 @@ export async function log<LT extends keyof LogData>(
 
       /*const unbanMessage = */ await logsChannel.send({ embeds: [embed] });
 
-      console.log(unbanLog);
-
       return unbanLog;
 
     case "warn":
@@ -378,8 +370,6 @@ export async function log<LT extends keyof LogData>(
         undone: false
       });
 
-      console.log(warnLog);
-
       return warnLog;
 
     case "kick":
@@ -437,8 +427,6 @@ export async function log<LT extends keyof LogData>(
         embedID: kickMessage.id,
         undone: false
       });
-
-      console.log(kickLog);
 
       return kickLog;
 
