@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import User from "../../models/User";
+import { User, IUser } from "../../models/User";
 
 export default new Command({
   name: "scales",
@@ -60,8 +60,7 @@ export default new Command({
           "You cannot pay less than one scale!"
         );
 
-      // @ts-ignore
-      const userModel = await User.findOneAndUpdate(
+      const userModel: IUser = await User.findOneAndUpdate(
         {
           _id: user.id,
           enablePayments: true,
@@ -77,8 +76,7 @@ export default new Command({
       if (!userModel)
         throw `${user.tag} is not accepting payments or is banned from the scales system.`;
 
-      // @ts-ignore
-      const authorModel = await User.findOneAndUpdate(
+      const authorModel: IUser = await User.findOneAndUpdate(
         {
           _id: context.author.id,
           banned: false
@@ -99,7 +97,7 @@ export default new Command({
       const user =
         context.interaction.options.getUser("user", false) || context.author;
 
-      const userModel = await User.findOne(
+      const userModel: IUser = await User.findOne(
         {
           _id: user.id
         },

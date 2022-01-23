@@ -6,7 +6,7 @@ export default {
   event: "ready",
   run: async client => {
     // const result = await client.commands
-    //   .find(cmd => cmd.name === "scales")
+    //   .find(cmd => cmd.name === "warn")
     //   ?.delete(client);
     // console.log(result);
   }

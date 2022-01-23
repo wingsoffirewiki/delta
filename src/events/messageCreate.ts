@@ -1,7 +1,7 @@
 /** @format */
 
 import { Event } from "fero-dc";
-import User from "../models/User";
+import { User } from "../models/User";
 
 export default {
   event: "messageCreate",
@@ -9,8 +9,7 @@ export default {
     try {
       const randomAmount = Math.floor(Math.random() * 50) + 1;
 
-      // @ts-ignore
-      const userModel = await User.findOneAndUpdate(
+      User.findOneAndUpdate(
         {
           _id: message.author.id,
           banned: false
@@ -21,7 +20,7 @@ export default {
           }
         },
         { upsert: true }
-      );
+      ).exec();
     } catch (err) {
       console.log(err);
     }

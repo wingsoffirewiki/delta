@@ -38,7 +38,7 @@ export default new Command({
 
     const user = context.interaction.options.getUser("member", true);
 
-    const member = context.guild.members.cache.get(user.id);
+    const member = await context.guild.members.fetch(user.id);
 
     if (!member)
       return context.interaction.followUp(

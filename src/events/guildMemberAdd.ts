@@ -2,14 +2,14 @@
 
 import { MessageEmbed } from "discord.js";
 import { Event } from "fero-dc";
-import Guild from "../models/Guild";
+import { Guild, IGuild } from "../models/Guild";
 
 export default {
   event: "guildMemberAdd",
   run: async (client, member) => {
     const guild = member.guild;
 
-    const guildModel = await Guild.findOne(
+    const guildModel: IGuild = await Guild.findOne(
       {
         _id: guild.id
       },
