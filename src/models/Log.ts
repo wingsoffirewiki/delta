@@ -1,9 +1,9 @@
 /** @format */
 
 import { Snowflake } from "discord.js";
-import { model, Schema, Types } from "mongoose";
+import { Document, model, Schema, Types } from "mongoose";
 
-export interface ILog {
+export interface ILog extends Document {
   _id: Types.ObjectId;
   guildID: Snowflake;
   targetID: Snowflake;

@@ -1,6 +1,7 @@
 /** @format */
 
 import { Event } from "fero-dc";
+import { autoUnban } from "../scripts/autoUnban";
 
 export default {
   event: "ready",
@@ -14,5 +15,9 @@ export default {
     //   force: true
     // });
     // commands?.forEach(command => command.delete().then(console.log));
+
+    console.log(`${client.user?.tag} is online!`);
+
+    autoUnban(client);
   }
 } as Event<"ready">;
