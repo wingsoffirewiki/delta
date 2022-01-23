@@ -21,10 +21,14 @@
     "dotenv": "^14.2.0",
     "fero-dc": "^3.0.4",
     "fero-ms": "^2.0.7",
+    "glob": "^7.2.0",
     "lodash": "^4.17.21",
     "mongoose": "^6.1.7",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0"
   }
 }

@@ -20,7 +20,7 @@ export default new Command({
     const embed = new MessageEmbed();
 
     embed
-      .setTitle("Random Fact")
+      .setTitle("Delta: Random Fact")
       .setURL(randomFact.permalink)
       .setColor("BLURPLE")
       .setDescription(

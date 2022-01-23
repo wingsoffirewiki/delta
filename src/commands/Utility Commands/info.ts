@@ -17,7 +17,6 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    // Semi-redundant because this is handled in interactionCreate.ts, but typescript doesn't know that.
     if (
       !context.guild ||
       !context.member ||
@@ -79,7 +78,7 @@ export default new Command({
     const embed = new MessageEmbed();
 
     embed
-      .setTitle("Delta: Deleted Messages")
+      .setTitle("Delta: User Information")
       .setAuthor({
         name: context.author.username || "",
         iconURL: context.author.avatarURL({ dynamic: true }) || ""

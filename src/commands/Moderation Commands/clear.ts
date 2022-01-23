@@ -19,7 +19,6 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    // Semi-redundant because this is handled in interactionCreate.ts, but typescript doesn't know that.
     if (
       !context.guild ||
       !context.member ||

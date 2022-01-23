@@ -27,7 +27,7 @@ export default new Command({
     );
 
     const embed = new MessageEmbed()
-      .setTitle("Help")
+      .setTitle("Delta: Help")
       .setColor("RANDOM")
       // .setURL("") /* uncomment for dashboard */
       .setAuthor({

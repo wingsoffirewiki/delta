@@ -20,7 +20,7 @@ export default new Command({
     const embed = new MessageEmbed();
 
     embed
-      .setTitle("Fact of the Day")
+      .setTitle("Delta: Fact of the Day")
       .setURL(randomFact.permalink)
       .setColor("BLURPLE")
       .setDescription(
