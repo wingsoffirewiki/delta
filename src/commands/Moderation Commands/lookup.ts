@@ -42,77 +42,71 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
-    try {
-      const subCommand = context.interaction.options.getSubcommand(true);
+    const subCommand = context.interaction.options.getSubcommand(true);
 
-      if (subCommand === "user") {
-        const user = context.interaction.options.getUser("user", true);
+    if (subCommand === "user") {
+      const user = context.interaction.options.getUser("user", true);
 
-        const logModels: ILog[] = await Log.find(
-          {
-            guildID: context.guild.id,
-            targetID: user.id
-          },
-          "type reason logID"
-        );
-
-        const embed = new MessageEmbed();
-
-        embed
-          .setTitle("Delta: User Logs")
-          .setAuthor({
-            name: context.author.username || "",
-            iconURL: context.author.avatarURL({ dynamic: true }) || ""
-          })
-          .setDescription(`${user.tag} has ${logModels.length} entries!`)
-          .setColor("BLURPLE")
-          .addFields([
-            {
-              name: "Currently Banned",
-              value: (await context.guild.bans.cache.get(user.id))
-                ? "Yes"
-                : "No",
-              inline: false
-            },
-            ...logModels.map(v => ({
-              name: `${v.logID} - ${toPascalCase(LogEnum[v.type] as string)}`,
-              value: v.reason,
-              inline: false
-            }))
-          ])
-          .setTimestamp()
-          .setFooter({
-            text: "Delta, The Wings of Fire Moderation Bot",
-            iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
-          });
-
-        return context.interaction.followUp({ embeds: [embed] });
-      } else if (subCommand === "log") {
-        const logID = context.interaction.options.getInteger("log", true);
-
-        const logModel: ILog = await Log.findOne({
+      const logModels: ILog[] = await Log.find(
+        {
           guildID: context.guild.id,
-          logID
+          targetID: user.id
+        },
+        "type reason logID"
+      );
+
+      const embed = new MessageEmbed();
+
+      embed
+        .setTitle("Delta: User Logs")
+        .setAuthor({
+          name: context.author.username || "",
+          iconURL: context.author.avatarURL({ dynamic: true }) || ""
+        })
+        .setDescription(`${user.tag} has ${logModels.length} entries!`)
+        .setColor("BLURPLE")
+        .addFields([
+          {
+            name: "Currently Banned",
+            value: (await context.guild.bans.cache.get(user.id)) ? "Yes" : "No",
+            inline: false
+          },
+          ...logModels.map(v => ({
+            name: `${v.logID} - ${toPascalCase(LogEnum[v.type] as string)}`,
+            value: v.reason,
+            inline: false
+          }))
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: "Delta, The Wings of Fire Moderation Bot",
+          iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
         });
 
-        const guildModel: IGuild = await Guild.findOne({
-          _id: context.guild.id
-        });
+      return context.interaction.followUp({ embeds: [embed] });
+    } else if (subCommand === "log") {
+      const logID = context.interaction.options.getInteger("log", true);
 
-        const logsChannel = context.guild.channels.cache.get(
-          guildModel.channelIDs.logs
-        );
+      const logModel: ILog = await Log.findOne({
+        guildID: context.guild.id,
+        logID
+      });
 
-        if (!logsChannel || !logsChannel.isText()) return;
+      const guildModel: IGuild = await Guild.findOne({
+        _id: context.guild.id
+      });
 
-        const embedMessage = await logsChannel.messages.fetch(logModel.embedID);
+      const logsChannel = context.guild.channels.cache.get(
+        guildModel.channelIDs.logs
+      );
 
-        context.interaction.followUp({
-          embeds: [embedMessage.embeds[0] as MessageEmbed]
-        });
-      }
-    } catch (err) {
-      console.log(err);
+      if (!logsChannel || !logsChannel.isText()) return;
+
+      const embedMessage = await logsChannel.messages.fetch(logModel.embedID);
+
+      context.interaction.followUp({
+        embeds: [embedMessage.embeds[0] as MessageEmbed]
+      });
     }
 
     return;
