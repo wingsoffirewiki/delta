@@ -1,5 +1,6 @@
 /** @format */
 
+import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 
@@ -36,9 +37,10 @@ export default new Command({
         "You do not have the correct permissions to run this command!"
       );
 
-    const user = context.interaction.options.getUser("member", true);
-
-    const member = await context.guild.members.fetch(user.id);
+    const member = context.interaction.options.getMember(
+      "member",
+      true
+    ) as GuildMember;
 
     if (!member)
       return context.interaction.followUp(
@@ -66,8 +68,8 @@ export default new Command({
     await member.timeout(time, reason);
 
     return context.interaction.followUp(
-      `Successfully timed out ${user} (\`${user.tag}\`) (\`${
-        user.id
+      `Successfully timed out ${member} (\`${member.user.tag}\`) (\`${
+        member.id
       }\`) from \`${guild.name}\` for \`${ms(time, {
         unitTrailingSpace: true
       })}\``

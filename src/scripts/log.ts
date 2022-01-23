@@ -7,7 +7,7 @@ import { Guild, GuildMember, MessageEmbed, User } from "discord.js";
 import { Types } from "mongoose";
 import { Client } from "fero-dc";
 
-enum LogEnum {
+export enum LogEnum {
   ban = 0,
   tempban,
   timeout,

@@ -1,6 +1,6 @@
 /** @format */
 
-import { MessageEmbed } from "discord.js";
+import { GuildMember, MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
 
 export default new Command({
@@ -26,10 +26,9 @@ export default new Command({
     )
       return;
 
-    const user =
-      context.interaction.options.getUser("user", false) || context.author;
-
-    const member = await context.guild.members.fetch(user);
+    const member =
+      (context.interaction.options.getMember("user", false) as GuildMember) ||
+      context.member;
 
     if (!member)
       return context.interaction.followUp(

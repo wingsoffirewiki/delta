@@ -1,5 +1,6 @@
 /** @format */
 
+import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { log } from "../../scripts/log";
 
@@ -30,15 +31,16 @@ export default new Command({
         "You do not have the correct permissions to run this command!"
       );
 
-    const user = context.interaction.options.getUser("member", true);
+    const member = context.interaction.options.getMember(
+      "member",
+      true
+    ) as GuildMember;
 
     const reason =
       context.interaction.options.getString("reason", false) ||
       "No reason provided";
 
     const guild = context.guild;
-
-    const member = await guild.members.fetch(user.id);
 
     if (!member)
       return context.interaction.followUp(
@@ -48,7 +50,7 @@ export default new Command({
     log(context.client, "warn", guild, reason, context.author, member);
 
     return context.interaction.followUp(
-      `Successfully warned ${user} (\`${user.tag}\`) (\`${user.id}\`)`
+      `Successfully warned ${member} (\`${member.user.tag}\`) (\`${member.id}\`)`
     );
   }
 });
