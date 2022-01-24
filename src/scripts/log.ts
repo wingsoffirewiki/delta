@@ -552,14 +552,14 @@ export async function log<LT extends keyof LogData>(
         .setTitle("Delta: Messages Deleted In Bulk")
         .setDescription(
           `Channels: ${[
-            ...new Set(messages.map(v => v.channel).join(", "))
-          ]}\nChannel ID: ${[
-            ...new Set(messages.map(v => v.channel.id).join(", "))
-          ]}\nAuthors: ${[
-            ...new Set(messages.map(v => v.author).join(", "))
-          ]}\nAuthor IDs: ${[
-            ...new Set(messages.map(v => v.author.id).join(", "))
-          ]}`
+            ...new Set(messages.map(v => v.channel.toString()))
+          ].join(", ")}\nChannel IDs: ${[
+            ...new Set(messages.map(v => v.channel.id))
+          ].join(", ")}\nAuthors: ${[
+            ...new Set(messages.map(v => v.author.toString()))
+          ].join(", ")}\nAuthor IDs: ${[
+            ...new Set(messages.map(v => v.author.id))
+          ].join(", ")}`
         )
         .setAuthor({
           name: client.user?.tag || "",
@@ -571,19 +571,21 @@ export async function log<LT extends keyof LogData>(
             .map(v => ({
               name: v.id,
               value: `${v.channel} | ${v.author}\n${
-                v.content.length > 50
-                  ? `\`${v.content.substring(0, 50)}\`...`
-                  : `\`${v.content}\``
+                v.content.length > 200
+                  ? `${v.content.substring(0, 200)}...`
+                  : `${v.content}`
               }`
             }))
             .slice(0, 25),
           {
             name: "Attachments",
-            value: messages
-              .map(
-                v => `${v.id}: ${v.attachments.map(v2 => v2.name).join(", ")}`
-              )
-              .join("\n"),
+            value:
+              messages
+                .filter(v => v.attachments.size > 0)
+                .map(
+                  v => `${v.id}: ${v.attachments.map(v2 => v2.name).join(", ")}`
+                )
+                .join("\n") || "None",
             inline: false
           },
           {
