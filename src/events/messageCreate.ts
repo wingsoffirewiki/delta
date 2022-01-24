@@ -2,10 +2,15 @@
 
 import { Event } from "fero-dc";
 import { User } from "../models/User";
+import { getBannedWord } from "../scripts/getBannedWord";
 
 export default {
   event: "messageCreate",
   run: async (client, message) => {
+    if (message.author.bot) return;
+
+    if (getBannedWord(message) && message.guild) return message.delete();
+
     try {
       const randomAmount = Math.floor(Math.random() * 50) + 1;
 
@@ -24,5 +29,7 @@ export default {
     } catch (err) {
       console.log(err);
     }
+
+    return;
   }
 } as Event<"messageCreate">;

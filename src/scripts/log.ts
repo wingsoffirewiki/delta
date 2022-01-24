@@ -3,18 +3,24 @@
 import { LogData } from "../interfaces/LogData";
 import { Log, ILog } from "../models/Log";
 import { Guild as GuildModel, IGuild } from "../models/Guild";
-import { Guild, MessageEmbed, User } from "discord.js";
+import { Guild, Message, MessageEmbed, User } from "discord.js";
 import { Types } from "mongoose";
 import { Client } from "fero-dc";
 import { ms } from "fero-ms";
+import { getBannedWord } from "./getBannedWord";
+import bannedWords from "../config/bannedWords.json";
 
 export enum LogEnum {
-  ban = 0,
+  ban,
   tempban,
   timeout,
   unban,
   warn,
-  kick
+  kick,
+  messageEdit,
+  messageDelete,
+  bulkDelete,
+  bannedWordDetected
 }
 
 export async function log<LT extends keyof LogData>(
@@ -31,9 +37,12 @@ export async function log<LT extends keyof LogData>(
 
   const logsChannel = guild.channels.cache.get(guildModel.channelIDs.logs);
 
-  // @ts-ignore
-  const modlogsChannel = guild.channels.cache.get(
+  const modLogsChannel = guild.channels.cache.get(
     guildModel.channelIDs.modLogs
+  );
+
+  const adminLogsChannel = client.channels.cache.get(
+    guildModel.channelIDs.adminLogs
   );
 
   const logID: number =
@@ -82,7 +91,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -154,7 +163,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -227,7 +236,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -306,7 +315,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -352,7 +361,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -410,7 +419,7 @@ export async function log<LT extends keyof LogData>(
         ])
         .setTimestamp()
         .setFooter({
-          text: "Delta, the Wings of Fire Moderation Bot",
+          text: "Delta, The Wings of Fire Moderation Bot",
           iconURL: client.user?.avatarURL({ dynamic: true }) || ""
         });
 
@@ -429,6 +438,238 @@ export async function log<LT extends keyof LogData>(
       });
 
       return kickLog;
+
+    case "messageEdit":
+      if (!modLogsChannel || !modLogsChannel.isText()) return;
+
+      const oldMessage = data[0] as Message;
+
+      const newMessage = data[1] as Message;
+
+      embed
+        .setTitle("Delta: Edited Message")
+        .setDescription(
+          `Channel: ${newMessage.channel}\nChannel ID: ${newMessage.channel.id}\nAuthor: ${newMessage.author}\n Author ID: ${newMessage.author.id}`
+        )
+        .setURL(newMessage.url)
+        .setAuthor({
+          name: client.user?.tag || "",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        })
+        .setColor(0x388e3c)
+        .setThumbnail(newMessage.author.avatarURL({ dynamic: true }) || "")
+        .addFields([
+          {
+            name: "Old Message",
+            value: oldMessage.content || "None",
+            inline: true
+          },
+          {
+            name: "New Message",
+            value: newMessage.content || "None",
+            inline: true
+          },
+          {
+            name: "Attachments",
+            value:
+              newMessage.attachments.map(v => v.name || "no_name").join("\n") ||
+              "None",
+            inline: false
+          },
+          {
+            name: "Timestamp",
+            value: new Date(Date.now()).toUTCString(),
+            inline: false
+          }
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: "Delta, The Wings of Fire Moderation Bot",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        });
+
+      modLogsChannel.send({
+        embeds: [embed],
+        attachments: newMessage.attachments.map(v => v)
+      });
+
+      return;
+
+    case "messageDelete":
+      if (!modLogsChannel || !modLogsChannel.isText()) return;
+
+      const message = data[0] as Message;
+
+      embed
+        .setTitle("Delta: Deleted Message")
+        .setDescription(
+          `Channel: ${message.channel}\nChannel ID: ${message.channel.id}\nAuthor: ${message.author}\nAuthor ID: ${message.author.id}`
+        )
+        .setAuthor({
+          name: client.user?.tag || "",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        })
+        .setColor(0x388e3c)
+        .setThumbnail(message.author.avatarURL({ dynamic: true }) || "")
+        .addFields([
+          {
+            name: "Message",
+            value: message.content,
+            inline: true
+          },
+          {
+            name: "Attachments",
+            value:
+              message.attachments.map(v => v.name || "no_name").join("\n") ||
+              "None",
+            inline: false
+          },
+          {
+            name: "Timestamp",
+            value: new Date(Date.now()).toUTCString(),
+            inline: false
+          }
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: "Delta, The Wings of Fire Moderation Bot",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        });
+
+      modLogsChannel.send({
+        embeds: [embed],
+        attachments: message.attachments.map(v => v)
+      });
+
+      return;
+
+    case "bulkDelete":
+      if (!modLogsChannel || !modLogsChannel.isText()) return;
+
+      const messages = data as Message[];
+
+      embed
+        .setTitle("Delta: Messages Deleted In Bulk")
+        .setDescription(
+          `Channels: ${[
+            ...new Set(messages.map(v => v.channel).join(", "))
+          ]}\nChannel ID: ${[
+            ...new Set(messages.map(v => v.channel.id).join(", "))
+          ]}\nAuthors: ${[
+            ...new Set(messages.map(v => v.author).join(", "))
+          ]}\nAuthor IDs: ${[
+            ...new Set(messages.map(v => v.author.id).join(", "))
+          ]}`
+        )
+        .setAuthor({
+          name: client.user?.tag || "",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        })
+        .setColor(0x388e3c)
+        .addFields([
+          ...messages
+            .map(v => ({
+              name: v.id,
+              value: `${v.channel} | ${v.author}\n${
+                v.content.length > 50
+                  ? `\`${v.content.substring(0, 50)}\`...`
+                  : `\`${v.content}\``
+              }`
+            }))
+            .slice(0, 25),
+          {
+            name: "Attachments",
+            value: messages
+              .map(
+                v => `${v.id}: ${v.attachments.map(v2 => v2.name).join(", ")}`
+              )
+              .join("\n"),
+            inline: false
+          },
+          {
+            name: "Timestamp",
+            value: new Date(Date.now()).toUTCString(),
+            inline: false
+          }
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: "Delta, The Wings of Fire Moderation Bot",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        });
+
+      modLogsChannel.send({
+        embeds: [embed],
+        attachments: messages.map(v => v.attachments.map(v2 => v2)).flat()
+      });
+
+      return;
+
+    case "bannedWordDetected":
+      if (!modLogsChannel || !modLogsChannel.isText()) return;
+
+      const bannedWordMessage = data[0] as Message;
+
+      const bannedWord = getBannedWord(
+        bannedWordMessage
+      ) as keyof typeof bannedWords;
+
+      embed
+        .setTitle("Delta: Slur Detected")
+        .setDescription(
+          `Channel: ${bannedWordMessage.channel}\nChannel ID: ${bannedWordMessage.channel.id}\nUser: ${bannedWordMessage.author.tag}\nUser: ${bannedWordMessage.author.id}\nMessage URL${bannedWordMessage.url}`
+        )
+        .setAuthor({
+          name: bannedWordMessage.author.tag,
+          iconURL: bannedWordMessage.author.avatarURL({ dynamic: true }) || ""
+        })
+        .setColor(0xff0000)
+        .setThumbnail(
+          bannedWordMessage.author.avatarURL({ dynamic: true }) || ""
+        )
+        .addFields([
+          {
+            name: "Slur",
+            value: bannedWord,
+            inline: false
+          },
+          {
+            name: "Message Content",
+            value: bannedWordMessage.content,
+            inline: false
+          },
+          {
+            name: "Attachments",
+            value:
+              bannedWordMessage.attachments
+                .map(v => v.name || "no_name")
+                .join("\n") || "None",
+            inline: false
+          }
+        ])
+        .setTimestamp()
+        .setFooter({
+          text: "Delta, The Wings of Fire Moderation Bot",
+          iconURL: client.user?.avatarURL({ dynamic: true }) || ""
+        });
+
+      await modLogsChannel.send({ embeds: [embed] });
+
+      if (adminLogsChannel && adminLogsChannel.isText())
+        await adminLogsChannel.send({ embeds: [embed] });
+
+      await bannedWordMessage.channel.send(
+        `${bannedWordMessage.author}, Your message contains a(n) ${
+          bannedWords[bannedWord]
+        } (${bannedWord.replace(
+          /[aeiou]/g,
+          "/"
+        )}). It will be deleted and logged.`
+      );
+
+      if (bannedWordMessage.deletable) await bannedWordMessage.delete();
+
+      return;
 
     default:
       throw new Error("Invalid Type");

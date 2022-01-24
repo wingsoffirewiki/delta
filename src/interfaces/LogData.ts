@@ -1,6 +1,6 @@
 /** @format */
 
-import { User } from "discord.js";
+import { Message, PartialMessage, User } from "discord.js";
 
 export interface LogData {
   ban: [User];
@@ -9,4 +9,8 @@ export interface LogData {
   unban: [User];
   warn: [User];
   kick: [User];
+  messageEdit: [Message | PartialMessage, Message | PartialMessage];
+  messageDelete: [Message | PartialMessage];
+  bulkDelete: (Message | PartialMessage)[];
+  bannedWordDetected: [Message | PartialMessage];
 }
