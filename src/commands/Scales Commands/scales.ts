@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import { User, IUser } from "../../models/User";
+import { Guild, IGuild } from "../../models/Guild";
 
 export default new Command({
   name: "scales",
@@ -43,12 +44,21 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    if (!context.interaction) return;
+    if (!context.interaction || !context.guild) return;
 
     await context.interaction.deferReply({
       ephemeral: false,
       fetchReply: false
     });
+
+    const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
+
+    if (!(guildModel?.features?.scales ?? true))
+      return context.interaction.followUp({
+        ephemeral: false,
+        content:
+          "You cannot use this command as the scales feature is disabled."
+      });
 
     const subCommand = context.interaction.options.getSubcommand(true);
 

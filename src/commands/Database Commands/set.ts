@@ -150,6 +150,11 @@ export default new Command({
           { upsert: true }
         ).exec();
 
+        context.interaction.followUp({
+          ephemeral: true,
+          content: `Successfully updated the \`${channelType}\` to ${channel}.`
+        });
+
         break;
 
       case "add_mod_role":
@@ -161,6 +166,11 @@ export default new Command({
           { upsert: true }
         ).exec();
 
+        context.interaction.followUp({
+          ephemeral: true,
+          content: `Successfully added ${addRole} to mod roles.`
+        });
+
         break;
 
       case "remove_mod_role":
@@ -171,6 +181,11 @@ export default new Command({
           { $pull: { roleIDs: { mods: removeRole } } },
           { upsert: true }
         ).exec();
+
+        context.interaction.followUp({
+          ephemeral: true,
+          content: `Successfully removed ${removeRole} from mod roles.`
+        });
 
         break;
 
@@ -191,6 +206,11 @@ export default new Command({
           { features },
           { upsert: true }
         );
+
+        context.interaction.followUp({
+          ephemeral: true,
+          content: `Successfully updated the \`${featureType}\` feature to \`${value}\`.`
+        });
 
         break;
     }

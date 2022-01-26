@@ -2,6 +2,7 @@
 
 import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
+import { Guild, IGuild } from "../../models/Guild";
 import { User, IUser } from "../../models/User";
 
 export default new Command({
@@ -16,6 +17,15 @@ export default new Command({
       ephemeral: false,
       fetchReply: false
     });
+
+    const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
+
+    if (!(guildModel?.features?.scales ?? true))
+      return context.interaction.followUp({
+        ephemeral: false,
+        content:
+          "You cannot use this command as the scales feature is disabled."
+      });
 
     const userModels: IUser[] = await User.find({}, "_id scales").sort({
       scales: -1
@@ -63,5 +73,7 @@ export default new Command({
       });
 
     context.interaction.followUp({ ephemeral: true, embeds: [embed] });
+
+    return;
   }
 });
