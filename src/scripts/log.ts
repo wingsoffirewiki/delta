@@ -35,6 +35,13 @@ export async function log<LT extends keyof LogData>(
     upsert: true
   });
 
+  if (
+    !(guildModel?.features?.logging ?? true) &&
+    !(guildModel?.features?.modLogging ?? true) &&
+    !(guildModel?.features?.adminLogging ?? true)
+  )
+    return;
+
   const logsChannel = guild.channels.cache.get(guildModel.channelIDs.logs);
 
   const modLogsChannel = guild.channels.cache.get(
@@ -54,7 +61,12 @@ export async function log<LT extends keyof LogData>(
 
   switch (type) {
     case "ban":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const banUser = data[0] as User;
 
@@ -112,7 +124,12 @@ export async function log<LT extends keyof LogData>(
       return banLog;
 
     case "tempban":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const tempbanUser = data[0] as User;
 
@@ -185,7 +202,12 @@ export async function log<LT extends keyof LogData>(
       return tempbanLog;
 
     case "timeout":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const timeoutUser = data[0] as User;
 
@@ -257,7 +279,12 @@ export async function log<LT extends keyof LogData>(
       return timeoutLog;
 
     case "unban":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const unbanUser = data[0] as User;
 
@@ -324,7 +351,12 @@ export async function log<LT extends keyof LogData>(
       return unbanLog;
 
     case "warn":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const warnUser = data[0] as User;
 
@@ -382,7 +414,12 @@ export async function log<LT extends keyof LogData>(
       return warnLog;
 
     case "kick":
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (
+        !logsChannel ||
+        !logsChannel.isText() ||
+        !(guildModel?.features?.logging ?? true)
+      )
+        return;
 
       const kickUser = data[0] as User;
 
@@ -440,7 +477,12 @@ export async function log<LT extends keyof LogData>(
       return kickLog;
 
     case "messageEdit":
-      if (!modLogsChannel || !modLogsChannel.isText()) return;
+      if (
+        !modLogsChannel ||
+        !modLogsChannel.isText() ||
+        !(guildModel?.features?.modLogging ?? true)
+      )
+        return;
 
       const oldMessage = data[0] as Message;
 
@@ -496,7 +538,12 @@ export async function log<LT extends keyof LogData>(
       return;
 
     case "messageDelete":
-      if (!modLogsChannel || !modLogsChannel.isText()) return;
+      if (
+        !modLogsChannel ||
+        !modLogsChannel.isText() ||
+        !(guildModel?.features?.modLogging ?? true)
+      )
+        return;
 
       const message = data[0] as Message;
 
@@ -544,7 +591,12 @@ export async function log<LT extends keyof LogData>(
       return;
 
     case "bulkDelete":
-      if (!modLogsChannel || !modLogsChannel.isText()) return;
+      if (
+        !modLogsChannel ||
+        !modLogsChannel.isText() ||
+        !(guildModel?.features?.modLogging ?? true)
+      )
+        return;
 
       const messages = data as Message[];
 
@@ -608,7 +660,12 @@ export async function log<LT extends keyof LogData>(
       return;
 
     case "bannedWordDetected":
-      if (!modLogsChannel || !modLogsChannel.isText()) return;
+      if (
+        !modLogsChannel ||
+        !modLogsChannel.isText() ||
+        !(guildModel?.features?.modLogging ?? true)
+      )
+        return;
 
       const bannedWordMessage = data[0] as Message;
 
@@ -657,7 +714,11 @@ export async function log<LT extends keyof LogData>(
 
       await modLogsChannel.send({ embeds: [embed] });
 
-      if (adminLogsChannel && adminLogsChannel.isText())
+      if (
+        adminLogsChannel &&
+        adminLogsChannel.isText() &&
+        (guildModel?.features?.adminLogging ?? true)
+      )
         await adminLogsChannel.send({ embeds: [embed] });
 
       await bannedWordMessage.channel.send(
