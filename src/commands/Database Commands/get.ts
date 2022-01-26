@@ -45,28 +45,28 @@ export default new Command({
       .addFields([
         {
           name: "Channels",
-          value: `Logs: \`${guildModel.channelIDs.logs}\`\nMod Logs: \`${guildModel.channelIDs.modLogs}\`\nAdmin Logs: \`${guildModel.channelIDs.adminLogs}\`\nFunnies: \`${guildModel.channelIDs.funnies}\``,
+          value: `Logs: \`${guildModel?.channelIDs?.logs}\`\nMod Logs: \`${guildModel?.channelIDs?.modLogs}\`\nAdmin Logs: \`${guildModel?.channelIDs?.adminLogs}\`\nFunnies: \`${guildModel?.channelIDs?.funnies}\``,
           inline: true
         },
         {
           name: "Roles",
-          value: `Mods: ${guildModel.roleIDs.mods
-            .map(
+          value: `Mods: ${guildModel?.roleIDs?.mods
+            ?.map(
               v =>
                 guild.roles.cache.get(v)?.name ||
                 "`No name or role doesn't exist`"
             )
-            .join("\n")}`,
+            ?.join("\n")}`,
           inline: true
         },
         {
           name: "Messages",
-          value: `Verification ID: \`${guildModel.messages.verification.id}\`\nVerification Channel ID: \`${guildModel.messages.verification.id}\``,
+          value: `Verification ID: \`${guildModel?.messages?.verification?.id}\`\nVerification Channel ID: \`${guildModel?.messages?.verification?.channelID}\``,
           inline: true
         },
         {
           name: "Enabled Features",
-          value: `Economy: \`${guildModel.features.scales}\`\nLogging: \`${guildModel.features.logging}\`\nMod Logging: \`${guildModel.features.modLogging}\`\nAdmin Logging: \`${guildModel.features.adminLogging}\`\nModeration: \`${guildModel.features.moderation}\`\nFunnies: \`${guildModel.features.funnies}\``,
+          value: `Economy: \`${guildModel?.features?.scales}\`\nLogging: \`${guildModel?.features?.logging}\`\nMod Logging: \`${guildModel?.features?.modLogging}\`\nAdmin Logging: \`${guildModel?.features?.adminLogging}\`\nModeration: \`${guildModel?.features?.moderation}\`\nFunnies: \`${guildModel?.features?.funnies}\``,
           inline: true
         }
       ])
