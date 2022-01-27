@@ -9,7 +9,8 @@ export default {
   run: async (client, oldMessage, newMessage) => {
     newMessage = await newMessage.fetch(true);
 
-    if (!newMessage.guild || !newMessage.author) return;
+    if (!newMessage.guild || !newMessage.author || newMessage.author.bot)
+      return;
 
     await log(
       client,

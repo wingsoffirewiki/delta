@@ -3,8 +3,7 @@
 import { Command } from "fero-dc";
 import { Guild, IGuild } from "../../models/Guild";
 import { MessageEmbed } from "discord.js";
-
-// TODO optional chaining on the guildModel
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "get",
@@ -12,7 +11,13 @@ export default new Command({
   category: "Database",
   guildIDs: ["759068727047225384"],
   run: async context => {
-    if (!context.interaction || !context.guild) return;
+    if (!context.interaction || !context.guild || !context.member) return;
+
+    if (!context.member.permissions.has("MANAGE_GUILD"))
+      return context.interaction.reply({
+        ephemeral: true,
+        content: messages.missingPermissions
+      });
 
     await context.interaction.deferReply({
       ephemeral: true,

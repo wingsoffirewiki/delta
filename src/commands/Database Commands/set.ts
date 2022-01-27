@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import { Guild } from "../../models/Guild";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "set",
@@ -78,7 +79,7 @@ export default new Command({
       type: "SUB_COMMAND",
       options: [
         {
-          name: "feature",
+          name: "feature_type",
           description: "The feature to set in the database",
           type: "STRING",
           required: true,
@@ -120,7 +121,13 @@ export default new Command({
   ],
   guildIDs: ["759068727047225384"],
   run: async context => {
-    if (!context.interaction || !context.guild) return;
+    if (!context.interaction || !context.guild || !context.member) return;
+
+    if (!context.member.permissions.has("MANAGE_GUILD"))
+      return context.interaction.reply({
+        ephemeral: true,
+        content: messages.missingPermissions
+      });
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -142,11 +149,11 @@ export default new Command({
 
         const channelIDs: { [key: string]: string } = {};
 
-        channelIDs[channelType] = channel.id;
+        channelIDs[`channelIDs.${channelType}`] = channel.id;
 
         await Guild.findOneAndUpdate(
           { _id: guild.id },
-          { channelIDs },
+          { $set: channelIDs },
           { upsert: true }
         ).exec();
 
@@ -162,7 +169,7 @@ export default new Command({
 
         await Guild.findOneAndUpdate(
           { _id: guild.id },
-          { $push: { roleIDs: { mods: addRole } } },
+          { $push: { "roleIDs.mods": addRole } },
           { upsert: true }
         ).exec();
 
@@ -178,7 +185,7 @@ export default new Command({
 
         await Guild.findOneAndUpdate(
           { _id: guild.id },
-          { $pull: { roleIDs: { mods: removeRole } } },
+          { $pull: { "roleIDs.mods": removeRole } },
           { upsert: true }
         ).exec();
 
@@ -199,11 +206,11 @@ export default new Command({
 
         const features: { [key: string]: boolean } = {};
 
-        features[featureType] = value;
+        features[`features.${featureType}`] = value;
 
         await Guild.findOneAndUpdate(
           { _id: guild.id },
-          { features },
+          { $set: features },
           { upsert: true }
         );
 

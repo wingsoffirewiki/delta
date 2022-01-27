@@ -4,7 +4,7 @@ import { MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
 import { Log, ILog } from "../../models/Log";
 import { Guild, IGuild } from "../../models/Guild";
-import { LogEnum } from "../../scripts/log";
+import { LogType } from "../../scripts/log";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -84,7 +84,7 @@ export default new Command({
             inline: false
           },
           ...logModels.map(v => ({
-            name: `${v.logID} - ${toPascalCase(LogEnum[v.type] as string)}`,
+            name: `${v.logID} - ${toPascalCase(LogType[v.type] as string)}`,
             value: v.reason,
             inline: false
           }))

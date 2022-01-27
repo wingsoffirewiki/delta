@@ -10,7 +10,7 @@ import { ms } from "fero-ms";
 import { getBannedWord } from "./getBannedWord";
 import bannedWords from "../config/bannedWords.json";
 
-export enum LogEnum {
+export enum LogType {
   ban,
   tempban,
   timeout,
@@ -116,7 +116,7 @@ export async function log<LT extends keyof LogData>(
         modID: moderator.id,
         logID,
         reason,
-        type: LogEnum[type],
+        type: LogType[type],
         embedID: banMessage.id,
         undone: false
       });
@@ -193,7 +193,7 @@ export async function log<LT extends keyof LogData>(
         modID: moderator.id,
         logID,
         reason,
-        type: LogEnum[type],
+        type: LogType[type],
         embedID: tempbanMessage.id,
         undoBy: tempbanDate,
         undone: false
@@ -271,7 +271,7 @@ export async function log<LT extends keyof LogData>(
         modID: moderator.id,
         logID,
         reason,
-        type: LogEnum[type],
+        type: LogType[type],
         embedID: timeoutMessage.id,
         undone: false
       });
@@ -293,7 +293,7 @@ export async function log<LT extends keyof LogData>(
           {
             targetID: unbanUser.id,
             type: {
-              $in: [LogEnum["ban"], LogEnum["tempban"]]
+              $in: [LogType.ban, LogType.tempban]
             }
           },
           "_id createdAt",
@@ -406,7 +406,7 @@ export async function log<LT extends keyof LogData>(
         modID: moderator.id,
         logID,
         reason,
-        type: LogEnum[type],
+        type: LogType[type],
         embedID: warnMessage.id,
         undone: false
       });
@@ -469,7 +469,7 @@ export async function log<LT extends keyof LogData>(
         modID: moderator.id,
         logID,
         reason,
-        type: LogEnum[type],
+        type: LogType[type],
         embedID: kickMessage.id,
         undone: false
       });
@@ -676,7 +676,7 @@ export async function log<LT extends keyof LogData>(
       embed
         .setTitle("Delta: Slur Detected")
         .setDescription(
-          `Channel: ${bannedWordMessage.channel}\nChannel ID: ${bannedWordMessage.channel.id}\nUser: ${bannedWordMessage.author.tag}\nUser: ${bannedWordMessage.author.id}\nMessage URL${bannedWordMessage.url}`
+          `Channel: ${bannedWordMessage.channel}\nChannel ID: ${bannedWordMessage.channel.id}\nUser: ${bannedWordMessage.author.tag}\nUser: ${bannedWordMessage.author.id}\nMessage URL: ${bannedWordMessage.url}`
         )
         .setAuthor({
           name: bannedWordMessage.author.tag,

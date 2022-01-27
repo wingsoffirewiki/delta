@@ -7,7 +7,7 @@ export default {
   event: "ready",
   run: async client => {
     // const result = await client.commands
-    //   .find(cmd => cmd.name === "lookup")
+    //   .find(cmd => cmd.name === "set")
     //   ?.delete(client);
     // console.log(result);
     // const commands = await client.application?.commands.fetch({

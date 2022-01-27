@@ -2,12 +2,12 @@
 
 import { Client } from "fero-dc";
 import { Log, ILog } from "../models/Log";
-import { log, LogEnum } from "./log";
+import { log, LogType } from "./log";
 
 export function autoUnban(client: Client) {
   setInterval(async () => {
     const logs: ILog[] = await Log.find({
-      type: LogEnum["tempban"],
+      type: LogType.tempban,
       undone: false,
       undoBy: {
         $lt: new Date(Date.now())

@@ -98,6 +98,10 @@ export const Guild = model(
         starboard: {
           type: Boolean,
           default: true
+        },
+        funnies: {
+          type: Boolean,
+          default: true
         }
       }
     },
