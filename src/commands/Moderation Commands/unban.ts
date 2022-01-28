@@ -48,7 +48,7 @@ export default new Command({
 
     const guildModel: IGuild = await Guild.findOne(
       { _id: guild.id },
-      "features.moderation"
+      "features.moderation roleIDs.mods"
     );
 
     if (!guildModel.features.moderation)
@@ -64,6 +64,14 @@ export default new Command({
         ephemeral: true,
         content: "That user has not been banned!"
       });
+    }
+
+    try {
+      await user.send(
+        `You have been unbanned from \`${guild.name}\`:\n\`${reason}\``
+      );
+    } catch (err) {
+      console.log(err);
     }
 
     await log(context.client, "unban", guild, reason, context.author, user);

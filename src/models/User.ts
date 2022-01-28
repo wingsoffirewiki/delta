@@ -1,9 +1,9 @@
 /** @format */
 
 import { Snowflake } from "discord.js";
-import { model, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
-export interface IUser {
+export interface IUser extends Document {
   _id: Snowflake;
   scales: number;
   banned: boolean;

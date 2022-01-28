@@ -1,11 +1,11 @@
 /** @format */
 
 import { Snowflake } from "discord.js";
-import { model, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 const blankID = "000000000000000000";
 
-export interface IGuild {
+export interface IGuild extends Document {
   _id: Snowflake;
   channelIDs: {
     logs: Snowflake;
@@ -92,10 +92,6 @@ export const Guild = model(
           default: true
         },
         moderation: {
-          type: Boolean,
-          default: true
-        },
-        starboard: {
           type: Boolean,
           default: true
         },

@@ -23,8 +23,7 @@ export default new Command({
     if (!(guildModel?.features?.scales ?? true))
       return context.interaction.followUp({
         ephemeral: false,
-        content:
-          "You cannot use this command as the scales feature is disabled."
+        content: "Scales are not enabled in the database."
       });
 
     const userModels: IUser[] = await User.find({}, "_id scales").sort({

@@ -35,12 +35,6 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
-    if (!context.member.permissions.has("MODERATE_MEMBERS"))
-      return context.interaction.reply({
-        ephemeral: false,
-        content: messages.missingPermissions
-      });
-
     await context.interaction.deferReply({
       ephemeral: true,
       fetchReply: false
@@ -50,8 +44,17 @@ export default new Command({
 
     const guildModel: IGuild = await Guild.findOne(
       { _id: guild.id },
-      "features.moderation"
+      "features.moderation roleIDs.mods"
     );
+
+    if (
+      !context.member.permissions.has("MODERATE_MEMBERS") &&
+      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
+    )
+      return context.interaction.followUp({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
 
     if (!guildModel.features.moderation)
       return context.interaction.followUp({
@@ -101,6 +104,14 @@ export default new Command({
       member.user,
       date,
       time
+    );
+
+    await member.send(
+      `You have been timed out from \`${guild.name}\` for \`${ms(time, {
+        long: true,
+        unitTrailingSpace: true,
+        spacedOut: true
+      })}\`:\n\`${reason}\``
     );
 
     await member.timeout(time, reason);

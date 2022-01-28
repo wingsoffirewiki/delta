@@ -56,78 +56,80 @@ export default new Command({
     if (!(guildModel?.features?.scales ?? true))
       return context.interaction.followUp({
         ephemeral: false,
-        content:
-          "You cannot use this command as the scales feature is disabled."
+        content: "Scales are not enabled in the database."
       });
 
     const subCommand = context.interaction.options.getSubcommand(true);
+    try {
+      if (subCommand === "pay") {
+        const user = context.interaction.options.getUser("user", true);
 
-    if (subCommand === "pay") {
-      const user = context.interaction.options.getUser("user", true);
+        const amount = context.interaction.options.getInteger("amount", true);
 
-      const amount = context.interaction.options.getInteger("amount", true);
+        if (user.id === context.author.id) throw "You cannot pay yourself!";
 
-      if (user.id === context.author.id)
-        return context.interaction.reply("You cannot pay yourself!");
+        if (amount < 1) throw "You cannot pay less than one scale!";
 
-      if (amount < 1)
-        return context.interaction.reply("You cannot pay less than one scale!");
-
-      const userModel: IUser = await User.findOneAndUpdate(
-        {
-          _id: user.id,
-          enablePayments: true,
-          banned: false
-        },
-        {
-          $inc: {
-            scales: amount
+        const userModel: IUser = await User.findOneAndUpdate(
+          {
+            _id: user.id,
+            enablePayments: true,
+            banned: false
+          },
+          {
+            $inc: {
+              scales: amount
+            }
           }
-        }
-      );
+        );
 
-      if (!userModel)
-        throw `${user.tag} is not accepting payments or is banned from the scales system.`;
+        if (!userModel)
+          throw `${user.tag} is not accepting payments or is banned from the scales system.`;
 
-      const authorModel: IUser = await User.findOneAndUpdate(
-        {
-          _id: context.author.id,
-          banned: false
-        },
-        {
-          $inc: {
-            scales: -amount
+        const authorModel: IUser = await User.findOneAndUpdate(
+          {
+            _id: context.author.id,
+            banned: false
+          },
+          {
+            $inc: {
+              scales: -amount
+            }
           }
-        }
-      );
+        );
 
-      if (!authorModel) throw `You are banned from the scales system.`;
+        if (!authorModel) throw `You are banned from the scales system.`;
 
+        context.interaction.followUp({
+          ephemeral: false,
+          content: `Successfully paid \`${user.tag}\` \`${amount}\` scales!`
+        });
+      } else if (subCommand === "balance") {
+        const user =
+          context.interaction.options.getUser("user", false) || context.author;
+
+        const userModel: IUser = await User.findOne(
+          {
+            _id: user.id
+          },
+          "scales",
+          { upsert: true }
+        );
+
+        context.interaction.followUp({
+          ephemeral: false,
+          content:
+            user.id === context.author.id
+              ? `You have \`${userModel.scales}\` scales!`
+              : `\`${user.tag}\` has \`${userModel.scales}\` scales!`
+        });
+      }
+    } catch (err) {
       context.interaction.followUp({
         ephemeral: false,
-        content: `Successfully paid \`${user.tag}\` \`${amount}\` scales!`
-      });
-    } else if (subCommand === "balance") {
-      const user =
-        context.interaction.options.getUser("user", false) || context.author;
-
-      const userModel: IUser = await User.findOne(
-        {
-          _id: user.id
-        },
-        "scales",
-        { upsert: true }
-      );
-
-      context.interaction.followUp({
-        ephemeral: false,
-        content:
-          user.id === context.author.id
-            ? `You have \`${userModel.scales}\` scales!`
-            : `\`${user.tag}\` has \`${userModel.scales}\` scales!`
+        content: `Error:\n\`${err}\``
       });
     }
-
     return;
   }
 });

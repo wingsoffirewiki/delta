@@ -27,12 +27,6 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
-    if (!context.member.permissions.has("KICK_MEMBERS"))
-      return context.interaction.reply({
-        ephemeral: false,
-        content: messages.missingPermissions
-      });
-
     await context.interaction.deferReply({
       ephemeral: true,
       fetchReply: false
@@ -44,8 +38,17 @@ export default new Command({
 
     const guildModel: IGuild = await Guild.findOne(
       { _id: guild.id },
-      "features.moderation"
+      "features.moderation roleIDs.mods"
     );
+
+    if (
+      !context.member.permissions.has("KICK_MEMBERS") &&
+      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
+    )
+      return context.interaction.followUp({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
 
     if (!guildModel.features.moderation)
       return context.interaction.followUp({
@@ -64,6 +67,10 @@ export default new Command({
       "No reason provided";
 
     await log(context.client, "kick", guild, reason, context.author, user);
+
+    await user.send(
+      `You have been kicked from \`${guild.name}\`:\n\`${reason}\``
+    );
 
     const result = await guild.members.kick(user.id, reason);
 

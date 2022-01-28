@@ -28,16 +28,23 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
-    if (!context.member.permissions.has("BAN_MEMBERS"))
-      return context.interaction.reply({
-        ephemeral: false,
-        content: messages.missingPermissions
-      });
-
     await context.interaction.deferReply({
       ephemeral: true,
       fetchReply: false
     });
+
+    const guild = context.guild;
+
+    const guildModel: IGuild = await Guild.findOne({ _id: guild.id });
+
+    if (
+      !context.member.permissions.has("BAN_MEMBERS") &&
+      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
+    )
+      return context.interaction.followUp({
+        ephemeral: false,
+        content: messages.missingPermissions
+      });
 
     const logID = context.interaction.options.getInteger("log_id", true);
 
@@ -59,10 +66,6 @@ export default new Command({
         ephemeral: true,
         content: `It appears log #\`${logID}\` does not exist in the database.`
       });
-
-    const guildModel: IGuild = await Guild.findOne({
-      _id: context.guild.id
-    });
 
     const logsChannel = context.guild.channels.cache.get(
       guildModel.channelIDs.logs

@@ -1,9 +1,9 @@
 /** @format */
 
 import { Snowflake } from "discord.js";
-import { model, Schema, Types } from "mongoose";
+import { Document, model, Schema, Types } from "mongoose";
 
-export interface IFunnie {
+export interface IFunnie extends Document {
   _id: Types.ObjectId;
   guildID: Snowflake;
   userID: Snowflake;

@@ -3,6 +3,7 @@
 import { GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import configMessages from "../../config/messages.json";
+import { Guild, IGuild } from "../../models/Guild";
 
 export default new Command({
   name: "clear",
@@ -28,16 +29,32 @@ export default new Command({
     )
       return;
 
-    if (!context.member.permissions.has("MANAGE_MESSAGES"))
-      return context.interaction.reply({
-        ephemeral: false,
-        content: configMessages.missingPermissions
-      });
-
     await context.interaction.deferReply({
       ephemeral: true,
       fetchReply: false
     });
+
+    const guild = context.guild;
+
+    const guildModel: IGuild = await Guild.findOne(
+      { _id: guild.id },
+      "features.moderation roleIDs.mods"
+    );
+
+    if (
+      !context.member.permissions.has("MANAGE_MESSAGES") &&
+      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
+    )
+      return context.interaction.followUp({
+        ephemeral: false,
+        content: configMessages.missingPermissions
+      });
+
+    if (!guildModel.features.moderation)
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "Moderation is not enabled in the database."
+      });
 
     const messagesToDelete =
       context.interaction.options.getNumber("messages") || 1;

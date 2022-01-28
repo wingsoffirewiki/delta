@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
+import { Guild, IGuild } from "../../models/Guild";
 
 export default new Command({
   name: "getid",
@@ -19,8 +20,23 @@ export default new Command({
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
-    if (!context.member.permissions.has("BAN_MEMBERS"))
-      return context.interaction.reply({
+    await context.interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
+
+    const guild = context.guild;
+
+    const guildModel: IGuild = await Guild.findOne(
+      { _id: guild.id },
+      "roleIDs.mods"
+    );
+
+    if (
+      !context.member.permissions.has("BAN_MEMBERS") &&
+      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
+    )
+      return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
