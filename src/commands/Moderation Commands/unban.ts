@@ -3,6 +3,7 @@
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
 import { log } from "../../scripts/log";
+import { Guild, IGuild } from "../../models/Guild";
 
 export default new Command({
   name: "unban",
@@ -44,6 +45,17 @@ export default new Command({
       "No reason provided";
 
     const guild = context.guild;
+
+    const guildModel: IGuild = await Guild.findOne(
+      { _id: guild.id },
+      "features.moderation"
+    );
+
+    if (!guildModel.features.moderation)
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "Moderation is not enabled in the database."
+      });
 
     try {
       await guild.bans.fetch(user);

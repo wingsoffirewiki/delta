@@ -4,6 +4,7 @@ import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";
 import { log } from "../../scripts/log";
+import { Guild, IGuild } from "../../models/Guild";
 
 export default new Command({
   name: "tempban",
@@ -53,6 +54,17 @@ export default new Command({
     const user = context.interaction.options.getUser("member", true);
 
     const guild = context.guild;
+
+    const guildModel: IGuild = await Guild.findOne(
+      { _id: guild.id },
+      "features.moderation"
+    );
+
+    if (!guildModel.features.moderation)
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "Moderation is not enabled in the database."
+      });
 
     if (
       guild.members.cache.get(user.id) &&
