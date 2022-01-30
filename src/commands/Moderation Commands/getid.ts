@@ -43,7 +43,7 @@ export default new Command({
 
     const user = context.interaction.options.getUser("user", true);
 
-    return context.interaction.reply({
+    return context.interaction.followUp({
       ephemeral: true,
       content: `ID for user ${user.tag} is: \`${user.id}\``
     });

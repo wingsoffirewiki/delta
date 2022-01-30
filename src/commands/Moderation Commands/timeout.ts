@@ -106,13 +106,15 @@ export default new Command({
       time
     );
 
-    await member.send(
-      `You have been timed out from \`${guild.name}\` for \`${ms(time, {
-        long: true,
-        unitTrailingSpace: true,
-        spacedOut: true
-      })}\`:\n\`${reason}\``
-    );
+    await member
+      .send(
+        `You have been timed out from \`${guild.name}\` for \`${ms(time, {
+          long: true,
+          unitTrailingSpace: true,
+          spacedOut: true
+        })}\`:\n\`${reason}\``
+      )
+      .catch(console.log);
 
     await member.timeout(time, reason);
 

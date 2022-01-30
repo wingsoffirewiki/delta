@@ -26,7 +26,7 @@ export function autoUnban(client: Client) {
           client,
           "unban",
           guild,
-          "Delta Automation",
+          "`Delta automatically unbanned tempbanned user`",
           client.user,
           user
         );

@@ -55,13 +55,15 @@ export default new Command({
         },
         {
           name: "Roles",
-          value: `Mods: ${guildModel?.roleIDs?.mods
-            ?.map(
-              v =>
-                guild.roles.cache.get(v)?.name ||
-                "`No name or role doesn't exist`"
+          value: `Mods: ${(
+            await Promise.all(
+              guildModel?.roleIDs?.mods?.map(
+                async v =>
+                  (await guild.roles.fetch(v))?.name ||
+                  "`No name or role not found`"
+              )
             )
-            ?.join("\n")}`,
+          ).join("\n")}\nVerified: \`${guildModel?.roleIDs?.verified}\``,
           inline: true
         },
         {

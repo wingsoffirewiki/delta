@@ -68,9 +68,9 @@ export default new Command({
 
     await log(context.client, "kick", guild, reason, context.author, user);
 
-    await user.send(
-      `You have been kicked from \`${guild.name}\`:\n\`${reason}\``
-    );
+    await user
+      .send(`You have been kicked from \`${guild.name}\`:\n\`${reason}\``)
+      .catch(console.log);
 
     const result = await guild.members.kick(user.id, reason);
 

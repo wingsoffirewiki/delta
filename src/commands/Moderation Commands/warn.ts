@@ -66,9 +66,11 @@ export default new Command({
         content: messages.missingMember
       });
 
-    await user.send(`You have warned in \`${guild.name}\`:\n\`${reason}\``);
-
     await log(context.client, "warn", guild, reason, context.author, user);
+
+    await user
+      .send(`You have warned in \`${guild.name}\`:\n\`${reason}\``)
+      .catch(console.log);
 
     return context.interaction.followUp({
       ephemeral: true,

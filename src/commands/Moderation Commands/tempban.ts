@@ -102,12 +102,14 @@ export default new Command({
       time
     );
 
-    await user.send(
-      `You have been temporarily banned from \`${guild.name}\` for \`${ms(
-        time,
-        { long: true, unitTrailingSpace: true, spacedOut: true }
-      )}\`:\n\`${reason}\``
-    );
+    await user
+      .send(
+        `You have been temporarily banned from \`${guild.name}\` for \`${ms(
+          time,
+          { long: true, unitTrailingSpace: true, spacedOut: true }
+        )}\`:\n\`${reason}\``
+      )
+      .catch(console.log);
 
     const result = await guild.members.ban(user.id, { reason, days });
 

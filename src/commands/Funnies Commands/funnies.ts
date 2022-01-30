@@ -57,7 +57,29 @@ export default new Command({
 
     const embed = new MessageEmbed();
 
-    console.log(embed);
+    embed
+      .setTitle("Delta: Fact of the Day")
+      .setURL(funnieMessage.url)
+      .setColor("BLURPLE")
+      .setDescription(
+        `${funnieMessage.content || "No Content."}\n\n[Jump to Message](${
+          funnieMessage.url
+        })`
+      )
+      .setAuthor({
+        name: context.author.username,
+        iconURL: context.author.avatarURL({ dynamic: true }) || ""
+      })
+      .setTimestamp()
+      .setFooter({
+        text: "Delta, The Wings of Fire Moderation Bot",
+        iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
+      });
+
+    context.interaction.followUp({
+      ephemeral: true,
+      embeds: [embed]
+    });
 
     return;
   }

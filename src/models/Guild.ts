@@ -15,6 +15,7 @@ export interface IGuild extends Document {
   };
   roleIDs: {
     mods: Snowflake[];
+    verified: Snowflake;
   };
   messages: {
     verification: {
@@ -60,6 +61,10 @@ export const Guild = model(
         mods: {
           type: Array,
           default: []
+        },
+        verified: {
+          type: String,
+          default: blankID
         }
       },
       messages: {

@@ -80,9 +80,11 @@ export default new Command({
 
     await log(context.client, "ban", guild, reason, context.author, user);
 
-    await user.send(
-      `You have been permanently banned from \`${guild.name}\`:\n\`${reason}\``
-    );
+    await user
+      .send(
+        `You have been permanently banned from \`${guild.name}\`:\n\`${reason}\``
+      )
+      .catch(console.log);
 
     const result = await guild.members.ban(user.id, { reason, days });
 

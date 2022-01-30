@@ -66,15 +66,11 @@ export default new Command({
       });
     }
 
-    try {
-      await user.send(
-        `You have been unbanned from \`${guild.name}\`:\n\`${reason}\``
-      );
-    } catch (err) {
-      console.log(err);
-    }
-
     await log(context.client, "unban", guild, reason, context.author, user);
+
+    await user
+      .send(`You have been unbanned from \`${guild.name}\`:\n\`${reason}\``)
+      .catch(console.log);
 
     const result = await guild.members.unban(user.id, reason);
 
