@@ -725,7 +725,7 @@ export async function log<LT extends keyof LogData>(
         `${bannedWordMessage.author}, Your message contains a(n) ${
           bannedWords[bannedWord]
         } (${bannedWord.replace(
-          /[aeiou]/g,
+          /[aiou]/g,
           "/"
         )}). It will be deleted and logged.`
       );

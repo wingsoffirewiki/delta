@@ -6,7 +6,7 @@ import messages from "../../config/messages.json";
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { MessageButtonStyles } from "discord.js/typings/enums";
 
-const emojiID = "713191673924157471";
+const emojiID = "713458681538281502";
 
 export default new Command({
   name: "verificationsetup",
