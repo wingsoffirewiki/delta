@@ -58,9 +58,9 @@ export default new Command({
     const embed = new MessageEmbed();
 
     embed
-      .setTitle("Delta: Fact of the Day")
+      .setTitle(`${guild.name}: #${funnieChannel.name}`)
       .setURL(funnieMessage.url)
-      .setColor("BLURPLE")
+      .setColor(funnieMessage.member?.displayColor ?? "BLURPLE")
       .setDescription(
         `${funnieMessage.content || "No Content."}\n\n[Jump to Message](${
           funnieMessage.url
@@ -70,11 +70,26 @@ export default new Command({
         name: context.author.username,
         iconURL: context.author.avatarURL({ dynamic: true }) || ""
       })
+      .addFields([
+        {
+          name: "<:deltaplead:713458652127952917>",
+          value: randomFunnie.modCount.toString(),
+          inline: true
+        },
+        {
+          name: "<:deltapog:713458681538281502>",
+          value: randomFunnie.normalCount.toString(),
+          inline: true
+        }
+      ])
       .setTimestamp()
       .setFooter({
         text: "Delta, The Wings of Fire Moderation Bot",
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
+
+    if (funnieMessage.attachments.size > 0)
+      embed.setImage(funnieMessage.attachments.first()?.url || "");
 
     context.interaction.followUp({
       ephemeral: true,
