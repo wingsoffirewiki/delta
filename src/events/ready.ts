@@ -2,6 +2,7 @@
 
 import { Event } from "fero-dc";
 import { autoUnban } from "../scripts/autoUnban";
+import { setPresence } from "../scripts/setPresence";
 
 export default {
   event: "ready",
@@ -19,5 +20,6 @@ export default {
     console.log(`${client.user?.tag} is online!`);
 
     autoUnban(client);
+    setPresence(client);
   }
 } as Event<"ready">;
