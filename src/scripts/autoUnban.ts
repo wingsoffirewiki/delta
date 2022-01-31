@@ -31,13 +31,18 @@ export function autoUnban(client: Client) {
           user
         );
 
-        Log.findOneAndUpdate(
+        await Log.findOneAndUpdate(
           {
             _id: l._id
           },
           {
             undone: true
           }
+        ).exec();
+
+        await guild.members.unban(
+          user,
+          "Delta automatically unbanned tempbanned user"
         );
       } catch (err) {
         console.log(err);
