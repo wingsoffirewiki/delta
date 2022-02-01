@@ -3,6 +3,7 @@
 import { MessageEmbed } from "discord.js";
 import { Event } from "fero-dc";
 import { Guild, IGuild } from "../models/Guild";
+import messages from "../config/messages.json";
 
 const tribes = [
   "SkyWing",
@@ -21,6 +22,8 @@ export default {
   event: "guildMemberAdd",
   run: async (client, member) => {
     const guild = member.guild;
+
+    member.send(messages.welcome).catch(console.log);
 
     const tribe =
       tribes.find(t =>
