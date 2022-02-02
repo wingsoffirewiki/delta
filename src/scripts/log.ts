@@ -514,8 +514,9 @@ export async function log<LT extends keyof LogData>(
           {
             name: "Attachments",
             value:
-              newMessage.attachments.map(v => v.name || "no_name").join("\n") ||
-              "None",
+              newMessage.attachments
+                .map(v => `${v.name || "no_name"}: ${v.url || "no_url"}`)
+                .join("\n") || "None",
             inline: false
           },
           {
@@ -531,8 +532,7 @@ export async function log<LT extends keyof LogData>(
         });
 
       modLogsChannel.send({
-        embeds: [embed],
-        attachments: newMessage.attachments.map(v => v)
+        embeds: [embed]
       });
 
       return;
@@ -584,8 +584,7 @@ export async function log<LT extends keyof LogData>(
         });
 
       modLogsChannel.send({
-        embeds: [embed],
-        attachments: message.attachments.map(v => v)
+        embeds: [embed]
       });
 
       return;
@@ -635,7 +634,10 @@ export async function log<LT extends keyof LogData>(
               messages
                 .filter(v => v.attachments.size > 0)
                 .map(
-                  v => `${v.id}: ${v.attachments.map(v2 => v2.name).join(", ")}`
+                  v =>
+                    `${v.id}: ${v.attachments
+                      .map(v2 => v2.name || "no_name")
+                      .join(", ")}`
                 )
                 .join("\n") || "None",
             inline: false
@@ -653,8 +655,7 @@ export async function log<LT extends keyof LogData>(
         });
 
       modLogsChannel.send({
-        embeds: [embed],
-        attachments: messages.map(v => v.attachments.map(v2 => v2)).flat()
+        embeds: [embed]
       });
 
       return;
