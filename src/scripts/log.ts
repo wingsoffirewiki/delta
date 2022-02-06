@@ -561,7 +561,7 @@ export async function log<LT extends keyof LogData>(
         .addFields([
           {
             name: "Message",
-            value: message.content,
+            value: message.content || "None",
             inline: true
           },
           {
