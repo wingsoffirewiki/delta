@@ -2,6 +2,7 @@
 src/config/config.json
 .env
 yarn.lock
+Typings
 
 # Logs
 logs

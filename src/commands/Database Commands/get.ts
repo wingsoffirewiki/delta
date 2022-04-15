@@ -9,7 +9,7 @@ export default new Command({
   name: "get",
   description: "Get server settings from the database",
   category: "Database",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 

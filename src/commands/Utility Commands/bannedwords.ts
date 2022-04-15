@@ -8,7 +8,7 @@ export default new Command({
   name: "bannedwords",
   description: "Get the list of banned words",
   category: "Utility",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.author) return;
 

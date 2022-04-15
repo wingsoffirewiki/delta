@@ -11,7 +11,7 @@ export default new Command({
   name: "randomfact",
   description: "Fetches a random fact from a randomfact API",
   category: "Fun",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction) return;
 

@@ -16,7 +16,7 @@ export default new Command({
       required: false
     }
   ],
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (
       !context.interaction ||

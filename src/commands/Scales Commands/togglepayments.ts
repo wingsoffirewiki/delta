@@ -7,7 +7,7 @@ export default new Command({
   name: "togglepayments",
   description: "Toggle your setting in the database to allow payments to you.",
   category: "Scales",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild) return;
 

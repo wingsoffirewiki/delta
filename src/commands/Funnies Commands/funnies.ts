@@ -9,7 +9,7 @@ export default new Command({
   name: "funnies",
   description: "Retrieve a random funnie (starboard) from the database",
   category: "Funnies",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild) return;
 

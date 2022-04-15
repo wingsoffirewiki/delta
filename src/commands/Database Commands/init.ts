@@ -8,7 +8,7 @@ export default new Command({
   name: "init",
   description: "Initialize server settings for the database",
   category: "Database",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 

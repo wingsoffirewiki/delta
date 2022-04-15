@@ -23,7 +23,7 @@ export default new Command({
       required: false
     }
   ],
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 
@@ -32,7 +32,7 @@ export default new Command({
       fetchReply: false
     });
 
-    const user = context.interaction.options.getUser("member", true);
+    const user = context.interaction.options.getUser("user", true);
 
     const guild = context.guild;
 

@@ -39,7 +39,7 @@ export default {
       `Less goo, ${member} is here.`,
       `${member}, welcome to the bread bank, we sell bread, we sell loafs.`,
       `${member}, Lesbank 4 life.`,
-      `${member}, Bev 4 Mod`,
+      // `${member}, Bev 4 Mod`,
       `the ${tribe}s welcome ${member} with open wings!`,
       `Be ace do arson, ${member}`
     ];
@@ -47,10 +47,22 @@ export default {
     const randomWelcomeMessage = welcomeMessages[
       Math.floor(Math.random() * welcomeMessages.length)
     ] as string;
+    
+    if (member.guild.id === "576534597697798154") {
+      const verificationChannel = member.guild.channels.cache.find(ch => ch.name === "verification");
+      
+      const generalChannel = member.guild.channels.cache.find(ch => ch.name === "general");
+      
+      if (verificationChannel === undefined || generalChannel === undefined || !verificationChannel.isText() || !generalChannel.isText()) return;
+      
+      verificationChannel.send(`${member} Verification instructions are pinned.`);
+      
+      generalChannel.send(`${member} Please read the long pin in this channel.`);
+    } else {
+      const systemChannel = member.guild.systemChannel;
 
-    const systemChannel = member.guild.systemChannel;
-
-    systemChannel?.send(randomWelcomeMessage);
+      systemChannel?.send(randomWelcomeMessage);
+    }
 
     const guildModel: IGuild = await Guild.findOne(
       {

@@ -6,7 +6,7 @@ export default new Command({
   name: "lucy",
   description: "less goo",
   category: "Fun",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction) return;
 

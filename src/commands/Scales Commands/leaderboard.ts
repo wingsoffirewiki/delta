@@ -9,7 +9,7 @@ export default new Command({
   name: "leaderboard",
   description: "Get a list of the top 10 people in the economy",
   category: "Scales",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction || !context.guild || !context.member) return;
 

@@ -9,7 +9,7 @@ export default new Command({
   name: "delta",
   description: "Shows information about the bot",
   category: "Utility",
-  guildIDs: ["759068727047225384"],
+  guildIDs: [],
   run: async context => {
     if (!context.interaction) return;
 
