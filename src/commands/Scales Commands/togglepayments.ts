@@ -8,8 +8,10 @@ export default new Command({
   description: "Toggle your setting in the database to allow payments to you.",
   category: "Scales",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,

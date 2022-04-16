@@ -7,8 +7,10 @@ export default new Command({
   description: "less goo",
   category: "Fun",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction) return;
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     context.interaction.reply("Less goo <:lucypog:725923308486393967>");
   }

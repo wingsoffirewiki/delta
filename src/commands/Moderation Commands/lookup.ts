@@ -40,14 +40,17 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
-    if (!context.member.permissions.has("BAN_MEMBERS"))
+    if (!context.member.permissions.has("BAN_MEMBERS")) {
       return context.interaction.reply({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -83,7 +86,7 @@ export default new Command({
             value: (await context.guild.bans.cache.get(user.id)) ? "Yes" : "No",
             inline: false
           },
-          ...logModels.map(v => ({
+          ...logModels.map((v) => ({
             name: `${v.logID} - ${toPascalCase(LogType[v.type] as string)}`,
             value: v.reason,
             inline: false
@@ -112,7 +115,9 @@ export default new Command({
         guildModel.channelIDs.logs
       );
 
-      if (!logsChannel || !logsChannel.isText()) return;
+      if (!logsChannel || !logsChannel.isText()) {
+        return;
+      }
 
       const embedMessage = await logsChannel.messages.fetch(logModel.embedID);
 

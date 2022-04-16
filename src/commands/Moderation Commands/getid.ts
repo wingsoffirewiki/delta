@@ -17,8 +17,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -34,12 +36,13 @@ export default new Command({
 
     if (
       !context.member.permissions.has("BAN_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
     const user = context.interaction.options.getUser("user", true);
 

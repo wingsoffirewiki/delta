@@ -32,8 +32,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -49,35 +51,39 @@ export default new Command({
 
     if (
       !context.member.permissions.has("MODERATE_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
     const member = context.interaction.options.getMember(
       "member",
       true
     ) as GuildMember;
 
-    if (!member)
+    if (!member) {
       return context.interaction.followUp({
         ephemeral: true,
         content: messages.missingMember
       });
+    }
 
-    if (!member.moderatable)
+    if (!member.moderatable) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `I cannot timeout this member!`
       });
+    }
 
     const time = ms(context.interaction.options.getString("time", true), {
       returnDate: false
@@ -85,11 +91,12 @@ export default new Command({
 
     const date = new Date(time + Date.now());
 
-    if (time > 2419200000)
+    if (time > 2419200000) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `The time you entered (${ms(time)}) is longer than 28 days.`
       });
+    }
 
     const reason =
       context.interaction.options.getString("reason", false) ||

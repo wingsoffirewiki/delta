@@ -17,15 +17,16 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
+  run: async (context) => {
     if (
       !context.interaction ||
       !context.guild ||
       !context.member ||
       !context.author ||
       !context.channel
-    )
+    ) {
       return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,
@@ -36,36 +37,41 @@ export default new Command({
       (context.interaction.options.getMember("user", false) as GuildMember) ||
       context.member;
 
-    if (!member) return context.interaction.followUp(messages.missingMember);
+    if (!member) {
+      return context.interaction.followUp(messages.missingMember);
+    }
 
     const clientStatus = member.presence?.clientStatus;
 
     const statuses = [];
 
-    if (clientStatus?.desktop)
+    if (clientStatus?.desktop) {
       statuses.push(`Desktop: \`${toPascalCase(clientStatus.desktop)}\``);
+    }
 
-    if (clientStatus?.mobile)
+    if (clientStatus?.mobile) {
       statuses.push(`Mobile: \`${toPascalCase(clientStatus.mobile)}\``);
+    }
 
-    if (clientStatus?.web)
+    if (clientStatus?.web) {
       statuses.push(`Web: \`${toPascalCase(clientStatus.web)}\``);
+    }
 
     const presences =
-      member.presence?.activities.map(v => {
-        if (v.type === "CUSTOM")
+      member.presence?.activities.map((v) => {
+        if (v.type === "CUSTOM") {
           return {
             name: "Custom Status",
             value: v.state || "None",
             inline: true
           };
-        else if (v.type === "LISTENING")
+        } else if (v.type === "LISTENING") {
           return {
             name: "Listening to a Song",
             value: `__${v.details}__\nBy ***${v.state}***`,
             inline: true
           };
-        else
+        } else {
           return {
             name: `${toPascalCase(v.type)} ${v.name}`,
             value: `Details: \`${v.details || "None"}\`\nState: \`${
@@ -75,6 +81,7 @@ export default new Command({
             }\``,
             inline: true
           };
+        }
       }) || [];
 
     const embed = new MessageEmbed();

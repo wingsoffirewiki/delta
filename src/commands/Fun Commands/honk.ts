@@ -7,8 +7,10 @@ export default new Command({
   description: "Honk!",
   category: "Fun",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction) return;
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     context.interaction.reply("<:honk:639271354734215178>");
   }

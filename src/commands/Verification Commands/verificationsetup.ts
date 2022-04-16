@@ -21,14 +21,15 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
+  run: async (context) => {
     if (
       !context.interaction ||
       !context.guild ||
       !context.member ||
       !context.channel
-    )
+    ) {
       return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -45,12 +46,13 @@ export default new Command({
 
     if (
       !context.member.permissions.has("MANAGE_GUILD") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: true,
         content: messages.missingPermissions
       });
+    }
 
     const channel = context.channel;
 

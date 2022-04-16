@@ -35,9 +35,11 @@ export default new Command({
       required: true
     }
   ],
-  guildIDs: ["759068727047225384"],
-  run: async context => {
-    if (!context.interaction) return;
+  guildIDs: [],
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     const title = context.interaction.options.getString("page", true);
 
@@ -54,7 +56,9 @@ export default new Command({
       })
       .catch(console.log);
 
-    if (!result) return;
+    if (!result) {
+      return;
+    }
 
     const data = result.data as WikiPageResult;
 
@@ -65,17 +69,21 @@ export default new Command({
         )[0] as keyof WikiPageResult["query"]["pages"]
       ];
 
-    if (!page) return;
+    if (!page) {
+      return;
+    }
 
     console.log(page);
 
     const pages = page.extract.match(/.{1,500}?/);
 
-    if (!pages || !pages.length) return;
+    if (!pages || !pages.length) {
+      return;
+    }
 
     console.log(pages);
 
-    let pageNumber = 0;
+    const pageNumber = 0;
 
     const embed = new MessageEmbed();
 

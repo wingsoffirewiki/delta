@@ -12,8 +12,10 @@ export default new Command({
   description: "Fetches a random fact from a randomfact API",
   category: "Fun",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction) return;
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,
@@ -37,7 +39,7 @@ export default new Command({
         name: context.author.username,
         iconURL: context.author.avatarURL({ dynamic: true }) || ""
       })
-      .addField("Fact", `\`${randomFact.text.replace(/\`/g, "'")}\``)
+      .addField("Fact", `\`${randomFact.text.replace(/`/g, "'")}\``)
       .setTimestamp()
       .setFooter({
         text: "Delta, The Wings of Fire Moderation Bot",

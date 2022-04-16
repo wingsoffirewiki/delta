@@ -120,14 +120,17 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
-    if (!context.member.permissions.has("MANAGE_GUILD"))
+    if (!context.member.permissions.has("MANAGE_GUILD")) {
       return context.interaction.reply({
         ephemeral: true,
         content: messages.missingPermissions
       });
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -139,7 +142,7 @@ export default new Command({
     const subCommand = context.interaction.options.getSubcommand(true);
 
     switch (subCommand) {
-      case "channels":
+      case "channels": {
         const channelType = context.interaction.options.getString(
           "channel_type",
           true
@@ -163,8 +166,9 @@ export default new Command({
         });
 
         break;
+      }
 
-      case "add_mod_role":
+      case "add_mod_role": {
         const addRole = context.interaction.options.getRole("role", true);
 
         await Guild.findOneAndUpdate(
@@ -179,8 +183,9 @@ export default new Command({
         });
 
         break;
+      }
 
-      case "remove_mod_role":
+      case "remove_mod_role": {
         const removeRole = context.interaction.options.getRole("role", true);
 
         await Guild.findOneAndUpdate(
@@ -195,8 +200,9 @@ export default new Command({
         });
 
         break;
+      }
 
-      case "features":
+      case "features": {
         const featureType = context.interaction.options.getString(
           "feature_type",
           true
@@ -220,6 +226,7 @@ export default new Command({
         });
 
         break;
+      }
     }
   }
 });

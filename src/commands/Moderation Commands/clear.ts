@@ -20,14 +20,15 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
+  run: async (context) => {
     if (
       !context.interaction ||
       !context.guild ||
       !context.member ||
       !context.channel
-    )
+    ) {
       return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -43,25 +44,27 @@ export default new Command({
 
     if (
       !context.member.permissions.has("MANAGE_MESSAGES") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: configMessages.missingPermissions
       });
+    }
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
     const messagesToDelete =
       context.interaction.options.getNumber("messages") || 1;
 
     const channel = context.channel as GuildTextBasedChannel;
 
-    const messages = await channel.bulkDelete(messagesToDelete).catch(err => {
+    const messages = await channel.bulkDelete(messagesToDelete).catch((err) => {
       context.interaction?.followUp({
         ephemeral: true,
         content: `Error:\n\`${err}\``
@@ -69,7 +72,9 @@ export default new Command({
       return undefined;
     });
 
-    if (!messages) return;
+    if (!messages) {
+      return;
+    }
 
     const embed = new MessageEmbed();
 
@@ -84,9 +89,9 @@ export default new Command({
           messages.size > 5
             ? messages
                 .random(5)
-                .map(v => `\`${v.id}\``)
+                .map((v) => `\`${v.id}\``)
                 .join("\n") + "\n..."
-            : messages.map(v => `\`${v.id}\``).join("\n")
+            : messages.map((v) => `\`${v.id}\``).join("\n")
         }`
       )
       .setColor("BLURPLE")

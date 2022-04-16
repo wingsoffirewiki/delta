@@ -24,8 +24,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -43,24 +45,27 @@ export default new Command({
 
     if (
       !context.member.permissions.has("KICK_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
-    if (!guild.members.cache.get(user.id)?.kickable)
+    if (!guild.members.cache.get(user.id)?.kickable) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "I cannot kick this member!"
       });
+    }
 
     const reason =
       context.interaction.options.getString("reason", false) ||
@@ -74,15 +79,16 @@ export default new Command({
 
     const result = await guild.members.kick(user.id, reason);
 
-    if (result)
+    if (result) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
       });
-    else
+    } else {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Attempted kicking ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
       });
+    }
   }
 });

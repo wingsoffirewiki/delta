@@ -14,7 +14,8 @@
     "prettier/prettier": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "curly": ["error", "all"]
+    "curly": ["error", "all"],
+    "require-jsdoc": "off"
   },
   "plugins": ["prettier"]
 }

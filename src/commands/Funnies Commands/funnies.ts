@@ -10,8 +10,10 @@ export default new Command({
   description: "Retrieve a random funnie (starboard) from the database",
   category: "Funnies",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,
@@ -25,19 +27,21 @@ export default new Command({
       "features.funnies"
     );
 
-    if (!guildModel.features.funnies)
+    if (!guildModel.features.funnies) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Funnies are not enabled in the database."
       });
+    }
 
     const funnies: IFunnie[] = await Funnie.find({ guildID: guild.id });
 
-    if (funnies.length === 0)
+    if (funnies.length === 0) {
       return context.interaction.followUp({
         ephemeral: false,
         content: "There are no funnies in the database"
       });
+    }
 
     const randomFunnie = funnies[
       Math.floor(Math.random() * funnies.length)
@@ -47,13 +51,17 @@ export default new Command({
       randomFunnie.message.channelID
     );
 
-    if (!funnieChannel || !funnieChannel.isText()) return;
+    if (!funnieChannel || !funnieChannel.isText()) {
+      return;
+    }
 
     const funnieMessage = await funnieChannel.messages
       .fetch(randomFunnie.message.id, { cache: true, force: true })
       .catch(console.log);
 
-    if (!funnieMessage) return;
+    if (!funnieMessage) {
+      return;
+    }
 
     const embed = new MessageEmbed();
 
@@ -88,8 +96,9 @@ export default new Command({
         iconURL: context.client.user?.avatarURL({ dynamic: true }) || ""
       });
 
-    if (funnieMessage.attachments.size > 0)
+    if (funnieMessage.attachments.size > 0) {
       embed.setImage(funnieMessage.attachments.first()?.url || "");
+    }
 
     context.interaction.followUp({
       ephemeral: true,

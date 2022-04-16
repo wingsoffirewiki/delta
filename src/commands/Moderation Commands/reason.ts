@@ -25,8 +25,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -39,12 +41,13 @@ export default new Command({
 
     if (
       !context.member.permissions.has("BAN_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
     const logID = context.interaction.options.getInteger("log_id", true);
 
@@ -61,21 +64,23 @@ export default new Command({
       { upsert: false }
     );
 
-    if (!log)
+    if (!log) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `It appears log #\`${logID}\` does not exist in the database.`
       });
+    }
 
     const logsChannel = context.guild.channels.cache.get(
       guildModel.channelIDs.logs
     ) as GuildTextBasedChannel;
 
-    if (!logsChannel)
+    if (!logsChannel) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "This server does not have a logs channel set in the database!"
       });
+    }
 
     const embedMessage = await logsChannel.messages.fetch(log.embedID, {
       force: true,
@@ -84,7 +89,9 @@ export default new Command({
 
     const embed = embedMessage.embeds[0];
 
-    if (!embed) return;
+    if (!embed) {
+      return;
+    }
 
     embed.fields[2] = {
       name: "Reason",

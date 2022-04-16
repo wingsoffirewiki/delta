@@ -10,8 +10,10 @@ export default new Command({
   description: "Get a list of the top 10 people in the economy",
   category: "Scales",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,
@@ -20,18 +22,19 @@ export default new Command({
 
     const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
 
-    if (!(guildModel?.features?.scales ?? true))
+    if (!(guildModel?.features?.scales ?? true)) {
       return context.interaction.followUp({
         ephemeral: false,
         content: "Scales are not enabled in the database."
       });
+    }
 
     const userModels: IUser[] = await User.find({}, "_id scales").sort({
       scales: -1
     });
 
     const authorModel = userModels.find(
-      userModel => userModel._id === context.author.id
+      (userModel) => userModel._id === context.author.id
     );
 
     const authorModelIndex = authorModel

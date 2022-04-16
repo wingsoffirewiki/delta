@@ -9,8 +9,10 @@ export default new Command({
   description: "Get the list of banned words",
   category: "Utility",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.author) return;
+  run: async (context) => {
+    if (!context.interaction || !context.author) {
+      return;
+    }
 
     const embed = new MessageEmbed();
 
@@ -23,7 +25,9 @@ export default new Command({
       .addField(
         "Banned Words",
         Object.entries(bannedWords)
-          .map(entry => `\`${entry[0].replace(/[aiou]/g, "/")}\` - ${entry[1]}`)
+          .map(
+            (entry) => `\`${entry[0].replace(/[aiou]/g, "/")}\` - ${entry[1]}`
+          )
           .join("\n")
       )
       .setFooter({
@@ -36,7 +40,7 @@ export default new Command({
       content: "Sending you an embed now..."
     });
 
-    context.author.send({ embeds: [embed] }).catch(async err => {
+    context.author.send({ embeds: [embed] }).catch(async (err) => {
       console.log(err);
 
       context.interaction?.followUp({

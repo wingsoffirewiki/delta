@@ -37,8 +37,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -56,27 +58,30 @@ export default new Command({
 
     if (
       !context.member.permissions.has("BAN_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
     if (
       guild.members.cache.get(user.id) &&
       !guild.members.cache.get(user.id)?.bannable
-    )
+    ) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `I cannot ban this member!`
       });
+    }
 
     const time = ms(context.interaction.options.getString("time", true), {
       returnDate: false
@@ -113,15 +118,16 @@ export default new Command({
 
     const result = await guild.members.ban(user.id, { reason, days });
 
-    if (result)
+    if (result) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
       });
-    else
+    } else {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Attempted banning ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
       });
+    }
   }
 });

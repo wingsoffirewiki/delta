@@ -24,14 +24,17 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
-    if (!context.member.permissions.has("BAN_MEMBERS"))
+    if (!context.member.permissions.has("BAN_MEMBERS")) {
       return context.interaction.reply({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -51,11 +54,12 @@ export default new Command({
       "features.moderation roleIDs.mods"
     );
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
     try {
       await guild.bans.fetch(user);
@@ -74,15 +78,16 @@ export default new Command({
 
     const result = await guild.members.unban(user.id, reason);
 
-    if (result)
+    if (result) {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Successfully unbanned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
       });
-    else
+    } else {
       return context.interaction.followUp({
         ephemeral: true,
         content: `Attempted unbanning ${user} (\`${user.tag}\`) (\`${user.id}\`) but unsure if it was successful.`
       });
+    }
   }
 });

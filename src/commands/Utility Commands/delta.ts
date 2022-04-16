@@ -10,8 +10,10 @@ export default new Command({
   description: "Shows information about the bot",
   category: "Utility",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction) return;
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     const embed = new MessageEmbed();
 

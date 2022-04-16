@@ -43,8 +43,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: false,
@@ -53,11 +55,12 @@ export default new Command({
 
     const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
 
-    if (!(guildModel?.features?.scales ?? true))
+    if (!(guildModel?.features?.scales ?? true)) {
       return context.interaction.followUp({
         ephemeral: false,
         content: "Scales are not enabled in the database."
       });
+    }
 
     const subCommand = context.interaction.options.getSubcommand(true);
     try {
@@ -66,9 +69,13 @@ export default new Command({
 
         const amount = context.interaction.options.getInteger("amount", true);
 
-        if (user.id === context.author.id) throw "You cannot pay yourself!";
+        if (user.id === context.author.id) {
+          throw "You cannot pay yourself!";
+        }
 
-        if (amount < 1) throw "You cannot pay less than one scale!";
+        if (amount < 1) {
+          throw "You cannot pay less than one scale!";
+        }
 
         const userModel: IUser = await User.findOneAndUpdate(
           {
@@ -83,8 +90,9 @@ export default new Command({
           }
         );
 
-        if (!userModel)
+        if (!userModel) {
           throw `${user.tag} is not accepting payments or is banned from the scales system.`;
+        }
 
         const authorModel: IUser = await User.findOneAndUpdate(
           {
@@ -98,7 +106,9 @@ export default new Command({
           }
         );
 
-        if (!authorModel) throw `You are banned from the scales system.`;
+        if (!authorModel) {
+          throw `You are banned from the scales system.`;
+        }
 
         context.interaction.followUp({
           ephemeral: false,

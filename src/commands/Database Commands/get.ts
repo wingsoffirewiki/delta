@@ -10,14 +10,17 @@ export default new Command({
   description: "Get server settings from the database",
   category: "Database",
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
-    if (!context.member.permissions.has("MANAGE_GUILD"))
+    if (!context.member.permissions.has("MANAGE_GUILD")) {
       return context.interaction.reply({
         ephemeral: true,
         content: messages.missingPermissions
       });
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -58,7 +61,7 @@ export default new Command({
           value: `Mods: ${(
             await Promise.all(
               guildModel?.roleIDs?.mods?.map(
-                async v =>
+                async (v) =>
                   (await guild.roles.fetch(v))?.name ||
                   "`No name or role not found`"
               )

@@ -24,8 +24,10 @@ export default new Command({
     }
   ],
   guildIDs: [],
-  run: async context => {
-    if (!context.interaction || !context.guild || !context.member) return;
+  run: async (context) => {
+    if (!context.interaction || !context.guild || !context.member) {
+      return;
+    }
 
     await context.interaction.deferReply({
       ephemeral: true,
@@ -43,28 +45,31 @@ export default new Command({
 
     if (
       !context.member.permissions.has("MODERATE_MEMBERS") &&
-      !guildModel.roleIDs.mods.some(v => context.member?.roles.cache.has(v))
-    )
+      !guildModel.roleIDs.mods.some((v) => context.member?.roles.cache.has(v))
+    ) {
       return context.interaction.followUp({
         ephemeral: false,
         content: messages.missingPermissions
       });
+    }
 
-    if (!guildModel.features.moderation)
+    if (!guildModel.features.moderation) {
       return context.interaction.followUp({
         ephemeral: true,
         content: "Moderation is not enabled in the database."
       });
+    }
 
     const reason =
       context.interaction.options.getString("reason", false) ||
       "No reason provided";
 
-    if (!user)
+    if (!user) {
       return context.interaction.followUp({
         ephemeral: true,
         content: messages.missingMember
       });
+    }
 
     await log(context.client, "warn", guild, reason, context.author, user);
 
