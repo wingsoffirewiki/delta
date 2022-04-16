@@ -4,6 +4,7 @@ import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import { Guild, IGuild } from "../../models/Guild";
 import { User, IUser } from "../../models/User";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "leaderboard",
@@ -20,7 +21,16 @@ export default new Command({
       fetchReply: false
     });
 
-    const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
+    const guildModel: IGuild | null = await Guild.findOne({
+      _id: context.guild.id
+    });
+
+    if (!guildModel) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.databaseError
+      });
+    }
 
     if (!(guildModel?.features?.scales ?? true)) {
       return context.interaction.followUp({

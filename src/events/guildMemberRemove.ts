@@ -9,13 +9,18 @@ export default {
   run: async (client, member) => {
     const guild = member.guild;
 
-    const guildModel: IGuild = await Guild.findOne(
+    const guildModel: IGuild | null = await Guild.findOne(
       {
         _id: guild.id
       },
       null,
       { upsert: true }
     );
+
+    if (!guildModel) {
+      console.log("Guild not found in database");
+      return;
+    }
 
     const logsChannel = guild.channels.cache.get(
       guildModel?.channelIDs?.logs || ""

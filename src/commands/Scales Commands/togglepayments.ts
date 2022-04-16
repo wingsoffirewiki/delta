@@ -2,6 +2,7 @@
 
 import { Command } from "fero-dc";
 import { User, IUser } from "../../models/User";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "togglepayments",
@@ -18,17 +19,24 @@ export default new Command({
       fetchReply: false
     });
 
-    const userModel: IUser = await User.findOne(
+    const userModel: IUser | null = await User.findOne(
       { _id: context.author.id },
       "enablePayments",
       { upsert: true }
     );
 
+    if (!userModel) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.databaseError
+      });
+    }
+
     const enablePayments = !userModel.enablePayments;
 
     await userModel.updateOne({ enablePayments }, { upsert: true }).exec();
 
-    context.interaction.followUp({
+    return context.interaction.followUp({
       ephemeral: false,
       content: `Successfully updated enablePayments to \`${enablePayments}\``
     });

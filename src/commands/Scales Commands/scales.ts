@@ -3,6 +3,7 @@
 import { Command } from "fero-dc";
 import { User, IUser } from "../../models/User";
 import { Guild, IGuild } from "../../models/Guild";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "scales",
@@ -53,7 +54,16 @@ export default new Command({
       fetchReply: false
     });
 
-    const guildModel: IGuild = await Guild.findOne({ _id: context.guild.id });
+    const guildModel: IGuild | null = await Guild.findOne({
+      _id: context.guild.id
+    });
+
+    if (!guildModel) {
+      return context.interaction.followUp({
+        ephemeral: false,
+        content: messages.databaseError
+      });
+    }
 
     if (!(guildModel?.features?.scales ?? true)) {
       return context.interaction.followUp({
@@ -77,7 +87,7 @@ export default new Command({
           throw "You cannot pay less than one scale!";
         }
 
-        const userModel: IUser = await User.findOneAndUpdate(
+        const userModel: IUser | null = await User.findOneAndUpdate(
           {
             _id: user.id,
             enablePayments: true,
@@ -94,7 +104,7 @@ export default new Command({
           throw `${user.tag} is not accepting payments or is banned from the scales system.`;
         }
 
-        const authorModel: IUser = await User.findOneAndUpdate(
+        const authorModel: IUser | null = await User.findOneAndUpdate(
           {
             _id: context.author.id,
             banned: false
@@ -118,13 +128,20 @@ export default new Command({
         const user =
           context.interaction.options.getUser("user", false) || context.author;
 
-        const userModel: IUser = await User.findOne(
+        const userModel: IUser | null = await User.findOne(
           {
             _id: user.id
           },
           "scales",
           { upsert: true }
         );
+
+        if (!userModel) {
+          return context.interaction.followUp({
+            ephemeral: false,
+            content: "An error occurred while fetching the user's scales."
+          });
+        }
 
         context.interaction.followUp({
           ephemeral: false,

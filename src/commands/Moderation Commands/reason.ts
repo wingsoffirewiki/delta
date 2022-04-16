@@ -37,7 +37,14 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild = await Guild.findOne({ _id: guild.id });
+    const guildModel: IGuild | null = await Guild.findOne({ _id: guild.id });
+
+    if (!guildModel) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.databaseError
+      });
+    }
 
     if (
       !context.member.permissions.has("BAN_MEMBERS") &&
@@ -53,7 +60,7 @@ export default new Command({
 
     const reason = context.interaction.options.getString("reason", true);
 
-    const log: ILog = await Log.findOneAndUpdate(
+    const log: ILog | null = await Log.findOneAndUpdate(
       {
         guildID: context.guild.id,
         logID
@@ -67,7 +74,7 @@ export default new Command({
     if (!log) {
       return context.interaction.followUp({
         ephemeral: true,
-        content: `It appears log #\`${logID}\` does not exist in the database.`
+        content: "That log does not exist!"
       });
     }
 

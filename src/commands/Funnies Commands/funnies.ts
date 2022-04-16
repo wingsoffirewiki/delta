@@ -4,6 +4,7 @@ import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import { Funnie, IFunnie } from "../../models/Funnie";
 import { Guild, IGuild } from "../../models/Guild";
+import messages from "../../config/messages.json";
 
 export default new Command({
   name: "funnies",
@@ -22,10 +23,17 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild = await Guild.findOne(
+    const guildModel: IGuild | null = await Guild.findOne(
       { _id: guild.id },
       "features.funnies"
     );
+
+    if (!guildModel) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.databaseError
+      });
+    }
 
     if (!guildModel.features.funnies) {
       return context.interaction.followUp({

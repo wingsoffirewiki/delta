@@ -102,14 +102,28 @@ export default new Command({
     } else if (subCommand === "log") {
       const logID = context.interaction.options.getInteger("log", true);
 
-      const logModel: ILog = await Log.findOne({
+      const logModel: ILog | null = await Log.findOne({
         guildID: context.guild.id,
         logID
       });
 
-      const guildModel: IGuild = await Guild.findOne({
+      if (!logModel) {
+        return context.interaction.reply({
+          ephemeral: true,
+          content: "That log does not exist!"
+        });
+      }
+
+      const guildModel: IGuild | null = await Guild.findOne({
         _id: context.guild.id
       });
+
+      if (!guildModel) {
+        return context.interaction.followUp({
+          ephemeral: true,
+          content: messages.databaseError
+        });
+      }
 
       const logsChannel = context.guild.channels.cache.get(
         guildModel.channelIDs.logs

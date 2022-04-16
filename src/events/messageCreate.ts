@@ -34,7 +34,14 @@ export default {
       }
     }
 
-    const guildModel: IGuild = await Guild.findOne({ _id: message.guild.id });
+    const guildModel: IGuild | null = await Guild.findOne({
+      _id: message.guild.id
+    });
+
+    if (!guildModel) {
+      console.log("Guild not found in database");
+      return;
+    }
 
     if (!(guildModel?.features?.scales ?? true)) {
       return;

@@ -28,7 +28,7 @@ export default new Command({
 
     const guild = context.guild;
 
-    const previousGuildModel: IGuild | undefined = await Guild.findOne({
+    const previousGuildModel: IGuild | null = await Guild.findOne({
       _id: guild.id
     });
 

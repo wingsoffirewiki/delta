@@ -29,10 +29,17 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild = await Guild.findOne(
+    const guildModel: IGuild | null = await Guild.findOne(
       { _id: guild.id },
       "roleIDs.mods"
     );
+
+    if (!guildModel) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: messages.databaseError
+      });
+    }
 
     if (
       !context.member.permissions.has("BAN_MEMBERS") &&
