@@ -25,8 +25,9 @@ export default {
       !logsChannel ||
       !logsChannel.isText() ||
       guildModel?.features?.logging === false
-    )
+    ) {
       return;
+    }
 
     const embed = new MessageEmbed();
 

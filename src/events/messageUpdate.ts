@@ -9,8 +9,9 @@ export default {
   run: async (client, oldMessage, newMessage) => {
     newMessage = await newMessage.fetch(true);
 
-    if (!newMessage.guild || !newMessage.author || newMessage.author.bot)
+    if (!newMessage.guild || !newMessage.author || newMessage.author.bot) {
       return;
+    }
 
     await log(
       client,
@@ -22,6 +23,8 @@ export default {
       newMessage
     );
 
-    if (getBannedWord(newMessage)) await newMessage.delete();
+    if (getBannedWord(newMessage)) {
+      await newMessage.delete();
+    }
   }
 } as Event<"messageUpdate">;

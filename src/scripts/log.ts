@@ -31,16 +31,25 @@ export async function log<LT extends keyof LogData>(
   moderator: User,
   ...data: LogData[LT]
 ): Promise<ILog | undefined> {
-  const guildModel: IGuild = await GuildModel.findOne({ _id: guild.id }, null, {
-    upsert: true
-  });
+  const guildModel: IGuild | null = await GuildModel.findOne(
+    { _id: guild.id },
+    null,
+    {
+      upsert: true
+    }
+  );
+
+  if (!guildModel) {
+    return;
+  }
 
   if (
     !(guildModel?.features?.logging ?? true) &&
     !(guildModel?.features?.modLogging ?? true) &&
     !(guildModel?.features?.adminLogging ?? true)
-  )
+  ) {
     return;
+  }
 
   const logsChannel = guild.channels.cache.get(guildModel.channelIDs.logs);
 
@@ -54,19 +63,20 @@ export async function log<LT extends keyof LogData>(
 
   const logID: number =
     ((await Log.find({ guildID: guild.id }, "logID"))
-      .map(v => v.logID)
+      .map((v) => v.logID)
       .sort((a, b) => b - a)[0] || 0) + 1;
 
   const embed = new MessageEmbed();
 
   switch (type) {
-    case "ban":
+    case "ban": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const banUser = data[0] as User;
 
@@ -122,14 +132,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return banLog;
+    }
 
-    case "tempban":
+    case "tempban": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const tempbanUser = data[0] as User;
 
@@ -200,14 +212,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return tempbanLog;
+    }
 
-    case "timeout":
+    case "timeout": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const timeoutUser = data[0] as User;
 
@@ -277,14 +291,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return timeoutLog;
+    }
 
-    case "unban":
+    case "unban": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const unbanUser = data[0] as User;
 
@@ -301,13 +317,19 @@ export async function log<LT extends keyof LogData>(
         ).sort({ createdAt: -1 })
       )[0];
 
-      if (banLogs.undone) return;
+      if (banLogs.undone) {
+        return;
+      }
 
-      const unbanLog: ILog = await Log.findOneAndUpdate(
+      const unbanLog: ILog | null = await Log.findOneAndUpdate(
         { _id: banLogs._id },
         { undone: true },
         { upsert: false }
       );
+
+      if (!unbanLog) {
+        return;
+      }
 
       embed
         .setTitle("Delta: Unbanned User")
@@ -349,14 +371,16 @@ export async function log<LT extends keyof LogData>(
       /*const unbanMessage = */ await logsChannel.send({ embeds: [embed] });
 
       return unbanLog;
+    }
 
-    case "warn":
+    case "warn": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const warnUser = data[0] as User;
 
@@ -412,14 +436,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return warnLog;
+    }
 
-    case "kick":
+    case "kick": {
       if (
         !logsChannel ||
         !logsChannel.isText() ||
         !(guildModel?.features?.logging ?? true)
-      )
+      ) {
         return;
+      }
 
       const kickUser = data[0] as User;
 
@@ -475,14 +501,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return kickLog;
+    }
 
-    case "messageEdit":
+    case "messageEdit": {
       if (
         !modLogsChannel ||
         !modLogsChannel.isText() ||
         !(guildModel?.features?.modLogging ?? true)
-      )
+      ) {
         return;
+      }
 
       const oldMessage = data[0] as Message;
 
@@ -503,19 +531,19 @@ export async function log<LT extends keyof LogData>(
         .addFields([
           {
             name: "Old Message",
-            value: oldMessage.content || "None",
+            value: sub(oldMessage.content, 1000) || "None",
             inline: true
           },
           {
             name: "New Message",
-            value: newMessage.content || "None",
+            value: sub(newMessage.content, 1000) || "None",
             inline: true
           },
           {
             name: "Attachments",
             value:
               newMessage.attachments
-                .map(v => `${v.name || "no_name"}: ${v.url || "no_url"}`)
+                .map((v) => `${v.name || "no_name"}: ${v.url || "no_url"}`)
                 .join("\n") || "None",
             inline: false
           },
@@ -536,14 +564,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return;
+    }
 
-    case "messageDelete":
+    case "messageDelete": {
       if (
         !modLogsChannel ||
         !modLogsChannel.isText() ||
         !(guildModel?.features?.modLogging ?? true)
-      )
+      ) {
         return;
+      }
 
       const message = data[0] as Message;
 
@@ -561,13 +591,13 @@ export async function log<LT extends keyof LogData>(
         .addFields([
           {
             name: "Message",
-            value: message.content || "None",
+            value: sub(message.content, 1000) || "None",
             inline: true
           },
           {
             name: "Attachments",
             value:
-              message.attachments.map(v => v.name || "no_name").join("\n") ||
+              message.attachments.map((v) => v.name || "no_name").join("\n") ||
               "None",
             inline: false
           },
@@ -588,14 +618,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return;
+    }
 
-    case "bulkDelete":
+    case "bulkDelete": {
       if (
         !modLogsChannel ||
         !modLogsChannel.isText() ||
         !(guildModel?.features?.modLogging ?? true)
-      )
+      ) {
         return;
+      }
 
       const messages = data as Message[];
 
@@ -603,13 +635,13 @@ export async function log<LT extends keyof LogData>(
         .setTitle("Delta: Messages Deleted In Bulk")
         .setDescription(
           `Channels: ${[
-            ...new Set(messages.map(v => v.channel.toString()))
+            ...new Set(messages.map((v) => v.channel.toString()))
           ].join(", ")}\nChannel IDs: ${[
-            ...new Set(messages.map(v => v.channel.id))
+            ...new Set(messages.map((v) => v.channel.id))
           ].join(", ")}\nAuthors: ${[
-            ...new Set(messages.map(v => v.author.toString()))
+            ...new Set(messages.map((v) => v.author.toString()))
           ].join(", ")}\nAuthor IDs: ${[
-            ...new Set(messages.map(v => v.author.id))
+            ...new Set(messages.map((v) => v.author.id))
           ].join(", ")}`
         )
         .setAuthor({
@@ -619,24 +651,20 @@ export async function log<LT extends keyof LogData>(
         .setColor(0x388e3c)
         .addFields([
           ...messages
-            .map(v => ({
+            .map((v) => ({
               name: v.id,
-              value: `${v.channel} | ${v.author}\n${
-                v.content.length > 200
-                  ? `${v.content.substring(0, 200)}...`
-                  : `${v.content}`
-              }`
+              value: `${v.channel} | ${v.author}\n${sub(v.content, 200)}`
             }))
             .slice(0, 25),
           {
             name: "Attachments",
             value:
               messages
-                .filter(v => v.attachments.size > 0)
+                .filter((v) => v.attachments.size > 0)
                 .map(
-                  v =>
+                  (v) =>
                     `${v.id}: ${v.attachments
-                      .map(v2 => v2.name || "no_name")
+                      .map((v2) => v2.name || "no_name")
                       .join(", ")}`
                 )
                 .join("\n") || "None",
@@ -659,14 +687,16 @@ export async function log<LT extends keyof LogData>(
       });
 
       return;
+    }
 
-    case "bannedWordDetected":
+    case "bannedWordDetected": {
       if (
         !modLogsChannel ||
         !modLogsChannel.isText() ||
         !(guildModel?.features?.modLogging ?? true)
-      )
+      ) {
         return;
+      }
 
       const bannedWordMessage = data[0] as Message;
 
@@ -695,14 +725,14 @@ export async function log<LT extends keyof LogData>(
           },
           {
             name: "Message Content",
-            value: bannedWordMessage.content,
+            value: sub(bannedWordMessage.content, 1000) || "None",
             inline: false
           },
           {
             name: "Attachments",
             value:
               bannedWordMessage.attachments
-                .map(v => v.name || "no_name")
+                .map((v) => v.name || "no_name")
                 .join("\n") || "None",
             inline: false
           }
@@ -719,8 +749,9 @@ export async function log<LT extends keyof LogData>(
         adminLogsChannel &&
         adminLogsChannel.isText() &&
         (guildModel?.features?.adminLogging ?? true)
-      )
+      ) {
         await adminLogsChannel.send({ embeds: [embed] });
+      }
 
       await bannedWordMessage.channel.send(
         `${bannedWordMessage.author}, Your message contains a(n) ${
@@ -731,11 +762,18 @@ export async function log<LT extends keyof LogData>(
         )}). It will be deleted and logged.`
       );
 
-      if (bannedWordMessage.deletable) await bannedWordMessage.delete();
+      if (bannedWordMessage.deletable) {
+        await bannedWordMessage.delete();
+      }
 
       return;
+    }
 
     default:
       throw new Error("Invalid Type");
   }
+}
+
+function sub(str: string, length = 200): string {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
 }

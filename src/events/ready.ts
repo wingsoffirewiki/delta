@@ -6,7 +6,7 @@ import { setPresence } from "../scripts/setPresence";
 
 export default {
   event: "ready",
-  run: async client => {
+  run: async (client) => {
     // const result = await client.commands
     //   .find(cmd => cmd.name === "set")
     //   ?.delete(client);

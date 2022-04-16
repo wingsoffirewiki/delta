@@ -28,8 +28,9 @@ export default {
     ) {
       const mod = auditLog.executor;
 
-      if (mod && mod.id !== client.user?.id)
+      if (mod && mod.id !== client.user?.id) {
         await log(client, "ban", guild, reason, mod, user);
+      }
     }
   }
 } as Event<"guildBanAdd">;

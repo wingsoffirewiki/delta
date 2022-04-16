@@ -7,7 +7,9 @@ import { getBannedWord } from "../scripts/getBannedWord";
 export default {
   event: "messageDelete",
   run: async (client, message) => {
-    if (!message.guild || !message.author) return;
+    if (!message.guild || !message.author) {
+      return;
+    }
 
     await log(
       client,
@@ -18,7 +20,7 @@ export default {
       message
     );
 
-    if (getBannedWord(message))
+    if (getBannedWord(message)) {
       await log(
         client,
         "bannedWordDetected",
@@ -27,5 +29,6 @@ export default {
         message.author,
         message
       );
+    }
   }
 } as Event<"messageDelete">;

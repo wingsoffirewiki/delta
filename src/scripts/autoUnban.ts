@@ -14,13 +14,15 @@ export function autoUnban(client: Client) {
       }
     });
 
-    logs.forEach(async l => {
+    logs.forEach(async (l) => {
       try {
         const guild = await client.guilds.fetch(l.guildID);
 
         const user = await client.users.fetch(l.targetID);
 
-        if (!client.user) throw `Client user not found.`;
+        if (!client.user) {
+          throw `Client user not found.`;
+        }
 
         await log(
           client,

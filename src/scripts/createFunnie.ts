@@ -36,8 +36,9 @@ export async function createFunnie(
       channel instanceof NewsChannel ||
       channel instanceof ThreadChannel
     )
-  )
+  ) {
     return;
+  }
 
   const color = member.displayColor ?? "BLURPLE";
 
@@ -76,7 +77,9 @@ export async function createFunnie(
       iconURL: client.user?.avatarURL({ dynamic: true }) || ""
     });
 
-  if (attachments.size > 0) embed.setImage(attachments.first()?.url || "");
+  if (attachments.size > 0) {
+    embed.setImage(attachments.first()?.url || "");
+  }
 
   const msg = await ch.send({ embeds: [embed] });
 

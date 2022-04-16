@@ -13,7 +13,7 @@ export default {
       messages.first()?.guild as Guild,
       "",
       client.user as User,
-      ...messages.map(v => v)
+      ...messages.map((v) => v)
     );
   }
 } as Event<"messageDeleteBulk">;

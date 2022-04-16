@@ -26,7 +26,7 @@ export default {
     member.send(messages.welcome).catch(console.log);
 
     const tribe =
-      tribes.find(t =>
+      tribes.find((t) =>
         member.user.username.toLowerCase().includes(t.toLowerCase())
       ) || tribes[Math.floor(Math.random() * tribes.length)];
 
@@ -47,17 +47,32 @@ export default {
     const randomWelcomeMessage = welcomeMessages[
       Math.floor(Math.random() * welcomeMessages.length)
     ] as string;
-    
+
     if (member.guild.id === "576534597697798154") {
-      const verificationChannel = member.guild.channels.cache.find(ch => ch.name === "verification");
-      
-      const generalChannel = member.guild.channels.cache.find(ch => ch.name === "general");
-      
-      if (verificationChannel === undefined || generalChannel === undefined || !verificationChannel.isText() || !generalChannel.isText()) return;
-      
-      verificationChannel.send(`${member} Verification instructions are pinned.`);
-      
-      generalChannel.send(`${member} Please read the long pin in this channel.`);
+      const verificationChannel = member.guild.channels.cache.find(
+        (ch) => ch.name === "verification"
+      );
+
+      const generalChannel = member.guild.channels.cache.find(
+        (ch) => ch.name === "general"
+      );
+
+      if (
+        verificationChannel === undefined ||
+        generalChannel === undefined ||
+        !verificationChannel.isText() ||
+        !generalChannel.isText()
+      ) {
+        return;
+      }
+
+      verificationChannel.send(
+        `${member} Verification instructions are pinned.`
+      );
+
+      generalChannel.send(
+        `${member} Please read the long pin in this channel.`
+      );
     } else {
       const systemChannel = member.guild.systemChannel;
 
@@ -80,8 +95,9 @@ export default {
       !logsChannel ||
       !logsChannel.isText() ||
       guildModel?.features?.logging === false
-    )
+    ) {
       return;
+    }
 
     const embed = new MessageEmbed();
 

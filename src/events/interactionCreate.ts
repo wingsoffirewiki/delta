@@ -10,24 +10,33 @@ export default {
       try {
         const guild = interaction.guild;
 
-        if (!guild || !["verify"].includes(interaction.customId)) return;
+        if (!guild || !["verify"].includes(interaction.customId)) {
+          return;
+        }
 
-        const guildModel: IGuild = await Guild.findOne({ _id: guild.id });
+        const guildModel: IGuild | null = await Guild.findOne({
+          _id: guild.id
+        });
 
         if (interaction.customId === "verify") {
-          if (!guildModel || !guildModel?.messages?.verification) return;
+          if (!guildModel || !guildModel.messages?.verification) {
+            return;
+          }
 
           const verificationMessage = guildModel.messages.verification;
 
           if (
             interaction.channelId !== verificationMessage.channelID ||
             interaction.message.id !== verificationMessage.id
-          )
+          ) {
             return;
+          }
 
           const roleID = guildModel.roleIDs.verified;
 
-          if (!roleID) return;
+          if (!roleID) {
+            return;
+          }
 
           const role = await guild.roles.fetch(roleID, {
             cache: true,
@@ -36,13 +45,16 @@ export default {
 
           const member = await guild.members.fetch(interaction.user.id);
 
-          if (!role || !member) return;
+          if (!role || !member) {
+            return;
+          }
 
-          if (member.roles.cache.has(role.id))
+          if (member.roles.cache.has(role.id)) {
             return interaction.reply({
               ephemeral: true,
               content: "You are already verified!"
             });
+          }
 
           member.roles.add(role).catch(console.log);
 
@@ -56,21 +68,26 @@ export default {
       }
     }
 
-    if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) {
+      return;
+    }
 
     const context = await client.getContext(interaction);
 
-    if (!context.guild || !context.member)
+    if (!context.guild || !context.member) {
       return interaction.reply("You cannot use commands outside of a server!");
+    }
 
     const command = client.commands.get(context.command);
 
-    if (command) command.run(context);
-    else
+    if (command) {
+      command.run(context);
+    } else {
       interaction.reply({
         ephemeral: true,
         fetchReply: false,
         content: `Command ${context.command} does not exist on this bot!`
       });
+    }
   }
 } as Event<"interactionCreate">;

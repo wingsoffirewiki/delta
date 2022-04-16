@@ -61,7 +61,9 @@ export async function setPresence(client: Client) {
       Math.floor(Math.random() * activitiesArray.length)
     ] as { type: ExcludeEnum<typeof ActivityTypes, "CUSTOM">; text: string };
 
-    if (!client.user) return;
+    if (!client.user) {
+      return;
+    }
 
     client.user.setPresence({
       status: "online",

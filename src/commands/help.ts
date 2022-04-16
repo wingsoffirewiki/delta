@@ -1,6 +1,5 @@
 /** @format */
 
-// @ts-ignore
 import { EmbedFieldData, MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import { isEmpty } from "lodash";
@@ -18,8 +17,10 @@ export default new Command({
       required: false
     }
   ],
-  run: async context => {
-    if (!context.interaction) return;
+  run: async (context) => {
+    if (!context.interaction) {
+      return;
+    }
 
     const command = context.client.commands.get(
       context.interaction.options.getString("command", false) || ""
@@ -77,38 +78,41 @@ export default new Command({
 
       embed.addField("Command Category", toPascalCase(command.category), true);
 
-      if (!isEmpty(command.guildIDs))
+      if (!isEmpty(command.guildIDs)) {
         embed.addField(
           "Command Guild(s)",
           context.client.guilds.cache
-            .filter(guild => command.guildIDs.includes(guild.id))
-            .map(guild => guild.name)
+            .filter((guild) => command.guildIDs.includes(guild.id))
+            .map((guild) => guild.name)
             .join(",\n"),
           true
         );
+      }
 
-      if (!isEmpty(command.aliases))
+      if (!isEmpty(command.aliases)) {
         embed.addField(
           "Command Aliases (Deprecated)",
           command.aliases.join(", "),
           true
         );
+      }
 
-      if (!isEmpty(command.permissions))
+      if (!isEmpty(command.permissions)) {
         embed.addField(
           "Command Permissions (Deprecated)",
-          command.permissions.map(perm => perm.toString()).join(",\n"),
+          command.permissions.map((perm) => perm.toString()).join(",\n"),
           true
         );
+      }
     } else {
       const commands: EmbedFieldData[] = context.client.categories.map(
-        category => ({
+        (category) => ({
           name: `${category}${
             category.endsWith("Commands") ? "" : " Commands"
           }`,
           value: context.client
             .getCommandsByCategory(category)
-            .map(cmd => cmd.name)
+            .map((cmd) => cmd.name)
             .join("\n"),
           inline: true
         })
