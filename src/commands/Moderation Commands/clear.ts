@@ -1,5 +1,3 @@
-/** @format */
-
 import { GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import configMessages from "../../config/messages.json";

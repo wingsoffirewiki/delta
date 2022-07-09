@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { ExcludeEnum } from "discord.js";
 import { ActivityTypes } from "discord.js/typings/enums";

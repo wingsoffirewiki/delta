@@ -1,5 +1,3 @@
-/** @format */
-
 import { Event } from "fero-dc";
 import { prisma } from "../db";
 

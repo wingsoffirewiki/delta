@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 import { log } from "../../scripts/log";
 import messages from "../../config/messages.json";

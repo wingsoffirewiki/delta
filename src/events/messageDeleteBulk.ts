@@ -1,5 +1,3 @@
-/** @format */
-
 import { Guild, User } from "discord.js";
 import { Event } from "fero-dc";
 import { log } from "../scripts/log";

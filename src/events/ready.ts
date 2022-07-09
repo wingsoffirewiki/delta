@@ -1,5 +1,3 @@
-/** @format */
-
 import { Event } from "fero-dc";
 import { autoUnban } from "../scripts/autoUnban";
 import { setPresence } from "../scripts/setPresence";

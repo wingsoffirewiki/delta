@@ -1,5 +1,3 @@
-/** @format */
-
 import { Message, PartialMessage } from "discord.js";
 import bannedWords from "../config/bannedWords.json";
 

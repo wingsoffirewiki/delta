@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { LogData } from "../interfaces/LogData";
 import { prisma, Log } from "../db";

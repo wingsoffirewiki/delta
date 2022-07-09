@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 
 export default new Command({

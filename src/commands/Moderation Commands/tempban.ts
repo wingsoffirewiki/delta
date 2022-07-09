@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";

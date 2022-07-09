@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 import { MessageEmbed } from "discord.js";
 import { ms } from "fero-ms";

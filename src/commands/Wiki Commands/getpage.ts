@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 // import axios from "axios";
 // import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";

@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
 import { prisma } from "../../db";

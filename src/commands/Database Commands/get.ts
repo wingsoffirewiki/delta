@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 import { prisma } from "../../db";
 import { MessageEmbed } from "discord.js";

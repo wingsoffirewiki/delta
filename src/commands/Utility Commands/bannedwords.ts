@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import bannedWords from "../../config/bannedWords.json";

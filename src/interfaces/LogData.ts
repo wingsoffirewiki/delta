@@ -1,5 +1,3 @@
-/** @format */
-
 import { Message, PartialMessage, User } from "discord.js";
 
 export interface LogData {

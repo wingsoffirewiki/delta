@@ -1,5 +1,3 @@
-/** @format */
-
 console.clear();
 
 import { Client, ClientOptions } from "fero-dc";

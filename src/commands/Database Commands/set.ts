@@ -1,5 +1,3 @@
-/** @format */
-
 import { Command } from "fero-dc";
 import { Features, prisma } from "../../db";
 import messages from "../../config/messages.json";

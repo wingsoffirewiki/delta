@@ -1,5 +1,3 @@
-/** @format */
-
 import { GuildMember, MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
 import messages from "../../config/messages.json";

@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { Command } from "fero-dc";
 import { prisma } from "../../db";

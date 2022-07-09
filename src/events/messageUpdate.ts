@@ -1,5 +1,3 @@
-/** @format */
-
 import { Event } from "fero-dc";
 import { log } from "../scripts/log";
 import { getBannedWord } from "../scripts/getBannedWord";

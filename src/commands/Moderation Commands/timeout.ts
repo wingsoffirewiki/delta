@@ -1,5 +1,3 @@
-/** @format */
-
 import { GuildMember } from "discord.js";
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";

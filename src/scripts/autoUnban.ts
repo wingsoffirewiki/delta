@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { Client } from "fero-dc";
 import { prisma } from "../db";
