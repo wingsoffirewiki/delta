@@ -1,17 +1,4 @@
 {
-  "MongoDBURI": "mongodb://localhost:27017/Delta",
-  "MongoDB": {
-    "user": "username",
-    "pass": "password",
-    "auth": {
-      "user": "username",
-      "pass": "password"
-    },
-    "useNewUrlParser": true,
-    "useUnifiedTopology": true,
-    "authMechanism": "SCRAM-SHA-256",
-    "authSource": "admin"
-  },
   "token": "env",
   "intents": [
     "GUILDS",
