@@ -2,8 +2,7 @@
 
 import { MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
-import { Log, ILog } from "../../models/Log";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 import { LogType } from "../../scripts/log";
 import messages from "../../config/messages.json";
 
@@ -62,13 +61,17 @@ export default new Command({
     if (subCommand === "user") {
       const user = context.interaction.options.getUser("user", true);
 
-      const logModels: ILog[] = await Log.find(
-        {
+      const logModels = await prisma.log.findMany({
+        where: {
           guildID: context.guild.id,
           targetID: user.id
         },
-        "type reason logID"
-      );
+        select: {
+          type: true,
+          reason: true,
+          logID: true
+        }
+      });
 
       const embed = new MessageEmbed();
 
@@ -102,9 +105,11 @@ export default new Command({
     } else if (subCommand === "log") {
       const logID = context.interaction.options.getInteger("log", true);
 
-      const logModel: ILog | null = await Log.findOne({
-        guildID: context.guild.id,
-        logID
+      const logModel = await prisma.log.findFirst({
+        where: {
+          guildID: context.guild.id,
+          logID
+        }
       });
 
       if (!logModel) {
@@ -114,8 +119,10 @@ export default new Command({
         });
       }
 
-      const guildModel: IGuild | null = await Guild.findOne({
-        _id: context.guild.id
+      const guildModel = await prisma.guild.findUnique({
+        where: {
+          id: context.guild.id
+        }
       });
 
       if (!guildModel) {

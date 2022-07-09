@@ -2,7 +2,7 @@
 
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 
 export default new Command({
   name: "getid",
@@ -29,10 +29,16 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      { _id: guild.id },
-      "roleIDs.mods"
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: { id: guild.id },
+      select: {
+        roleIDs: {
+          select: {
+            mods: true
+          }
+        }
+      }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({

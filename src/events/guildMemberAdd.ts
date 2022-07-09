@@ -2,7 +2,7 @@
 
 import { MessageEmbed } from "discord.js";
 import { Event } from "fero-dc";
-import { Guild, IGuild } from "../models/Guild";
+import { prisma } from "../db";
 import messages from "../config/messages.json";
 
 const tribes = [
@@ -79,13 +79,11 @@ export default {
       systemChannel?.send(randomWelcomeMessage);
     }
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      {
-        _id: guild.id
-      },
-      null,
-      { upsert: true }
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: guild.id
+      }
+    });
 
     if (!guildModel) {
       console.log("Guild not found in database");

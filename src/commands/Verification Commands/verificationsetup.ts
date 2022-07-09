@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 import messages from "../../config/messages.json";
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
 import { MessageButtonStyles } from "discord.js/typings/enums";
@@ -38,11 +38,14 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      { _id: guild.id },
-      "roleIDs",
-      { upsert: true }
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: guild.id
+      },
+      select: {
+        roleIDs: true
+      }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({
@@ -92,15 +95,28 @@ export default new Command({
 
     const message = await channel.send({ embeds: [embed], components: [row] });
 
-    await Guild.findOneAndUpdate(
-      { _id: guild.id },
-      {
-        $set: {
-          roleIDs: { verified: role.id },
-          messages: { verification: { id: message.id, channelID: channel.id } }
+    await prisma.guild.update({
+      where: {
+        id: guild.id
+      },
+      data: {
+        roleIDs: {
+          update: {
+            verified: role.id
+          }
+        },
+        messages: {
+          update: {
+            verification: {
+              set: {
+                id: message.id,
+                channelID: channel.id
+              }
+            }
+          }
         }
       }
-    ).exec();
+    });
 
     return context.interaction.followUp({
       ephemeral: true,

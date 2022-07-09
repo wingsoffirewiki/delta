@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { Guild } from "../../models/Guild";
+import { Features, prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -154,11 +154,14 @@ export default new Command({
 
         channelIDs[`channelIDs.${channelType}`] = channel.id;
 
-        await Guild.findOneAndUpdate(
-          { _id: guild.id },
-          { $set: channelIDs },
-          { upsert: true }
-        ).exec();
+        await prisma.guild.update({
+          where: {
+            id: guild.id
+          },
+          data: {
+            channelIDs
+          }
+        });
 
         context.interaction.followUp({
           ephemeral: true,
@@ -171,11 +174,20 @@ export default new Command({
       case "add_mod_role": {
         const addRole = context.interaction.options.getRole("role", true);
 
-        await Guild.findOneAndUpdate(
-          { _id: guild.id },
-          { $push: { "roleIDs.mods": addRole } },
-          { upsert: true }
-        ).exec();
+        await prisma.guild.update({
+          where: {
+            id: guild.id
+          },
+          data: {
+            roleIDs: {
+              update: {
+                mods: {
+                  push: addRole.id
+                }
+              }
+            }
+          }
+        });
 
         context.interaction.followUp({
           ephemeral: true,
@@ -188,11 +200,37 @@ export default new Command({
       case "remove_mod_role": {
         const removeRole = context.interaction.options.getRole("role", true);
 
-        await Guild.findOneAndUpdate(
-          { _id: guild.id },
-          { $pull: { "roleIDs.mods": removeRole } },
-          { upsert: true }
-        ).exec();
+        const fetchedGuild = await prisma.guild.findUnique({
+          where: {
+            id: guild.id
+          }
+        });
+
+        if (!fetchedGuild) {
+          return context.interaction.reply({
+            ephemeral: true,
+            content: messages.missingPermissions
+          });
+        }
+
+        const newRoles = fetchedGuild.roleIDs.mods.filter(
+          (roleID) => roleID !== removeRole.id
+        );
+
+        await prisma.guild.update({
+          where: {
+            id: guild.id
+          },
+          data: {
+            roleIDs: {
+              update: {
+                mods: {
+                  set: newRoles
+                }
+              }
+            }
+          }
+        });
 
         context.interaction.followUp({
           ephemeral: true,
@@ -206,19 +244,22 @@ export default new Command({
         const featureType = context.interaction.options.getString(
           "feature_type",
           true
-        );
+        ) as keyof Features;
 
         const value = context.interaction.options.getBoolean("value", true);
 
-        const features: { [key: string]: boolean } = {};
+        const features: Partial<Features> = {};
 
-        features[`features.${featureType}`] = value;
+        features[featureType] = value;
 
-        await Guild.findOneAndUpdate(
-          { _id: guild.id },
-          { $set: features },
-          { upsert: true }
-        );
+        await prisma.guild.update({
+          where: {
+            id: guild.id
+          },
+          data: {
+            features
+          }
+        });
 
         context.interaction.followUp({
           ephemeral: true,

@@ -1,7 +1,7 @@
 /** @format */
 
 import { Event } from "fero-dc";
-import { Guild, IGuild } from "../models/Guild";
+import { prisma } from "../db";
 
 export default {
   event: "interactionCreate",
@@ -14,8 +14,10 @@ export default {
           return;
         }
 
-        const guildModel: IGuild | null = await Guild.findOne({
-          _id: guild.id
+        const guildModel = await prisma.guild.findUnique({
+          where: {
+            id: guild.id
+          }
         });
 
         if (interaction.customId === "verify") {

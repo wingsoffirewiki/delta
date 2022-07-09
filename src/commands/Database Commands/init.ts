@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -28,8 +28,10 @@ export default new Command({
 
     const guild = context.guild;
 
-    const previousGuildModel: IGuild | null = await Guild.findOne({
-      _id: guild.id
+    const previousGuildModel = await prisma.guild.findUnique({
+      where: {
+        id: guild.id
+      }
     });
 
     if (previousGuildModel) {
@@ -40,7 +42,15 @@ export default new Command({
       });
     }
 
-    await Guild.create({ _id: guild.id });
+    await prisma.guild.create({
+      data: {
+        id: guild.id,
+        channelIDs: {},
+        roleIDs: {},
+        messages: {},
+        features: {}
+      }
+    });
 
     context.interaction.followUp({
       ephemeral: true,

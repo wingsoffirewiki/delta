@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { User, IUser } from "../../models/User";
+import { prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -19,11 +19,14 @@ export default new Command({
       fetchReply: false
     });
 
-    const userModel: IUser | null = await User.findOne(
-      { _id: context.author.id },
-      "enablePayments",
-      { upsert: true }
-    );
+    const userModel = await prisma.user.findUnique({
+      where: {
+        id: context.author.id
+      },
+      select: {
+        enablePayments: true
+      }
+    });
 
     if (!userModel) {
       return context.interaction.followUp({
@@ -34,7 +37,12 @@ export default new Command({
 
     const enablePayments = !userModel.enablePayments;
 
-    await userModel.updateOne({ enablePayments }, { upsert: true }).exec();
+    await prisma.user.update({
+      where: {
+        id: context.author.id
+      },
+      data: { enablePayments }
+    });
 
     return context.interaction.followUp({
       ephemeral: false,

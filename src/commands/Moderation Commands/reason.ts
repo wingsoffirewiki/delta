@@ -1,8 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { ILog, Log } from "../../models/Log";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 import { GuildTextBasedChannel } from "discord.js";
 import messages from "../../config/messages.json";
 
@@ -37,7 +36,9 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne({ _id: guild.id });
+    const guildModel = await prisma.guild.findUnique({
+      where: { id: guild.id }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({
@@ -60,16 +61,29 @@ export default new Command({
 
     const reason = context.interaction.options.getString("reason", true);
 
-    const log: ILog | null = await Log.findOneAndUpdate(
-      {
+    const updateResult = await prisma.log.updateMany({
+      where: {
         guildID: context.guild.id,
         logID
       },
-      {
+      data: {
         reason
-      },
-      { upsert: false }
-    );
+      }
+    });
+
+    if (updateResult.count === 0) {
+      return context.interaction.followUp({
+        ephemeral: true,
+        content: "That log does not exist!"
+      });
+    }
+
+    const log = await prisma.log.findFirst({
+      where: {
+        guildID: context.guild.id,
+        logID
+      }
+    });
 
     if (!log) {
       return context.interaction.followUp({

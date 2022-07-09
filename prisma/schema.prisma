@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @map("_id") @db.String
+  scales         Int      @default(0)
+  banned         Boolean  @default(false)
+  enablePayments Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("users")
+}
+
+type Channels {
+  logs      String @default("000000000000000000")
+  modLogs   String @default("000000000000000000")
+  adminLogs String @default("000000000000000000")
+  funnies   String @default("000000000000000000")
+}
+
+type Roles {
+  mods     String[] @default([])
+  verified String   @default("000000000000000000")
+}
+
+type Message {
+  id        String @default("000000000000000000")
+  channelID String @default("000000000000000000")
+}
+
+type Messages {
+  verification Message
+}
+
+type Features {
+  scales       Boolean @default(true)
+  logging      Boolean @default(true)
+  modLogging   Boolean @default(true)
+  adminLogging Boolean @default(true)
+  moderation   Boolean @default(true)
+  funnies      Boolean @default(true)
+}
+
+model Guild {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  channelIDs Channels
+  roleIDs    Roles
+  messages   Messages
+  features   Features
+  test       String[] @default([])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("guilds")
+}
+
+model Log {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  guildID   String
+  targetID  String
+  modID     String
+  logID     Int
+  reason    String
+  type      Int
+  embedID   String
+  undoBy    DateTime?
+  undone    Boolean
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("logs")
+}
+
+type FunnieMessage {
+  id        String
+  channelID String
+  embedID   String
+}
+
+model Funnie {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  guildID     String
+  userID      String
+  normalCount Int
+  modCount    Int
+  message     FunnieMessage
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("funnies")
+}

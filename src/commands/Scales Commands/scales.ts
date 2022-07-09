@@ -1,8 +1,7 @@
 /** @format */
 
 import { Command } from "fero-dc";
-import { User, IUser } from "../../models/User";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -54,8 +53,10 @@ export default new Command({
       fetchReply: false
     });
 
-    const guildModel: IGuild | null = await Guild.findOne({
-      _id: context.guild.id
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: context.guild.id
+      }
     });
 
     if (!guildModel) {
@@ -87,36 +88,36 @@ export default new Command({
           throw "You cannot pay less than one scale!";
         }
 
-        const userModel: IUser | null = await User.findOneAndUpdate(
-          {
-            _id: user.id,
+        const userUpdateResponse = await prisma.user.updateMany({
+          where: {
+            id: user.id,
             enablePayments: true,
             banned: false
           },
-          {
-            $inc: {
-              scales: amount
+          data: {
+            scales: {
+              increment: amount
             }
           }
-        );
+        });
 
-        if (!userModel) {
+        if (userUpdateResponse.count === 0) {
           throw `${user.tag} is not accepting payments or is banned from the scales system.`;
         }
 
-        const authorModel: IUser | null = await User.findOneAndUpdate(
-          {
-            _id: context.author.id,
+        const authorUpdateResponse = await prisma.user.updateMany({
+          where: {
+            id: context.author.id,
             banned: false
           },
-          {
-            $inc: {
-              scales: -amount
+          data: {
+            scales: {
+              decrement: amount
             }
           }
-        );
+        });
 
-        if (!authorModel) {
+        if (!authorUpdateResponse.count) {
           throw `You are banned from the scales system.`;
         }
 
@@ -128,13 +129,14 @@ export default new Command({
         const user =
           context.interaction.options.getUser("user", false) || context.author;
 
-        const userModel: IUser | null = await User.findOne(
-          {
-            _id: user.id
+        const userModel = await prisma.user.findUnique({
+          where: {
+            id: user.id
           },
-          "scales",
-          { upsert: true }
-        );
+          select: {
+            scales: true
+          }
+        });
 
         if (!userModel) {
           return context.interaction.followUp({

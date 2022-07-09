@@ -1,16 +1,18 @@
 /** @format */
 
 import { Client } from "fero-dc";
-import { Log, ILog } from "../models/Log";
+import { prisma } from "../db";
 import { log, LogType } from "./log";
 
 export function autoUnban(client: Client) {
   setInterval(async () => {
-    const logs: ILog[] = await Log.find({
-      type: LogType.tempban,
-      undone: false,
-      undoBy: {
-        $lt: new Date(Date.now())
+    const logs = await prisma.log.findMany({
+      where: {
+        type: LogType.tempban,
+        undone: false,
+        undoBy: {
+          lt: new Date(Date.now())
+        }
       }
     });
 
@@ -33,14 +35,14 @@ export function autoUnban(client: Client) {
           user
         );
 
-        await Log.findOneAndUpdate(
-          {
-            _id: l._id
+        await prisma.log.update({
+          where: {
+            id: l.id
           },
-          {
+          data: {
             undone: true
           }
-        ).exec();
+        });
 
         await guild.members.unban(
           user,

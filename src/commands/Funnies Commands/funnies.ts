@@ -2,8 +2,7 @@
 
 import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
-import { Funnie, IFunnie } from "../../models/Funnie";
-import { Guild, IGuild } from "../../models/Guild";
+import { Funnie, prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -23,10 +22,16 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      { _id: guild.id },
-      "features.funnies"
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: { id: guild.id },
+      select: {
+        features: {
+          select: {
+            funnies: true
+          }
+        }
+      }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({
@@ -42,7 +47,11 @@ export default new Command({
       });
     }
 
-    const funnies: IFunnie[] = await Funnie.find({ guildID: guild.id });
+    const funnies = await prisma.funnie.findMany({
+      where: {
+        guildID: guild.id
+      }
+    });
 
     if (funnies.length === 0) {
       return context.interaction.followUp({
@@ -53,7 +62,7 @@ export default new Command({
 
     const randomFunnie = funnies[
       Math.floor(Math.random() * funnies.length)
-    ] as IFunnie;
+    ] as Funnie;
 
     const funnieChannel = guild.channels.cache.get(
       randomFunnie.message.channelID

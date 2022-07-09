@@ -4,7 +4,7 @@ import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";
 import { log } from "../../scripts/log";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 
 export default new Command({
   name: "tempban",
@@ -51,10 +51,23 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      { _id: guild.id },
-      "features.moderation roleIDs.mods"
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: guild.id
+      },
+      select: {
+        features: {
+          select: {
+            moderation: true
+          }
+        },
+        roleIDs: {
+          select: {
+            mods: true
+          }
+        }
+      }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({

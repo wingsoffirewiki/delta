@@ -8,8 +8,7 @@ import {
   ThreadChannel
 } from "discord.js";
 import { Client } from "fero-dc";
-import { Types } from "mongoose";
-import { Funnie, IFunnie } from "../models/Funnie";
+import { Funnie, prisma } from "../db";
 
 export async function createFunnie(
   client: Client,
@@ -17,7 +16,7 @@ export async function createFunnie(
   normalCount: number,
   modCount: number,
   ch: TextChannel
-): Promise<IFunnie | undefined> {
+): Promise<Funnie | undefined> {
   const id = message.id;
 
   const channel = message.channel;
@@ -83,16 +82,17 @@ export async function createFunnie(
 
   const msg = await ch.send({ embeds: [embed] });
 
-  const funnieModel: IFunnie = await Funnie.create({
-    _id: new Types.ObjectId(),
-    guildID: guild.id,
-    userID: member.id,
-    normalCount,
-    modCount,
-    message: {
-      id,
-      channelID: channel.id,
-      embedID: msg.id
+  const funnieModel = await prisma.funnie.create({
+    data: {
+      guildID: guild.id,
+      userID: member.id,
+      normalCount,
+      modCount,
+      message: {
+        id,
+        channelID: channel.id,
+        embedID: msg.id
+      }
     }
   });
 

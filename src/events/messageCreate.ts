@@ -1,8 +1,7 @@
 /** @format */
 
 import { Event } from "fero-dc";
-import { User } from "../models/User";
-import { Guild, IGuild } from "../models/Guild";
+import { prisma } from "../db";
 import { getBannedWord } from "../scripts/getBannedWord";
 
 type ReactionMessageContent = "goose" | "honk";
@@ -34,8 +33,10 @@ export default {
       }
     }
 
-    const guildModel: IGuild | null = await Guild.findOne({
-      _id: message.guild.id
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: message.guild.id
+      }
     });
 
     if (!guildModel) {
@@ -50,18 +51,17 @@ export default {
     try {
       const randomAmount = Math.floor(Math.random() * 50) + 1;
 
-      User.findOneAndUpdate(
-        {
-          _id: message.author.id,
+      await prisma.user.updateMany({
+        where: {
+          id: message.author.id,
           banned: false
         },
-        {
-          $inc: {
-            scales: randomAmount
+        data: {
+          scales: {
+            increment: randomAmount
           }
-        },
-        { upsert: true }
-      ).exec();
+        }
+      });
     } catch (err) {
       console.log(err);
     }

@@ -1,10 +1,8 @@
 /** @format */
 
 import { LogData } from "../interfaces/LogData";
-import { Log, ILog } from "../models/Log";
-import { Guild as GuildModel, IGuild } from "../models/Guild";
+import { prisma, Log } from "../db";
 import { Guild, Message, MessageEmbed, User } from "discord.js";
-import { Types } from "mongoose";
 import { Client } from "fero-dc";
 import { ms } from "fero-ms";
 import { getBannedWord } from "./getBannedWord";
@@ -30,14 +28,12 @@ export async function log<LT extends keyof LogData>(
   reason: string,
   moderator: User,
   ...data: LogData[LT]
-): Promise<ILog | undefined> {
-  const guildModel: IGuild | null = await GuildModel.findOne(
-    { _id: guild.id },
-    null,
-    {
-      upsert: true
+): Promise<Log | undefined> {
+  const guildModel = await prisma.guild.findUnique({
+    where: {
+      id: guild.id
     }
-  );
+  });
 
   if (!guildModel) {
     return;
@@ -62,7 +58,14 @@ export async function log<LT extends keyof LogData>(
   );
 
   const logID: number =
-    ((await Log.find({ guildID: guild.id }, "logID"))
+    ((
+      await prisma.log.findMany({
+        where: { guildID: guild.id },
+        select: {
+          logID: true
+        }
+      })
+    )
       .map((v) => v.logID)
       .sort((a, b) => b - a)[0] || 0) + 1;
 
@@ -119,16 +122,17 @@ export async function log<LT extends keyof LogData>(
 
       const banMessage = await logsChannel.send({ embeds: [embed] });
 
-      const banLog: ILog = await Log.create({
-        _id: new Types.ObjectId(),
-        guildID: guild.id,
-        targetID: banUser.id,
-        modID: moderator.id,
-        logID,
-        reason,
-        type: LogType[type],
-        embedID: banMessage.id,
-        undone: false
+      const banLog = await prisma.log.create({
+        data: {
+          guildID: guild.id,
+          targetID: banUser.id,
+          modID: moderator.id,
+          logID,
+          reason,
+          type: LogType[type],
+          embedID: banMessage.id,
+          undone: false
+        }
       });
 
       return banLog;
@@ -198,17 +202,18 @@ export async function log<LT extends keyof LogData>(
 
       const tempbanMessage = await logsChannel.send({ embeds: [embed] });
 
-      const tempbanLog: ILog = await Log.create({
-        _id: new Types.ObjectId(),
-        guildID: guild.id,
-        targetID: tempbanUser.id,
-        modID: moderator.id,
-        logID,
-        reason,
-        type: LogType[type],
-        embedID: tempbanMessage.id,
-        undoBy: tempbanDate,
-        undone: false
+      const tempbanLog = await prisma.log.create({
+        data: {
+          guildID: guild.id,
+          targetID: tempbanUser.id,
+          modID: moderator.id,
+          logID,
+          reason,
+          type: LogType[type],
+          embedID: tempbanMessage.id,
+          undoBy: tempbanDate,
+          undone: false
+        }
       });
 
       return tempbanLog;
@@ -278,16 +283,17 @@ export async function log<LT extends keyof LogData>(
 
       const timeoutMessage = await logsChannel.send({ embeds: [embed] });
 
-      const timeoutLog: ILog = await Log.create({
-        _id: new Types.ObjectId(),
-        guildID: guild.id,
-        targetID: timeoutUser.id,
-        modID: moderator.id,
-        logID,
-        reason,
-        type: LogType[type],
-        embedID: timeoutMessage.id,
-        undone: false
+      const timeoutLog = await prisma.log.create({
+        data: {
+          guildID: guild.id,
+          targetID: timeoutUser.id,
+          modID: moderator.id,
+          logID,
+          reason,
+          type: LogType[type],
+          embedID: timeoutMessage.id,
+          undone: false
+        }
       });
 
       return timeoutLog;
@@ -304,28 +310,38 @@ export async function log<LT extends keyof LogData>(
 
       const unbanUser = data[0] as User;
 
-      const banLogs: ILog = (
-        await Log.find(
-          {
+      const banLog = (
+        await prisma.log.findMany({
+          where: {
             targetID: unbanUser.id,
             type: {
-              $in: [LogType.ban, LogType.tempban]
+              in: [LogType.ban, LogType.tempban]
             }
           },
-          "_id createdAt",
-          { upsert: false }
-        ).sort({ createdAt: -1 })
-      )[0];
+          select: {
+            id: true,
+            createdAt: true,
+            undone: true
+          }
+        })
+      ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0];
 
-      if (banLogs.undone) {
+      if (!banLog) {
         return;
       }
 
-      const unbanLog: ILog | null = await Log.findOneAndUpdate(
-        { _id: banLogs._id },
-        { undone: true },
-        { upsert: false }
-      );
+      if (banLog.undone) {
+        return;
+      }
+
+      const unbanLog = await prisma.log.update({
+        where: {
+          id: banLog.id
+        },
+        data: {
+          undone: true
+        }
+      });
 
       if (!unbanLog) {
         return;
@@ -423,16 +439,17 @@ export async function log<LT extends keyof LogData>(
 
       const warnMessage = await logsChannel.send({ embeds: [embed] });
 
-      const warnLog: ILog = await Log.create({
-        _id: new Types.ObjectId(),
-        guildID: guild.id,
-        targetID: warnUser.id,
-        modID: moderator.id,
-        logID,
-        reason,
-        type: LogType[type],
-        embedID: warnMessage.id,
-        undone: false
+      const warnLog = await prisma.log.create({
+        data: {
+          guildID: guild.id,
+          targetID: warnUser.id,
+          modID: moderator.id,
+          logID,
+          reason,
+          type: LogType[type],
+          embedID: warnMessage.id,
+          undone: false
+        }
       });
 
       return warnLog;
@@ -488,16 +505,17 @@ export async function log<LT extends keyof LogData>(
 
       const kickMessage = await logsChannel.send({ embeds: [embed] });
 
-      const kickLog: ILog = await Log.create({
-        _id: new Types.ObjectId(),
-        guildID: guild.id,
-        targetID: kickUser.id,
-        modID: moderator.id,
-        logID,
-        reason,
-        type: LogType[type],
-        embedID: kickMessage.id,
-        undone: false
+      const kickLog = await prisma.log.create({
+        data: {
+          guildID: guild.id,
+          targetID: kickUser.id,
+          modID: moderator.id,
+          logID,
+          reason,
+          type: LogType[type],
+          embedID: kickMessage.id,
+          undone: false
+        }
       });
 
       return kickLog;

@@ -3,7 +3,7 @@
 import { GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
 import configMessages from "../../config/messages.json";
-import { Guild, IGuild } from "../../models/Guild";
+import { prisma } from "../../db";
 
 export default new Command({
   name: "clear",
@@ -37,10 +37,23 @@ export default new Command({
 
     const guild = context.guild;
 
-    const guildModel: IGuild | null = await Guild.findOne(
-      { _id: guild.id },
-      "features.moderation roleIDs.mods"
-    );
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: guild.id
+      },
+      select: {
+        features: {
+          select: {
+            moderation: true
+          }
+        },
+        roleIDs: {
+          select: {
+            mods: true
+          }
+        }
+      }
+    });
 
     if (!guildModel) {
       return context.interaction.followUp({

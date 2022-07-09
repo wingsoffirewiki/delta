@@ -2,8 +2,7 @@
 
 import { MessageEmbed } from "discord.js";
 import { Command } from "fero-dc";
-import { Guild, IGuild } from "../../models/Guild";
-import { User, IUser } from "../../models/User";
+import { prisma } from "../../db";
 import messages from "../../config/messages.json";
 
 export default new Command({
@@ -21,8 +20,10 @@ export default new Command({
       fetchReply: false
     });
 
-    const guildModel: IGuild | null = await Guild.findOne({
-      _id: context.guild.id
+    const guildModel = await prisma.guild.findUnique({
+      where: {
+        id: context.guild.id
+      }
     });
 
     if (!guildModel) {
@@ -39,12 +40,17 @@ export default new Command({
       });
     }
 
-    const userModels: IUser[] = await User.find({}, "_id scales").sort({
-      scales: -1
-    });
+    const userModels = (
+      await prisma.user.findMany({
+        select: {
+          id: true,
+          scales: true
+        }
+      })
+    ).sort((a, b) => b.scales - a.scales);
 
     const authorModel = userModels.find(
-      (userModel) => userModel._id === context.author.id
+      (userModel) => userModel.id === context.author.id
     );
 
     const authorModelIndex = authorModel
@@ -66,8 +72,8 @@ export default new Command({
       .addFields([
         ...userModels.slice(0, 10).map((userModel, i) => ({
           name:
-            context.client.users.cache.get(userModel._id)?.username ||
-            userModel._id,
+            context.client.users.cache.get(userModel.id)?.username ||
+            userModel.id,
           value: `${i + 1}: \`${userModel.scales}\` scales.`,
           inline: false
         })),
