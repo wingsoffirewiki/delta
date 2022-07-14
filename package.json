@@ -7,11 +7,12 @@
   "scripts": {
     "run": "node --enable-source-maps .",
     "start": "yarn build && yarn run run",
-    "start:dev": "nodemon",
+    "dev": "nodemon",
     "build": "tsc",
-    "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
-    "lint:fix": "eslint -c .eslintrc.json 'src/**/*.ts' --fix",
-    "publish": "yarn lint:fix && yarn build && npm publish",
+    "pretty": "prettier --check \"src/**/*.ts\"",
+    "pretty-fix": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint-fix": "eslint --fix \"src/**/*.ts\"",
     "prisma": "prisma generate"
   },
   "author": "wofwiki <wings.of.fire.fandom.wiki@gmail.com>",
