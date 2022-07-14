@@ -8,14 +8,25 @@
   ],
   "env": {
     "es2022": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "rules": {
     "prettier/prettier": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "curly": ["error", "all"],
-    "require-jsdoc": "off"
+    "quotes": ["error", "double"],
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        }
+      }
+    ]
   },
   "plugins": ["prettier"]
 }
