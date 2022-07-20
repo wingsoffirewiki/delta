@@ -1,5 +1,5 @@
 import { Command } from "fero-dc";
-import { log } from "../../scripts/log";
+import { log } from "../../util/log";
 import messages from "../../config/messages.json";
 import { prisma } from "../../db";
 

@@ -1,6 +1,6 @@
 import { Event } from "fero-dc";
-import { log } from "../scripts/log";
-import { getBannedWord } from "../scripts/getBannedWord";
+import { log } from "../util/log";
+import { getBannedWord } from "../util/getBannedWord";
 
 export default {
   event: "messageDelete",

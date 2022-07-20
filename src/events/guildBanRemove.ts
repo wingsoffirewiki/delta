@@ -1,6 +1,6 @@
 import { GuildAuditLogsAction } from "discord.js";
 import { Event } from "fero-dc";
-import { log } from "../scripts/log";
+import { log } from "../util/log";
 
 export default {
   event: "guildBanRemove",

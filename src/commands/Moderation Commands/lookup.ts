@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { Command, toPascalCase } from "fero-dc";
 import { prisma } from "../../db";
-import { LogType } from "../../scripts/log";
+import { LogType } from "../../util/log";
 import messages from "../../config/messages.json";
 
 export default new Command({

@@ -1,6 +1,6 @@
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json";
-import { log } from "../../scripts/log";
+import { log } from "../../util/log";
 import { prisma } from "../../db";
 
 export default new Command({

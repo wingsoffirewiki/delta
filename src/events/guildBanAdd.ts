@@ -1,5 +1,5 @@
 import { Event } from "fero-dc";
-import { log } from "../scripts/log";
+import { log } from "../util/log";
 import { GuildAuditLogsAction } from "discord.js";
 
 export default {

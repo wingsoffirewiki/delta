@@ -1,6 +1,6 @@
 import { Event } from "fero-dc";
-import { autoUnban } from "../scripts/autoUnban";
-import { setPresence } from "../scripts/setPresence";
+import { autoUnban } from "../util/autoUnban";
+import { setPresence } from "../util/setPresence";
 
 export default {
   event: "ready",

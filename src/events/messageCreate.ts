@@ -1,6 +1,6 @@
 import { Event } from "fero-dc";
 import { prisma } from "../db";
-import { getBannedWord } from "../scripts/getBannedWord";
+import { getBannedWord } from "../util/getBannedWord";
 
 type ReactionMessageContent = "goose" | "honk";
 

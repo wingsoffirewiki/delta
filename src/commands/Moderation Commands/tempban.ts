@@ -1,7 +1,7 @@
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import messages from "../../config/messages.json";
-import { log } from "../../scripts/log";
+import { log } from "../../util/log";
 import { prisma } from "../../db";
 
 export default new Command({
@@ -97,7 +97,7 @@ export default new Command({
     ) {
       return context.interaction.followUp({
         ephemeral: true,
-        content: `I cannot ban this member!`
+        content: "I cannot ban this member!"
       });
     }
 
