@@ -8,6 +8,6 @@ import { config } from "dotenv";
 
 config();
 
-const client: Client = new Client(options as ClientOptions);
+const client = new Client(options as ClientOptions, __dirname);
 
-client.reload(process.env.TOKEN as string).then(console.log);
+client.start(process.env.TOKEN as string);

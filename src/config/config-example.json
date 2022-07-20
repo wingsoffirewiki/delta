@@ -1,19 +1,18 @@
 {
-  "token": "env",
+  "dev": true,
+  "devGuildId": "",
   "intents": [
-    "GUILDS",
-    "GUILD_MESSAGES",
-    "GUILD_PRESENCES",
-    "GUILD_EMOJIS_AND_STICKERS",
-    "GUILD_MEMBERS",
-    "GUILD_BANS"
+    "Guilds",
+    "GuildMessages",
+    "MessageContent",
+    "GuildPresences",
+    "GuildEmojisAndStickers",
+    "GuildMembers",
+    "GuildBans"
   ],
-  "commandsPath": "path-to-commands-dir",
-  "eventsPath": "path-to-events-dir",
+  "commandsPath": "./commands",
+  "eventsPath": "./events",
   "commandLoadedMessage": true,
-  "eventLoadedMessage": true,
   "deleteUnusedSlashCommands": true,
-  "editSlashCommands": true,
-  "builtInHelpCommand": "ts",
-  "permissionData": {}
+  "editSlashCommands": true
 }
