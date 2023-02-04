@@ -1,5 +1,6 @@
 # Yarn
-.yarn
+.yarn/cache
+.yarn/install-state.gz
 
 # Discord
 src/config/config.json
