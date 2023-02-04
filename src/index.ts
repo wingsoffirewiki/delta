@@ -1,9 +1,13 @@
 import { Client, ClientOptions } from "fero-dc";
 
-import options from "./config/config.json";
+import options from "./config/config.json" assert { type: "json" };
 
 import { config } from "dotenv";
 config();
+
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Client(options as ClientOptions, __dirname);
 
