@@ -35,13 +35,13 @@ export default new EventListener<"interactionCreate">()
     const verificationMessage = guildModel.messages.verification;
 
     if (
-      interaction.channelId !== verificationMessage.channelID ||
+      interaction.channelId !== verificationMessage.channelId ||
       interaction.message.id !== verificationMessage.id
     ) {
       return;
     }
 
-    const roleID = guildModel.roleIDs.verified;
+    const roleID = guildModel.roleIds.verified;
 
     if (roleID === "000000000000000000") {
       return;

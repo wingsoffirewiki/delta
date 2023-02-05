@@ -35,7 +35,7 @@ type Roles {
 
 type Message {
   id        String @default("000000000000000000")
-  channelID String @default("000000000000000000")
+  channelId String @default("000000000000000000")
 }
 
 type Messages {
@@ -53,8 +53,8 @@ type Features {
 
 model Guild {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  channelIDs Channels
-  roleIDs    Roles
+  channelIds Channels
+  roleIds    Roles
   messages   Messages
   features   Features
   test       String[] @default([])
@@ -66,13 +66,13 @@ model Guild {
 
 model Log {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  guildID   String
-  targetID  String
-  modID     String
-  logID     Int
+  guildId   String
+  targetId  String
+  modId     String
+  logId     Int
   reason    String
   type      Int
-  embedID   String
+  embed   String
   undoBy    DateTime?
   undone    Boolean
   createdAt DateTime  @default(now())
@@ -83,14 +83,14 @@ model Log {
 
 type FunnieMessage {
   id        String
-  channelID String
-  embedID   String
+  channelId String
+  embedId   String
 }
 
 model Funnie {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  guildID     String
-  userID      String
+  guildId     String
+  userId      String
   normalCount Int
   modCount    Int
   message     FunnieMessage
