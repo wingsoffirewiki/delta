@@ -11,7 +11,7 @@
     "GuildBans"
   ],
   "commandsPath": "./commands",
-  "eventsPath": "./events",
+  "eventListenersPath": "./listeners",
   "commandLoadedMessage": true,
   "deleteUnusedApplicationCommands": true,
   "editApplicationCommands": true
