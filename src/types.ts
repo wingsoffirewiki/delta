@@ -10,6 +10,9 @@ export enum LogType {
   MessageEdit,
   MessageDelete,
   BulkMessageDelete,
+  /**
+   * @deprecated
+   */
   BannedWordDetected
 }
 
