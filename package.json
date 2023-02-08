@@ -10,7 +10,7 @@
     "npm": "9.3.1"
   },
   "scripts": {
-    "start": "node --enable-source-maps .",
+    "start": "node --experimental-specifier-resolution=node --enable-source-maps .",
     "dev": "nodemon",
     "build": "tsc",
     "pretty": "prettier --check \"src/**/*.ts\"",
