@@ -22,20 +22,20 @@ model User {
 }
 
 type Channels {
-  logs      String @default("000000000000000000")
-  modLogs   String @default("000000000000000000")
-  adminLogs String @default("000000000000000000")
-  funnies   String @default("000000000000000000")
+  logs      String @default("0000000000000000000")
+  modLogs   String @default("0000000000000000000")
+  adminLogs String @default("0000000000000000000")
+  funnies   String @default("0000000000000000000")
 }
 
 type Roles {
   mods     String[] @default([])
-  verified String   @default("000000000000000000")
+  verified String   @default("0000000000000000000")
 }
 
 type Message {
-  id        String @default("000000000000000000")
-  channelId String @default("000000000000000000")
+  id        String @default("0000000000000000000")
+  channelId String @default("0000000000000000000")
 }
 
 type Messages {
