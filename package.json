@@ -2,7 +2,7 @@
   "name": "delta",
   "version": "0.0.0",
   "description": "Wings of Fire Moderation Discord Bot",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "repository": "https://github.com/wofwiki/Delta",
   "engines": {
