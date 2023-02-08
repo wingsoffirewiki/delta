@@ -1,7 +1,7 @@
 import { EventListener } from "fero-dc";
 import { prisma } from "../db";
 
-const NULL_SNOWFLAKE = "000000000000000000";
+const NULL_SNOWFLAKE = "0000000000000000000";
 
 export default new EventListener<"interactionCreate">()
   .setEvent("interactionCreate")
