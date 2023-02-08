@@ -41,13 +41,13 @@ export default new EventListener<"interactionCreate">()
       return;
     }
 
-    const roleID = guildModel.roleIds.verified;
+    const roleId = guildModel.roleIds.verified;
 
-    if (roleID === "000000000000000000") {
+    if (roleId === "000000000000000000") {
       return;
     }
 
-    const role = await guild.roles.fetch(roleID, {
+    const role = await guild.roles.fetch(roleId, {
       cache: true
     });
 
