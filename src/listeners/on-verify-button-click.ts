@@ -1,6 +1,8 @@
 import { EventListener } from "fero-dc";
 import { prisma } from "../db";
 
+const NULL_SNOWFLAKE = "000000000000000000";
+
 export default new EventListener<"interactionCreate">()
   .setEvent("interactionCreate")
   .setListener(async (client, interaction) => {
@@ -28,7 +30,7 @@ export default new EventListener<"interactionCreate">()
       return;
     }
 
-    if (guildModel.messages.verification.id === "000000000000000000") {
+    if (guildModel.messages.verification.id === NULL_SNOWFLAKE) {
       return;
     }
 
@@ -43,7 +45,7 @@ export default new EventListener<"interactionCreate">()
 
     const roleId = guildModel.roleIds.verified;
 
-    if (roleId === "000000000000000000") {
+    if (roleId === NULL_SNOWFLAKE) {
       return;
     }
 
