@@ -14,7 +14,7 @@ export default new EventListener<"ready">()
     setInterval(() => setPresence(client), 60000);
   });
 
-async function autoUnban(_client: Client<true>) {
+async function autoUnban(client: Client<true>) {
   const logs = await prisma.log.findMany({
     where: {
       type: LogType.TemporaryBan,
@@ -25,38 +25,36 @@ async function autoUnban(_client: Client<true>) {
     }
   });
 
-  console.log(logs);
+  for (const log of logs) {
+    const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
 
-  // for (const log of logs) {
-  //   const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
+    const user = await client.users.fetch(log.targetId).catch(() => undefined);
 
-  //   const user = await client.users.fetch(log.targetId).catch(() => undefined);
+    if (guild === undefined || user === undefined) {
+      console.error("Guild or user not found");
 
-  //   if (guild === undefined || user === undefined) {
-  //     console.error("Guild or user not found");
+      continue;
+    }
 
-  //     continue;
-  //   }
+    const result = await guild.members.unban(user, "Temporary ban expired");
 
-  //   const result = await guild.members.unban(user, "Temporary ban expired");
+    if (result === null) {
+      console.error("Failed to unban user");
 
-  //   if (result === null) {
-  //     console.error("Failed to unban user");
+      continue;
+    }
 
-  //     continue;
-  //   }
+    // TODO: log the event here
 
-  //   // TODO: log the event here
-
-  //   await prisma.log.update({
-  //     where: {
-  //       id: log.id
-  //     },
-  //     data: {
-  //       undone: true
-  //     }
-  //   });
-  // }
+    await prisma.log.update({
+      where: {
+        id: log.id
+      },
+      data: {
+        undone: true
+      }
+    });
+  }
 }
 
 async function setPresence(client: Client<true>) {
