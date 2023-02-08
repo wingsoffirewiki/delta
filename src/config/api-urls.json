@@ -1,0 +1,6 @@
+{
+  "uselessFacts": {
+    "random": "https://uselessfacts.jsph.pl/random.json?language=en",
+    "daily": "https://uselessfacts.jsph.pl/today.json?language=en"
+  }
+}
