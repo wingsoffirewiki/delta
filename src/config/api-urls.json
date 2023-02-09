@@ -1,6 +1,9 @@
 {
   "uselessFacts": {
     "random": "https://uselessfacts.jsph.pl/random.json?language=en",
-    "daily": "https://uselessfacts.jsph.pl/today.json?language=en"
+    "daily": "https://uselessfacts.jsph.pl/today.json?language=en",
+    "bannedIds": [
+      "71ff809d-5a8c-48b4-99c9-2453770ce4f9"
+    ]
   }
 }

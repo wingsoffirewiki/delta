@@ -1,10 +1,10 @@
 import { Client, EventListener } from "fero-dc";
 import { prisma } from "../util/prisma-client";
-import { JsonActivity, LogType, UselessFactsResponse } from "../util/types";
-import apiUrls from "../config/api-urls.json" assert { type: "json" };
+import { JsonActivity, LogType } from "../util/types";
 import activities from "../config/activities.json" assert { type: "json" };
 import { ActivityType } from "discord.js";
 import { randomElement } from "../util/random";
+import { getFactOfTheDay } from "../util/fact-api";
 
 export default new EventListener<"ready">()
   .setEvent("ready")
@@ -94,10 +94,4 @@ async function setPresence(client: Client<true>) {
       }
     ]
   });
-}
-
-function getFactOfTheDay(): Promise<UselessFactsResponse> {
-  return fetch(apiUrls.uselessFacts.daily)
-    .then((response) => response.json())
-    .catch(() => undefined);
 }
