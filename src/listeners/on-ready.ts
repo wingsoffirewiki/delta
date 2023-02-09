@@ -4,6 +4,7 @@ import { JsonActivity, LogType, UselessFactsResponse } from "../util/types";
 import apiUrls from "../config/api-urls.json" assert { type: "json" };
 import activities from "../config/activities.json" assert { type: "json" };
 import { ActivityType } from "discord.js";
+import { randomElement } from "../util/random";
 
 export default new EventListener<"ready">()
   .setEvent("ready")
@@ -58,11 +59,7 @@ async function autoUnban(client: Client<true>) {
 }
 
 async function setPresence(client: Client<true>) {
-  const randomActivity = <JsonActivity>(
-    activities.activities[
-      Math.floor(Math.random() * activities.activities.length)
-    ]
-  );
+  const randomActivity = <JsonActivity>randomElement(activities.activities);
 
   // handling the cases where the activity needs data
   switch (randomActivity.text) {
@@ -75,11 +72,7 @@ async function setPresence(client: Client<true>) {
       break;
 
     case " on YouTube":
-      randomActivity.text = `${
-        activities.youTubers[
-          Math.floor(Math.random() * activities.youTubers.length)
-        ]
-      } on YouTube`;
+      randomActivity.text = `${randomElement(activities.youTubers)} on YouTube`;
 
       break;
 

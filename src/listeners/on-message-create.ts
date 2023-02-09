@@ -1,5 +1,6 @@
 import { EventListener } from "fero-dc";
 import { prisma } from "../util/db";
+import { randomInteger } from "../util/random";
 
 const HONK_EMOJI_ID = "639271354734215178";
 
@@ -40,7 +41,7 @@ export default new EventListener<"messageCreate">()
       return;
     }
 
-    const randomAmount = Math.floor(Math.random() * 50) + 1;
+    const randomAmount = randomInteger(1, 50);
 
     await prisma.user
       .updateMany({

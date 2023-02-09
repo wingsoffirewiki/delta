@@ -2,6 +2,7 @@ import { EventListener } from "fero-dc";
 import messages from "../config/messages.json" assert { type: "json" };
 import { prisma } from "../util/db";
 import { Colors, EmbedBuilder } from "discord.js";
+import { randomElement } from "../util/random";
 
 const tribes = [
   "SkyWing",
@@ -27,7 +28,7 @@ export default new EventListener<"guildMemberAdd">()
 
     const tribe =
       tribes.find((tribe) => username.includes(tribe.toLowerCase())) ??
-      tribes[Math.floor(Math.random() * tribes.length)];
+      randomElement(tribes);
 
     const welcomeMessages = [
       `Everyone welcome the shiniest ${tribe} in the server, ${member}!`,
@@ -38,8 +39,7 @@ export default new EventListener<"guildMemberAdd">()
       `the ${tribe}s welcome ${member} with open wings!`
     ];
 
-    const welcomeMessage =
-      welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    const welcomeMessage = randomElement(welcomeMessages);
 
     const systemChannel = member.guild.systemChannel;
     systemChannel?.send(welcomeMessage).catch(console.log);
