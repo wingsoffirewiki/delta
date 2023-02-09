@@ -1,6 +1,6 @@
 import { EventListener } from "fero-dc";
-import { prisma } from "../db";
-import { NULL_SNOWFLAKE } from "../types";
+import { prisma } from "../util/db";
+import { NULL_SNOWFLAKE } from "../util/types";
 
 export default new EventListener<"interactionCreate">()
   .setEvent("interactionCreate")
