@@ -12,6 +12,9 @@ export async function getFactOfTheDay(): Promise<
     return;
   }
 
+  const newText = factOfTheDay.text.replace(/`/g, "'");
+  factOfTheDay.text = newText;
+
   return factOfTheDay;
 }
 
@@ -25,6 +28,9 @@ export async function getRandomFact(): Promise<
   if (apiUrls.uselessFacts.bannedIds.includes(factId)) {
     return;
   }
+
+  const newText = randomFact.text.replace(/`/g, "'");
+  randomFact.text = newText;
 
   return randomFact;
 }

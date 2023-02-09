@@ -22,7 +22,7 @@ export default new Command()
       return;
     }
 
-    const factText = factOfTheDay.text.replace(/`/g, "'");
+    const factText = factOfTheDay.text;
     const permalink = factOfTheDay.permalink;
 
     const embed = new EmbedBuilder()

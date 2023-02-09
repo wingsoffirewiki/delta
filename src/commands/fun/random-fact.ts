@@ -21,7 +21,7 @@ export default new Command()
       return;
     }
 
-    const factText = randomFact.text.replace(/`/g, "'");
+    const factText = randomFact.text;
     const permalink = randomFact.permalink;
 
     const embed = new EmbedBuilder()
