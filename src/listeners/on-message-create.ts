@@ -16,11 +16,9 @@ export default new EventListener<"messageCreate">()
     }
 
     const lowerCaseMessageContent = message.content.toLowerCase();
-
     if (lowerCaseMessageContent.includes("goose")) {
       message.react("🦢").catch(console.log);
     }
-
     if (lowerCaseMessageContent.includes("honk")) {
       message.react(HONK_EMOJI_ID).catch(console.log);
     }
@@ -30,13 +28,11 @@ export default new EventListener<"messageCreate">()
         id: message.guild.id
       }
     });
-
     if (guildModel === null) {
       console.log("Guild not found in the database");
 
       return;
     }
-
     if (!guildModel.features.scales) {
       return;
     }

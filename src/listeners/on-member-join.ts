@@ -38,7 +38,6 @@ export default new EventListener<"guildMemberAdd">()
       `${member}, welcome to the bread bank, we sell bread, we sell loafs.`,
       `the ${tribe}s welcome ${member} with open wings!`
     ];
-
     const welcomeMessage = randomElement(welcomeMessages);
 
     const systemChannel = member.guild.systemChannel;

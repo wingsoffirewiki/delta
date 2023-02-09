@@ -9,7 +9,6 @@ export default new EventListener<"interactionCreate">()
 
     const guild = interaction.guild;
     const member = interaction.member;
-
     if (guild === null || member === null) {
       return;
     }
@@ -24,6 +23,5 @@ export default new EventListener<"interactionCreate">()
 
       return;
     }
-
     command.data.run(client, interaction);
   });

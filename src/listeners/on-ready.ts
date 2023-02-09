@@ -25,12 +25,9 @@ async function autoUnban(client: Client<true>) {
       }
     }
   });
-
   for (const log of logs) {
     const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
-
     const user = await client.users.fetch(log.targetId).catch(() => undefined);
-
     if (guild === undefined || user === undefined) {
       console.error("Guild or user not found");
 
@@ -38,7 +35,6 @@ async function autoUnban(client: Client<true>) {
     }
 
     const result = await guild.members.unban(user, "Temporary ban expired");
-
     if (result === null) {
       console.error("Failed to unban user");
 
@@ -60,7 +56,6 @@ async function autoUnban(client: Client<true>) {
 
 async function setPresence(client: Client<true>) {
   const randomActivity = <JsonActivity>randomElement(activities.activities);
-
   // handling the cases where the activity needs data
   switch (randomActivity.text) {
     case " members":
@@ -78,7 +73,6 @@ async function setPresence(client: Client<true>) {
 
     case "Fact of the Day": {
       const fact = await getFactOfTheDay();
-
       if (fact === undefined) {
         console.error("Failed to fetch fact of the day");
 

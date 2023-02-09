@@ -10,7 +10,6 @@ export default new EventListener<"interactionCreate">()
     }
 
     const guild = interaction.guild;
-
     if (guild === null) {
       return;
     }
@@ -24,17 +23,14 @@ export default new EventListener<"interactionCreate">()
         id: guild.id
       }
     });
-
     if (guildModel === null) {
       return;
     }
-
     if (guildModel.messages.verification.id === NULL_SNOWFLAKE) {
       return;
     }
 
     const verificationMessage = guildModel.messages.verification;
-
     if (
       interaction.channelId !== verificationMessage.channelId ||
       interaction.message.id !== verificationMessage.id
@@ -43,7 +39,6 @@ export default new EventListener<"interactionCreate">()
     }
 
     const roleId = guildModel.roleIds.verified;
-
     if (roleId === NULL_SNOWFLAKE) {
       return;
     }
@@ -51,13 +46,10 @@ export default new EventListener<"interactionCreate">()
     const role = await guild.roles.fetch(roleId, {
       cache: true
     });
-
     const member = await guild.members.fetch(interaction.user.id);
-
     if (role === null || member === null) {
       return;
     }
-
     if (member.roles.cache.has(role.id)) {
       interaction.reply({
         ephemeral: true,
