@@ -1,5 +1,5 @@
 import { EventListener } from "fero-dc";
-import { prisma } from "../util/db";
+import { prisma } from "../util/prisma-client";
 import { randomInteger } from "../util/random";
 
 const HONK_EMOJI_ID = "639271354734215178";

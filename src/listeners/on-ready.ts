@@ -1,5 +1,5 @@
 import { Client, EventListener } from "fero-dc";
-import { prisma } from "../util/db";
+import { prisma } from "../util/prisma-client";
 import { JsonActivity, LogType, UselessFactsResponse } from "../util/types";
 import apiUrls from "../config/api-urls.json" assert { type: "json" };
 import activities from "../config/activities.json" assert { type: "json" };

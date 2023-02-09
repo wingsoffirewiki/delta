@@ -1,6 +1,6 @@
 import { EventListener } from "fero-dc";
 import messages from "../config/messages.json" assert { type: "json" };
-import { prisma } from "../util/db";
+import { prisma } from "../util/prisma-client";
 import { Colors, EmbedBuilder } from "discord.js";
 import { randomElement } from "../util/random";
 
