@@ -5,7 +5,7 @@ import { Colors } from "discord.js";
 
 export default new Command()
   .setName("fact-of-the-day")
-  .setDescription("Gets the random fact of the day")
+  .setDescription("Gets the fact of the day")
   .setCategory("Fun")
   .setRun(async (client, interaction) => {
     await interaction.deferReply({
