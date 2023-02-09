@@ -52,7 +52,7 @@ type Features {
 }
 
 model Guild {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @map("_id") @db.String
   channelIds Channels
   roleIds    Roles
   messages   Messages
