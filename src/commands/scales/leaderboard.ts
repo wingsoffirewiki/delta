@@ -1,5 +1,5 @@
 import { Command } from "fero-dc";
-import { prisma } from "../../../util/prisma-client";
+import { prisma } from "../../util/prisma-client";
 import { Colors, EmbedBuilder } from "discord.js";
 
 export default new Command()
