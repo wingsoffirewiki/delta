@@ -1,12 +1,19 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default new Command()
-  .setName("toggle-payments")
+  .setName("enable-payments")
   .setDescription(
-    "Toggle your setting in the database to allow you to receive payments."
+    "Set whether or not you want to be able to receive payments from other users"
   )
   .setCategory("Scales")
+  .setOptions({
+    name: "value",
+    description: "Set the enablePayments property of your user model",
+    type: ApplicationCommandOptionType.Boolean,
+    required: true
+  })
   .setRun(async (client, interaction) => {
     await interaction.deferReply({
       ephemeral: false,
@@ -18,25 +25,10 @@ export default new Command()
       return;
     }
 
+    const enablePayments = interaction.options.getBoolean("value", true);
+
     const authorId = interaction.user.id;
-    const authorModel = await prisma.user.findUnique({
-      where: {
-        id: authorId
-      },
-      select: {
-        enablePayments: true
-      }
-    });
-    if (authorModel === null) {
-      await interaction.followUp({
-        content: "Failed to get author model"
-      });
-
-      return;
-    }
-
-    const enablePayments = !authorModel.enablePayments;
-    await prisma.user.update({
+    const authorUpdateResult = await prisma.user.update({
       where: {
         id: authorId
       },
@@ -44,6 +36,13 @@ export default new Command()
         enablePayments
       }
     });
+    if (authorUpdateResult === null) {
+      await interaction.followUp({
+        content: "An error occurred while updating your user model"
+      });
+
+      return;
+    }
 
     await interaction.followUp({
       content: `Successfully updated enablePayments to \`${enablePayments}\``
