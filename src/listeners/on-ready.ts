@@ -34,8 +34,11 @@ async function autoUnban(client: Client<true>) {
       continue;
     }
 
-    const result = await guild.members.unban(user, "Temporary ban expired");
-    if (result === null) {
+    const unbannedUser = await guild.members.unban(
+      user,
+      "Temporary ban expired"
+    );
+    if (unbannedUser === null) {
       console.error("Failed to unban user");
 
       continue;

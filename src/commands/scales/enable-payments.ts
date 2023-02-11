@@ -28,7 +28,7 @@ export default new Command()
     const enablePayments = interaction.options.getBoolean("value", true);
 
     const authorId = interaction.user.id;
-    const authorUpdateResult = await prisma.user.update({
+    const authorModel = await prisma.user.update({
       where: {
         id: authorId
       },
@@ -36,7 +36,7 @@ export default new Command()
         enablePayments
       }
     });
-    if (authorUpdateResult === null) {
+    if (authorModel === null) {
       await interaction.followUp({
         content: "An error occurred while updating your user model"
       });
