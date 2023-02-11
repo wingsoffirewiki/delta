@@ -25,7 +25,7 @@
     "@prisma/client": "4.10.0",
     "discord.js": "14.7.1",
     "dotenv": "16.0.3",
-    "fero-dc": "4.0.0-dev-12",
+    "fero-dc": "4.0.0-dev-13",
     "fero-ms": "2.0.7",
     "glob": "8.1.0",
     "lodash": "4.17.21"
