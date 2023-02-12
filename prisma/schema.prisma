@@ -10,17 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String   @id @map("_id") @db.String
-  scales         Int      @default(0)
-  banned         Boolean  @default(false)
-  enablePayments Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  @@map("users")
-}
-
 type Channels {
   logs         String @default("0000000000000000000")
   modLogs      String @default("0000000000000000000")
@@ -63,6 +52,17 @@ model Guild {
   updatedAt  DateTime @updatedAt
 
   @@map("guilds")
+}
+
+model User {
+  id             String   @id @map("_id") @db.String
+  scales         Int      @default(0)
+  banned         Boolean  @default(false)
+  enablePayments Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("users")
 }
 
 model Log {
