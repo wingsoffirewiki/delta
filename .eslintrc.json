@@ -18,6 +18,14 @@
       "error",
       { "argsIgnorePattern": "^_" }
     ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true,
+        "allowTypedFunctionExpressions": true,
+        "allowHigherOrderFunctions": true
+      }
+    ],
     "curly": ["error", "all"],
     "quotes": ["error", "double"]
   },
