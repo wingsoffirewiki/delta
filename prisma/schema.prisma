@@ -38,6 +38,11 @@ type Messages {
   verification String
 }
 
+type Emojis {
+  funnieUpvote   String @default("0000000000000000000")
+  funnieDownvote String @default("0000000000000000000")
+}
+
 type Features {
   scales       Boolean @default(true)
   logging      Boolean @default(true)
@@ -52,6 +57,7 @@ model Guild {
   channelIds Channels
   roleIds    Roles
   messageIds Messages
+  emojiIds   Emojis
   features   Features
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
