@@ -82,21 +82,15 @@ model Log {
   @@map("logs")
 }
 
-type FunnieMessage {
-  id        String
-  channelId String
-  embedId   String
-}
-
 model Funnie {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  guildId     String
-  userId      String
-  normalCount Int
-  modCount    Int
-  message     FunnieMessage
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId        String
+  userId         String
+  messageId      String
+  channelId      String
+  embedMessageId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@map("funnies")
 }
