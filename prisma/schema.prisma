@@ -53,7 +53,6 @@ model Guild {
   roleIds    Roles
   messageIds Messages
   features   Features
-  test       String[] @default([])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
