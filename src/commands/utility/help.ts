@@ -71,13 +71,11 @@ export default new Command()
         embed.addFields(
           {
             name: "Command Usage",
-            value: usage,
-            inline: false
+            value: usage
           },
           {
             name: "Command Arguments",
-            value: args,
-            inline: false
+            value: args
           }
         );
       }
