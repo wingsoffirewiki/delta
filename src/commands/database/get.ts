@@ -61,11 +61,13 @@ export default new Command()
     const roleIds = guildModel.roleIds;
     const modRoles = roleIds.mods.map((id) => `<@&${id}> (\`${id}\`)`);
     const messageIds = guildModel.messageIds;
-    const emojiIds = guildModel.emojiIds;
-    const funnieUpvoteEmoji = await guild.emojis.fetch(emojiIds.funnieUpvote);
-    const funnieDownvoteEmoji = await guild.emojis.fetch(
-      emojiIds.funnieDownvote
-    );
+    const emojis = guildModel.emojis;
+    const funnieUpvoteEmoji = await guild.emojis
+      .fetch(emojis.funnieUpvote)
+      .catch(() => emojis.funnieUpvote);
+    const funnieModUpvote = await guild.emojis
+      .fetch(emojis.funnieModUpvote)
+      .catch(() => emojis.funnieModUpvote);
     const features = guildModel.features;
 
     const author = interaction.user;
@@ -109,7 +111,7 @@ export default new Command()
           name: "Emojis",
           value: [
             `Funnie Upvote: \`${funnieUpvoteEmoji}\``,
-            `Funnie Downvote: \`${funnieDownvoteEmoji}\``
+            `Funnie Mod Upvote: \`${funnieModUpvote}\``
           ].join("\n"),
           inline: true
         },

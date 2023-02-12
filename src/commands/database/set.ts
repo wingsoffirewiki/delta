@@ -104,13 +104,13 @@ export default new Command()
               value: "funnieUpvote"
             },
             {
-              name: "funnie-downvote",
-              value: "funnieDownvote"
+              name: "funnie-mod-upvote",
+              value: "funnieModUpvote"
             }
           ]
         },
         {
-          name: "emoji-id",
+          name: "emoji",
           description: "The emoji to set",
           type: ApplicationCommandOptionType.String,
           required: true
@@ -244,8 +244,7 @@ export default new Command()
         });
 
         await interaction.followUp({
-          content: `Successfully set the \`${channelType}\` channel
-          to <#${channel.id}>.`,
+          content: `Successfully set the \`${channelType}\` channel to <#${channel.id}>.`,
           ephemeral: true
         });
 
@@ -271,8 +270,7 @@ export default new Command()
         });
 
         await interaction.followUp({
-          content: `Successfully added the \`${role.name}\` role
-          to the list of moderator roles.`,
+          content: `Successfully added the \`${role.name}\` role to the list of moderator roles.`,
           ephemeral: true
         });
 
@@ -306,8 +304,7 @@ export default new Command()
         });
 
         await interaction.followUp({
-          content: `Successfully removed the \`${role.name}\` role
-          from the list of moderator roles.`,
+          content: `Successfully removed the \`${role.name}\` role from the list of moderator roles.`,
           ephemeral: true
         });
 
@@ -318,12 +315,15 @@ export default new Command()
         const emojiType = <keyof Emojis>(
           interaction.options.getString("emoji-type", true)
         );
-        const emojiId = interaction.options.getString("emoji-id", true);
-
-        const emoji = await guild.emojis.fetch(emojiId).catch(() => null);
-        if (emoji === null) {
+        const emoji = interaction.options.getString("emoji", true);
+        const isGuildEmoji = await guild.emojis
+          .fetch(emoji)
+          .then(() => true)
+          .catch(() => false);
+        const isUnicodeEmoji = emoji.length === 1; // TODO: better unicode emoji detection
+        if (!isGuildEmoji && !isUnicodeEmoji) {
           await interaction.followUp({
-            content: "Failed to get emoji.",
+            content: "This is not a valid emoji.",
             ephemeral: true
           });
 
@@ -335,17 +335,16 @@ export default new Command()
             id: guild.id
           },
           data: {
-            emojiIds: {
+            emojis: {
               update: {
-                [emojiType]: emojiId
+                [emojiType]: emoji
               }
             }
           }
         });
 
         await interaction.followUp({
-          content: `Successfully set the \`${emojiType}\` emoji
-          to ${emoji}.`,
+          content: `Successfully set the \`${emojiType}\` emoji to ${emoji}.`,
           ephemeral: true
         });
 

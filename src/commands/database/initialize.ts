@@ -62,7 +62,7 @@ export default new Command()
         channelIds: {},
         roleIds: {},
         messageIds: {},
-        emojiIds: {},
+        emojis: {},
         features: {}
       }
     });
