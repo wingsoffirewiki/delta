@@ -60,7 +60,12 @@ export default new Command()
     const channelIds = guildModel.channelIds;
     const roleIds = guildModel.roleIds;
     const modRoles = roleIds.mods.map((id) => `<@&${id}> (\`${id}\`)`);
-    const messages = guildModel.messageIds;
+    const messageIds = guildModel.messageIds;
+    const emojiIds = guildModel.emojiIds;
+    const funnieUpvoteEmoji = await guild.emojis.fetch(emojiIds.funnieUpvote);
+    const funnieDownvoteEmoji = await guild.emojis.fetch(
+      emojiIds.funnieDownvote
+    );
     const features = guildModel.features;
 
     const author = interaction.user;
@@ -97,7 +102,15 @@ export default new Command()
         },
         {
           name: "Messages",
-          value: `Verification: \`${messages.verification}\``,
+          value: `Verification: \`${messageIds.verification}\``,
+          inline: true
+        },
+        {
+          name: "Emojis",
+          value: [
+            `Funnie Upvote: \`${funnieUpvoteEmoji}\``,
+            `Funnie Downvote: \`${funnieDownvoteEmoji}\``
+          ].join("\n"),
           inline: true
         },
         {

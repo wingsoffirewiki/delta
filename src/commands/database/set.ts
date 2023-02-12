@@ -4,7 +4,7 @@ import {
   PermissionFlagsBits
 } from "discord.js";
 import { Command } from "fero-dc";
-import { Channels, Features, prisma } from "../../util/prisma-client";
+import { Channels, Emojis, Features, prisma } from "../../util/prisma-client";
 
 export default new Command()
   .setName("set")
@@ -84,6 +84,35 @@ export default new Command()
           name: "role",
           description: "The role to set",
           type: ApplicationCommandOptionType.Role,
+          required: true
+        }
+      ]
+    },
+    {
+      name: "emojis",
+      description: "Set an emoji in the database",
+      type: ApplicationCommandOptionType.Subcommand,
+      options: [
+        {
+          name: "emoji-type",
+          description: "The type of emoji to set",
+          type: ApplicationCommandOptionType.String,
+          required: true,
+          choices: [
+            {
+              name: "funnie-upvote",
+              value: "funnieUpvote"
+            },
+            {
+              name: "funnie-downvote",
+              value: "funnieDownvote"
+            }
+          ]
+        },
+        {
+          name: "emoji-id",
+          description: "The emoji to set",
+          type: ApplicationCommandOptionType.String,
           required: true
         }
       ]
@@ -279,6 +308,44 @@ export default new Command()
         await interaction.followUp({
           content: `Successfully removed the \`${role.name}\` role
           from the list of moderator roles.`,
+          ephemeral: true
+        });
+
+        break;
+      }
+
+      case "emojis": {
+        const emojiType = <keyof Emojis>(
+          interaction.options.getString("emoji-type", true)
+        );
+        const emojiId = interaction.options.getString("emoji-id", true);
+
+        const emoji = await guild.emojis.fetch(emojiId).catch(() => null);
+        if (emoji === null) {
+          await interaction.followUp({
+            content: "Failed to get emoji.",
+            ephemeral: true
+          });
+
+          return;
+        }
+
+        await prisma.guild.update({
+          where: {
+            id: guild.id
+          },
+          data: {
+            emojiIds: {
+              update: {
+                [emojiType]: emojiId
+              }
+            }
+          }
+        });
+
+        await interaction.followUp({
+          content: `Successfully set the \`${emojiType}\` emoji
+          to ${emoji}.`,
           ephemeral: true
         });
 
