@@ -39,7 +39,7 @@ type Messages {
 }
 
 type Emojis {
-  funnieUpvote   String @default(":star:")
+  funnieUpvote    String @default(":star:")
   funnieModUpvote String @default(":sparkles:")
 }
 
@@ -57,7 +57,7 @@ model Guild {
   channelIds Channels
   roleIds    Roles
   messageIds Messages
-  emojis   Emojis
+  emojis     Emojis
   features   Features
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
