@@ -3,7 +3,7 @@ import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 
 export default new Command()
-  .setName("init")
+  .setName("initialize")
   .setDescription("Initialize server settings for the database")
   .setCategory("Database")
   .setRun(async (client, interaction) => {
