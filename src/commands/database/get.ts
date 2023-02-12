@@ -98,7 +98,7 @@ export default new Command()
           name: "Roles",
           value: [
             `Verified: <@&${roleIds.verified}> (\`${roleIds.verified}\`)`,
-            `Mods: ${modRoles.join(", ")}`
+            `Mods: ${modRoles.join(", ") || "None"}`
           ].join("\n"),
           inline: true
         },
