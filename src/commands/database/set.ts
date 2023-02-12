@@ -37,6 +37,10 @@ export default new Command()
             {
               name: "funnies",
               value: "funnies"
+            },
+            {
+              name: "verification",
+              value: "verification"
             }
           ]
         },
@@ -106,6 +110,10 @@ export default new Command()
             {
               name: "funnie-mod-upvote",
               value: "funnieModUpvote"
+            },
+            {
+              name: "verification-button",
+              value: "verificationButton"
             }
           ]
         },

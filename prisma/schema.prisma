@@ -28,8 +28,9 @@ type Messages {
 }
 
 type Emojis {
-  funnieUpvote    String @default("⭐")
-  funnieModUpvote String @default("✨")
+  funnieUpvote       String @default("⭐")
+  funnieModUpvote    String @default("✨")
+  verificationButton String @default("✅")
 }
 
 type Features {
