@@ -15,7 +15,7 @@ export default new EventListener<"ready">()
     setInterval(() => setPresence(client), 60000);
   });
 
-async function autoUnban(client: Client<true>) {
+async function autoUnban(client: Client<true>): Promise<void> {
   const logs = await prisma.log.findMany({
     where: {
       type: LogType.TemporaryBan,
@@ -26,6 +26,12 @@ async function autoUnban(client: Client<true>) {
     }
   });
   for (const log of logs) {
+    if (log.targetId === null) {
+      console.error("Target ID is null");
+
+      continue;
+    }
+
     const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
     const user = await client.users.fetch(log.targetId).catch(() => undefined);
     if (guild === undefined || user === undefined) {
@@ -57,7 +63,7 @@ async function autoUnban(client: Client<true>) {
   }
 }
 
-async function setPresence(client: Client<true>) {
+async function setPresence(client: Client<true>): Promise<void> {
   const randomActivity = <JsonActivity>randomElement(activities.activities);
   // handling the cases where the activity needs data
   switch (randomActivity.text) {

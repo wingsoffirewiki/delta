@@ -1,4 +1,11 @@
-import type { ActivityType } from "discord.js";
+import type {
+  ActivityType,
+  User,
+  Message,
+  PartialMessage,
+  Guild
+} from "discord.js";
+import { Client } from "fero-dc";
 
 export const NULL_SNOWFLAKE = "0000000000000000000";
 
@@ -11,11 +18,31 @@ export enum LogType {
   Kick,
   MessageEdit,
   MessageDelete,
-  BulkMessageDelete,
-  /**
-   * @deprecated
-   */
-  BannedWordDetected
+  BulkMessageDelete
+}
+
+export interface LogData {
+  [LogType.Ban]: [User];
+  [LogType.TemporaryBan]: [User, Date, number];
+  [LogType.Timeout]: [User, Date, number];
+  [LogType.Unban]: [User];
+  [LogType.Warn]: [User];
+  [LogType.Kick]: [User];
+  [LogType.MessageEdit]: [
+    Message<true> | PartialMessage,
+    Message<true> | PartialMessage
+  ];
+  [LogType.MessageDelete]: [Message<true> | PartialMessage];
+  [LogType.BulkMessageDelete]: [Message<true>[]];
+}
+
+export interface LogOptions<T extends LogType> {
+  client: Client<true>;
+  type: LogType;
+  guild: Guild;
+  reason: string;
+  moderator: User;
+  args: LogData[T];
 }
 
 export interface UselessFactsResponse {
