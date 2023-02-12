@@ -26,7 +26,8 @@ export default new Command()
     const member = await guild.members.fetch(authorId).catch(() => null);
     if (member === null) {
       await interaction.followUp({
-        content: "Failed to get member."
+        content: "Failed to get member.",
+        ephemeral: true
       });
 
       return;
