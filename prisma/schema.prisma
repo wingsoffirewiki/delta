@@ -39,8 +39,8 @@ type Messages {
 }
 
 type Emojis {
-  funnieUpvote    String @default(":star:")
-  funnieModUpvote String @default(":sparkles:")
+  funnieUpvote    String @default("⭐")
+  funnieModUpvote String @default("✨")
 }
 
 type Features {
