@@ -61,7 +61,7 @@ export default new Command()
         id: guild.id,
         channelIds: {},
         roleIds: {},
-        messages: {},
+        messageIds: {},
         features: {}
       }
     });

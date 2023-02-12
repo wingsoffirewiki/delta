@@ -22,10 +22,11 @@ model User {
 }
 
 type Channels {
-  logs      String @default("0000000000000000000")
-  modLogs   String @default("0000000000000000000")
-  adminLogs String @default("0000000000000000000")
-  funnies   String @default("0000000000000000000")
+  logs         String @default("0000000000000000000")
+  modLogs      String @default("0000000000000000000")
+  adminLogs    String @default("0000000000000000000")
+  funnies      String @default("0000000000000000000")
+  verification String @default("0000000000000000000")
 }
 
 type Roles {
@@ -33,13 +34,8 @@ type Roles {
   verified String   @default("0000000000000000000")
 }
 
-type Message {
-  id        String @default("0000000000000000000")
-  channelId String @default("0000000000000000000")
-}
-
 type Messages {
-  verification Message
+  verification String
 }
 
 type Features {
@@ -55,7 +51,7 @@ model Guild {
   id         String   @id @map("_id") @db.String
   channelIds Channels
   roleIds    Roles
-  messages   Messages
+  messageIds Messages
   features   Features
   test       String[] @default([])
   createdAt  DateTime @default(now())
@@ -72,7 +68,7 @@ model Log {
   logId     Int
   reason    String
   type      Int
-  embed   String
+  embed     String
   undoBy    DateTime?
   undone    Boolean
   createdAt DateTime  @default(now())

@@ -26,14 +26,13 @@ export default new EventListener<"interactionCreate">()
     if (guildModel === null) {
       return;
     }
-    if (guildModel.messages.verification.id === NULL_SNOWFLAKE) {
+    if (guildModel.messageIds.verification === NULL_SNOWFLAKE) {
       return;
     }
 
-    const verificationMessage = guildModel.messages.verification;
     if (
-      interaction.channelId !== verificationMessage.channelId ||
-      interaction.message.id !== verificationMessage.id
+      interaction.channelId !== guildModel.channelIds.verification ||
+      interaction.message.id !== guildModel.messageIds.verification
     ) {
       return;
     }

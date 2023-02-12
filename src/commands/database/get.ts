@@ -60,7 +60,7 @@ export default new Command()
     const channelIds = guildModel.channelIds;
     const roleIds = guildModel.roleIds;
     const modRoles = roleIds.mods.map((id) => `<@&${id}> (\`${id}\`)`);
-    const messages = guildModel.messages;
+    const messages = guildModel.messageIds;
     const features = guildModel.features;
 
     const author = interaction.user;
@@ -82,7 +82,8 @@ export default new Command()
             `Logs: <#${channelIds.logs}> (\`${channelIds.logs}\`)`,
             `Mod Logs: <#${channelIds.modLogs}> (\`${channelIds.modLogs}\`)`,
             `Admin Logs: <#${channelIds.adminLogs}> (\`${channelIds.adminLogs}\`)`,
-            `Funnies: <#${channelIds.funnies}> (\`${channelIds.funnies}\`)`
+            `Funnies: <#${channelIds.funnies}> (\`${channelIds.funnies}\`)`,
+            `Verification: <#${channelIds.verification}> (\`${channelIds.verification}\`)`
           ].join("\n"),
           inline: true
         },
@@ -96,10 +97,7 @@ export default new Command()
         },
         {
           name: "Messages",
-          value: [
-            `Verification: \`${messages.verification.id}\``,
-            `Verification Channel: <#${messages.verification.channelId}> (\`${messages.verification.channelId}\`)`
-          ].join("\n"),
+          value: `Verification: \`${messages.verification}\``,
           inline: true
         },
         {
