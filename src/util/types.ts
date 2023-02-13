@@ -28,17 +28,14 @@ export interface LogData {
   [LogType.Unban]: [User];
   [LogType.Warn]: [User];
   [LogType.Kick]: [User];
-  [LogType.MessageEdit]: [
-    Message<true> | PartialMessage,
-    Message<true> | PartialMessage
-  ];
-  [LogType.MessageDelete]: [Message<true> | PartialMessage];
-  [LogType.BulkMessageDelete]: [Message<true>[]];
+  [LogType.MessageEdit]: [Message | PartialMessage, Message | PartialMessage];
+  [LogType.MessageDelete]: [Message | PartialMessage];
+  [LogType.BulkMessageDelete]: [Message[]];
 }
 
 export interface LogOptions<T extends LogType> {
   client: Client<true>;
-  type: LogType;
+  type: T;
   guild: Guild;
   reason: string;
   moderator: User;

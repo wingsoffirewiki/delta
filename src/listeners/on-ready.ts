@@ -26,12 +26,6 @@ async function autoUnban(client: Client<true>): Promise<void> {
     }
   });
   for (const log of logs) {
-    if (log.targetId === null) {
-      console.error("Target ID is null");
-
-      continue;
-    }
-
     const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
     const user = await client.users.fetch(log.targetId).catch(() => undefined);
     if (guild === undefined || user === undefined) {

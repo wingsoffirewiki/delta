@@ -226,7 +226,7 @@ async function logBan(
     data: {
       guildId: guild.id,
       targetId: user.id,
-      modId: moderator.id,
+      moderatorId: moderator.id,
       logId,
       reason,
       type,
@@ -297,7 +297,7 @@ async function logTemporaryBan(
     data: {
       guildId: guild.id,
       targetId: user.id,
-      modId: moderator.id,
+      moderatorId: moderator.id,
       logId,
       reason,
       type,
@@ -369,13 +369,12 @@ async function logTimeout(
     data: {
       guildId: guild.id,
       targetId: user.id,
-      modId: moderator.id,
+      moderatorId: moderator.id,
       logId,
       reason,
       type,
       embedMessageId: message.id,
-      undoBy: expires,
-      undone: false
+      undoBy: expires
     }
   });
 
@@ -395,7 +394,8 @@ async function logUnban(
       type: {
         in: [LogType.Ban, LogType.TemporaryBan]
       },
-      targetId: user.id
+      targetId: user.id,
+      undone: false
     },
     select: {
       id: true,
@@ -407,7 +407,7 @@ async function logUnban(
     },
     take: 1
   });
-  if (banLog === null || banLog.undone) {
+  if (banLog === null) {
     throw new Error("Ban log is not in the database or is already undone.");
   }
 
@@ -512,7 +512,7 @@ async function logWarn(
     data: {
       guildId: guild.id,
       targetId: user.id,
-      modId: moderator.id,
+      moderatorId: moderator.id,
       logId,
       reason,
       type,
@@ -572,7 +572,7 @@ async function logKick(
     data: {
       guildId: guild.id,
       targetId: user.id,
-      modId: moderator.id,
+      moderatorId: moderator.id,
       logId,
       reason,
       type,
@@ -626,7 +626,7 @@ async function logMessageEdit(
               (attachment) =>
                 `${attachment.name ?? "no_name"}: ${attachment.url}`
             )
-            .join("\n") ?? "None"
+            .join("\n") || "None"
       },
       {
         name: "Timestamp",
@@ -679,7 +679,7 @@ async function logMessageDelete(
               (attachment) =>
                 `${attachment.name ?? "no_name"}: ${attachment.url}`
             )
-            .join("\n") ?? "None"
+            .join("\n") || "None"
       },
       {
         name: "Timestamp",
@@ -744,7 +744,7 @@ async function logBulkMessageDelete(
                   .map((attachment) => attachment.name ?? "no_name")
                   .join(", ")}`
             )
-            .join("\n") ?? "None"
+            .join("\n") || "None"
       },
       {
         name: "Timestamp",

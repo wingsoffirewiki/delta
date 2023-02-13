@@ -137,7 +137,7 @@ export default new Command()
         },
         {
           name: "Devices",
-          value: statuses.join("\n") ?? "None",
+          value: statuses.join("\n") || "None",
           inline: true
         },
         ...presences

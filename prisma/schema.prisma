@@ -69,8 +69,8 @@ model User {
 model Log {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   guildId        String
-  targetId       String?
-  modId          String
+  targetId       String
+  moderatorId    String
   logId          Int
   reason         String
   type           Int
