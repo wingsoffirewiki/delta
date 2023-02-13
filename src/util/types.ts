@@ -21,6 +21,11 @@ export enum LogType {
   BulkMessageDelete
 }
 
+type MessageLogType =
+  | LogType.MessageEdit
+  | LogType.MessageDelete
+  | LogType.BulkMessageDelete;
+
 export interface LogData {
   [LogType.Ban]: [User];
   [LogType.TemporaryBan]: [User, Date, number];
@@ -33,14 +38,22 @@ export interface LogData {
   [LogType.BulkMessageDelete]: [Message[]];
 }
 
-export interface LogOptions<T extends LogType> {
+export interface MessageLogOptions<T extends LogType> {
   client: Client<true>;
   type: T;
   guild: Guild;
-  reason: string;
-  moderator: User;
   args: LogData[T];
 }
+
+export interface InfractionLogOptions<T extends LogType>
+  extends MessageLogOptions<T> {
+  reason: string;
+  moderator: User;
+}
+
+export type LogOptions<T extends LogType> = T extends MessageLogType
+  ? MessageLogOptions<T>
+  : InfractionLogOptions<T>;
 
 export interface UselessFactsResponse {
   id: string;

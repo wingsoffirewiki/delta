@@ -20,8 +20,6 @@ export default new EventListener<"messageUpdate">()
       client,
       type: LogType.MessageEdit,
       guild,
-      reason: "",
-      moderator: fetchedNewMessage.author,
       args: [oldMessage, fetchedNewMessage]
     });
   });

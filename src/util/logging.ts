@@ -587,7 +587,7 @@ async function logMessageEdit(
   options: LogOptions<LogType.MessageEdit>,
   channel: GuildBasedChannel & TextBasedChannel
 ): Promise<void> {
-  const { client, moderator, args } = options;
+  const { client, args } = options;
   const [oldMessage, newMessage] = args;
 
   const embed = new EmbedBuilder()
@@ -603,8 +603,8 @@ async function logMessageEdit(
     .setURL(newMessage.url)
     .setColor(0x388e3c)
     .setAuthor({
-      name: moderator.tag,
-      iconURL: moderator.avatarURL() ?? ""
+      name: newMessage.author?.tag ?? "Unknown",
+      iconURL: newMessage.author?.avatarURL() ?? ""
     })
     .setThumbnail(newMessage.author?.avatarURL() ?? "")
     .addFields(
@@ -646,7 +646,7 @@ async function logMessageDelete(
   options: LogOptions<LogType.MessageDelete>,
   channel: GuildBasedChannel & TextBasedChannel
 ): Promise<void> {
-  const { client, moderator, args } = options;
+  const { client, args } = options;
   const [message] = args;
 
   const embed = new EmbedBuilder()
@@ -661,8 +661,8 @@ async function logMessageDelete(
     )
     .setColor(0x388e3c)
     .setAuthor({
-      name: moderator.tag,
-      iconURL: moderator.avatarURL() ?? ""
+      name: message.author?.tag ?? "Unknown",
+      iconURL: message.author?.avatarURL() ?? ""
     })
     .setThumbnail(message.author?.avatarURL() ?? "")
     .addFields(
@@ -699,7 +699,7 @@ async function logBulkMessageDelete(
   options: LogOptions<LogType.BulkMessageDelete>,
   channel: GuildBasedChannel & TextBasedChannel
 ): Promise<void> {
-  const { client, moderator, args } = options;
+  const { client, args } = options;
   const [messages] = args;
 
   const embed = new EmbedBuilder()
@@ -721,10 +721,6 @@ async function logBulkMessageDelete(
       ].join("\n")
     )
     .setColor(0x388e3c)
-    .setAuthor({
-      name: moderator.tag,
-      iconURL: moderator.avatarURL() ?? ""
-    })
     .addFields(
       ...messages.map((message) => ({
         name: message.id,
