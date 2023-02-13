@@ -5,8 +5,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   Colors,
-  EmbedBuilder,
-  PermissionFlagsBits
+  EmbedBuilder
 } from "discord.js";
 
 export default new Command()
@@ -36,28 +35,6 @@ export default new Command()
     if (guildModel === null) {
       await interaction.followUp({
         content: "This server has not been initialized.",
-        ephemeral: true
-      });
-
-      return;
-    }
-
-    const author = interaction.user;
-    const member = await guild.members.fetch(author.id).catch(() => null);
-    if (member === null) {
-      await interaction.followUp({
-        content: "Failed to get member.",
-        ephemeral: true
-      });
-
-      return;
-    }
-    if (
-      !member.permissions.has(PermissionFlagsBits.ManageGuild) &&
-      !guildModel.roleIds.mods.some((roleId) => member.roles.cache.has(roleId))
-    ) {
-      await interaction.followUp({
-        content: "You do not have permission to use this command.",
         ephemeral: true
       });
 

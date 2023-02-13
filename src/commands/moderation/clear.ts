@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "fero-dc";
+import { isFeatureEnabled } from "../../util/features";
 
 export default new Command()
   .setName("clear")
@@ -18,6 +19,25 @@ export default new Command()
       ephemeral: true,
       fetchReply: false
     });
+
+    const guild = interaction.guild;
+    if (guild === null) {
+      await interaction.followUp({
+        content: "This command can only be used in a server",
+        ephemeral: true
+      });
+
+      return;
+    }
+
+    if (!(await isFeatureEnabled(guild, "moderation"))) {
+      await interaction.followUp({
+        content: "Moderation is not enabled in this server",
+        ephemeral: true
+      });
+
+      return;
+    }
 
     const amount = interaction.options.getInteger("amount", true);
 

@@ -1,6 +1,7 @@
 import { EventListener } from "fero-dc";
 import { prisma } from "../util/prisma-client";
 import { randomInteger } from "../util/random";
+import { isFeatureEnabled } from "../util/features";
 
 const HONK_EMOJI_ID = "639271354734215178";
 
@@ -11,7 +12,8 @@ export default new EventListener<"messageCreate">()
       return;
     }
 
-    if (message.guild === null) {
+    const guild = message.guild;
+    if (guild === null) {
       return;
     }
 
@@ -23,17 +25,7 @@ export default new EventListener<"messageCreate">()
       message.react(HONK_EMOJI_ID).catch(console.log);
     }
 
-    const guildModel = await prisma.guild.findUnique({
-      where: {
-        id: message.guild.id
-      }
-    });
-    if (guildModel === null) {
-      console.log("Guild not found in the database");
-
-      return;
-    }
-    if (!guildModel.features.scales) {
+    if (!(await isFeatureEnabled(guild, "scales"))) {
       return;
     }
 

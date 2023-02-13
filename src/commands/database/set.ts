@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandOptionType,
-  ChannelType,
-  PermissionFlagsBits
-} from "discord.js";
+import { ApplicationCommandOptionType, ChannelType } from "discord.js";
 import { Command } from "fero-dc";
 import { Channels, Emojis, Features, prisma } from "../../util/prisma-client";
 
@@ -181,27 +177,6 @@ export default new Command()
     if (guild === null) {
       await interaction.followUp({
         content: "This command can only be used in a server.",
-        ephemeral: true
-      });
-
-      return;
-    }
-
-    const member = await guild.members
-      .fetch(interaction.user.id)
-      .catch(() => null);
-    if (member === null) {
-      await interaction.followUp({
-        content: "Failed to get member.",
-        ephemeral: true
-      });
-
-      return;
-    }
-
-    if (!member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-      await interaction.followUp({
-        content: "You do not have permission to use this command.",
         ephemeral: true
       });
 

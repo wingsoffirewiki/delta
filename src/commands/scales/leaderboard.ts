@@ -1,6 +1,7 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 import { Colors, EmbedBuilder } from "discord.js";
+import { isFeatureEnabled } from "../../util/features";
 
 export default new Command()
   .setName("leaderboard")
@@ -20,19 +21,7 @@ export default new Command()
 
       return;
     }
-    const guildModel = await prisma.guild.findUnique({
-      where: {
-        id: guild.id
-      }
-    });
-    if (guildModel === null) {
-      interaction.followUp({
-        content: "Failed to get guild model"
-      });
-
-      return;
-    }
-    if (!guildModel.features.scales) {
+    if (!(await isFeatureEnabled(guild, "scales"))) {
       interaction.followUp({
         content: "Scales feature is not enabled"
       });
