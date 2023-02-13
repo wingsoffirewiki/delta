@@ -716,17 +716,21 @@ async function logBulkMessageDelete(
           ...new Set(messages.map((message) => message.author))
         ].join("\n")}`,
         `Author IDs: ${[
-          ...new Set(messages.map((message) => message.author.id))
+          ...new Set(
+            messages
+              .filter((message) => message.author !== null)
+              .map((message) => message.author?.id)
+          )
         ].join("\n")}`
       ].join("\n")
     )
     .setColor(0x388e3c)
     .addFields(
-      ...messages.map((message) => ({
+      ...messages.slice(0, 23).map((message) => ({
         name: message.id,
         value: [
           `${message.channel} | ${message.author}`,
-          `${limitStringLength(message.content)}`
+          `${limitStringLength(message.content ?? "No content.")}`
         ].join("\n")
       })),
       {

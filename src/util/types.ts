@@ -35,7 +35,7 @@ export interface LogData {
   [LogType.Kick]: [User];
   [LogType.MessageEdit]: [Message | PartialMessage, Message | PartialMessage];
   [LogType.MessageDelete]: [Message | PartialMessage];
-  [LogType.BulkMessageDelete]: [Message[]];
+  [LogType.BulkMessageDelete]: [(Message | PartialMessage)[]];
 }
 
 export interface MessageLogOptions<T extends LogType> {
