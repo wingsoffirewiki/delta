@@ -45,6 +45,14 @@ export default new Command()
 
 			return;
 		}
+		if (!guildModel.features.moderation) {
+			await interaction.followUp({
+				content: "Moderation is not enabled in this server",
+				ephemeral: true
+			});
+
+			return;
+		}
 
 		const logId = interaction.options.getInteger("log-id", true);
 		const reason = interaction.options.getString("reason", true);

@@ -2,6 +2,7 @@ import { ApplicationCommandOptionType, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 import { LogType } from "../../util/types";
+import { isFeatureEnabled } from "../../util/features";
 
 export default new Command()
 	.setName("lookup")
@@ -44,6 +45,15 @@ export default new Command()
 		if (guild === null) {
 			await interaction.followUp({
 				content: "This command can only be used in a server."
+			});
+
+			return;
+		}
+
+		if (!(await isFeatureEnabled(guild, "moderation"))) {
+			await interaction.followUp({
+				content: "Moderation is not enabled in this server",
+				ephemeral: true
 			});
 
 			return;
