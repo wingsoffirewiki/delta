@@ -17,20 +17,21 @@ export async function log<T extends LogType>(
 		return;
 	}
 
-	const logId = (
-		await prisma.log.findMany({
-			where: {
-				guildId: guild.id
-			},
-			orderBy: {
-				logId: "desc"
-			},
-			take: 1,
-			select: {
-				logId: true
-			}
-		})
-	)[0].logId;
+	const logId =
+		(
+			await prisma.log.findMany({
+				where: {
+					guildId: guild.id
+				},
+				orderBy: {
+					logId: "desc"
+				},
+				take: 1,
+				select: {
+					logId: true
+				}
+			})
+		)[0]?.logId ?? 1;
 
 	switch (type) {
 		case LogType.Ban: {
