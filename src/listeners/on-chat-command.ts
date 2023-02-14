@@ -17,7 +17,6 @@ export default new EventListener<"interactionCreate">()
     if (command === undefined) {
       interaction.reply({
         ephemeral: true,
-        ,
         content: `Command ${interaction.commandName} does not exist on this bot!`
       });
 
