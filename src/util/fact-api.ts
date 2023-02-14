@@ -2,35 +2,35 @@ import { UselessFactsResponse } from "./types";
 import apiUrls from "../config/api-urls.json" assert { type: "json" };
 
 export async function getFactOfTheDay(): Promise<
-  UselessFactsResponse | undefined
+	UselessFactsResponse | undefined
 > {
-  const response = await fetch(apiUrls.uselessFacts.daily);
-  const factOfTheDay: UselessFactsResponse = await response.json();
+	const response = await fetch(apiUrls.uselessFacts.daily);
+	const factOfTheDay: UselessFactsResponse = await response.json();
 
-  const factId = factOfTheDay.id;
-  if (apiUrls.uselessFacts.bannedIds.includes(factId)) {
-    return;
-  }
+	const factId = factOfTheDay.id;
+	if (apiUrls.uselessFacts.bannedIds.includes(factId)) {
+		return;
+	}
 
-  const newText = factOfTheDay.text.replace(/`/g, "'");
-  factOfTheDay.text = newText;
+	const newText = factOfTheDay.text.replace(/`/g, "'");
+	factOfTheDay.text = newText;
 
-  return factOfTheDay;
+	return factOfTheDay;
 }
 
 export async function getRandomFact(): Promise<
-  UselessFactsResponse | undefined
+	UselessFactsResponse | undefined
 > {
-  const response = await fetch(apiUrls.uselessFacts.random);
-  const randomFact: UselessFactsResponse = await response.json();
+	const response = await fetch(apiUrls.uselessFacts.random);
+	const randomFact: UselessFactsResponse = await response.json();
 
-  const factId = randomFact.id;
-  if (apiUrls.uselessFacts.bannedIds.includes(factId)) {
-    return;
-  }
+	const factId = randomFact.id;
+	if (apiUrls.uselessFacts.bannedIds.includes(factId)) {
+		return;
+	}
 
-  const newText = randomFact.text.replace(/`/g, "'");
-  randomFact.text = newText;
+	const newText = randomFact.text.replace(/`/g, "'");
+	randomFact.text = newText;
 
-  return randomFact;
+	return randomFact;
 }

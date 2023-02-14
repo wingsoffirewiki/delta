@@ -7,94 +7,94 @@ import { randomElement } from "../util/random";
 import { getFactOfTheDay } from "../util/fact-api";
 
 export default new EventListener<"ready">()
-  .setEvent("ready")
-  .setListener(async (client) => {
-    console.log(`${client.user.tag} is online!`);
+	.setEvent("ready")
+	.setListener(async (client) => {
+		console.log(`${client.user.tag} is online!`);
 
-    setInterval(() => autoUnban(client), 10000);
-    setInterval(() => setPresence(client), 60000);
-  });
+		setInterval(() => autoUnban(client), 10000);
+		setInterval(() => setPresence(client), 60000);
+	});
 
 async function autoUnban(client: Client<true>): Promise<void> {
-  const logs = await prisma.log.findMany({
-    where: {
-      type: LogType.TemporaryBan,
-      undone: false,
-      undoBy: {
-        lt: new Date(Date.now())
-      }
-    }
-  });
-  for (const log of logs) {
-    const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
-    const user = await client.users.fetch(log.targetId).catch(() => undefined);
-    if (guild === undefined || user === undefined) {
-      console.error("Guild or user not found");
+	const logs = await prisma.log.findMany({
+		where: {
+			type: LogType.TemporaryBan,
+			undone: false,
+			undoBy: {
+				lt: new Date(Date.now())
+			}
+		}
+	});
+	for (const log of logs) {
+		const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
+		const user = await client.users.fetch(log.targetId).catch(() => undefined);
+		if (guild === undefined || user === undefined) {
+			console.error("Guild or user not found");
 
-      continue;
-    }
+			continue;
+		}
 
-    const unbannedUser = await guild.members.unban(
-      user,
-      "Temporary ban expired"
-    );
-    if (unbannedUser === null) {
-      console.error("Failed to unban user");
+		const unbannedUser = await guild.members.unban(
+			user,
+			"Temporary ban expired"
+		);
+		if (unbannedUser === null) {
+			console.error("Failed to unban user");
 
-      continue;
-    }
+			continue;
+		}
 
-    // TODO: log the event here
+		// TODO: log the event here
 
-    await prisma.log.update({
-      where: {
-        id: log.id
-      },
-      data: {
-        undone: true
-      }
-    });
-  }
+		await prisma.log.update({
+			where: {
+				id: log.id
+			},
+			data: {
+				undone: true
+			}
+		});
+	}
 }
 
 async function setPresence(client: Client<true>): Promise<void> {
-  const randomActivity = <JsonActivity>randomElement(activities.activities);
-  // handling the cases where the activity needs data
-  switch (randomActivity.text) {
-    case " members":
-      randomActivity.text = `${client.guilds.cache.reduce(
-        (acc, guild) => acc + guild.memberCount,
-        0
-      )} members`;
+	const randomActivity = <JsonActivity>randomElement(activities.activities);
+	// handling the cases where the activity needs data
+	switch (randomActivity.text) {
+		case " members":
+			randomActivity.text = `${client.guilds.cache.reduce(
+				(acc, guild) => acc + guild.memberCount,
+				0
+			)} members`;
 
-      break;
+			break;
 
-    case " on YouTube":
-      randomActivity.text = `${randomElement(activities.youTubers)} on YouTube`;
+		case " on YouTube":
+			randomActivity.text = `${randomElement(activities.youTubers)} on YouTube`;
 
-      break;
+			break;
 
-    case "Fact of the Day": {
-      const fact = await getFactOfTheDay();
-      if (fact === undefined) {
-        console.error("Failed to fetch fact of the day");
+		case "Fact of the Day": {
+			const fact = await getFactOfTheDay();
+			if (fact === undefined) {
+				console.error("Failed to fetch fact of the day");
 
-        return;
-      }
+				return;
+			}
 
-      randomActivity.text = fact.text;
+			randomActivity.text = fact.text;
 
-      break;
-    }
-  }
+			break;
+		}
+	}
 
-  client.user.setPresence({
-    status: "online",
-    activities: [
-      {
-        name: randomActivity.text,
-        type: ActivityType[randomActivity.type]
-      }
-    ]
-  });
+	client.user.setPresence({
+		status: "online",
+		activities: [
+			{
+				name: randomActivity.text,
+				type: ActivityType[randomActivity.type]
+			}
+		]
+	});
 }

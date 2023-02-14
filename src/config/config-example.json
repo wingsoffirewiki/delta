@@ -1,18 +1,18 @@
 {
-  "dev": true,
-  "devGuildId": "",
-  "intents": [
-    "Guilds",
-    "GuildMessages",
-    "MessageContent",
-    "GuildPresences",
-    "GuildEmojisAndStickers",
-    "GuildMembers",
-    "GuildBans"
-  ],
-  "commandsPath": "./commands",
-  "eventListenersPath": "./listeners",
-  "commandLoadedMessage": true,
-  "deleteUnusedApplicationCommands": true,
-  "editApplicationCommands": true
+	"dev": true,
+	"devGuildId": "",
+	"intents": [
+		"Guilds",
+		"GuildMessages",
+		"MessageContent",
+		"GuildPresences",
+		"GuildEmojisAndStickers",
+		"GuildMembers",
+		"GuildBans"
+	],
+	"commandsPath": "./commands",
+	"eventListenersPath": "./listeners",
+	"commandLoadedMessage": true,
+	"deleteUnusedApplicationCommands": true,
+	"editApplicationCommands": true
 }

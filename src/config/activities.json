@@ -1,41 +1,37 @@
 {
-  "youTubers": [
-    "Blackout the NightWing",
-    "Ferotiq",
-    "ThatOneGuy"
-  ],
-  "activities": [
-    {
-      "type": "Playing",
-      "text": "Trivia"
-    },
-    {
-      "type": "Watching",
-      "text": "for !help"
-    },
-    {
-      "type": "Listening",
-      "text": " members"
-    },
-    {
-      "type": "Listening",
-      "text": "WoF Audiobooks"
-    },
-    {
-      "type": "Watching",
-      "text": " on YouTube"
-    },
-    {
-      "type": "Playing",
-      "text": "Gayming"
-    },
-    {
-      "type": "Playing",
-      "text": "Fact of the Day: "
-    },
-    {
-      "type": "Playing",
-      "text": "Mega Gay"
-    }
-  ]
+	"youTubers": ["Blackout the NightWing", "Ferotiq", "ThatOneGuy"],
+	"activities": [
+		{
+			"type": "Playing",
+			"text": "Trivia"
+		},
+		{
+			"type": "Watching",
+			"text": "for !help"
+		},
+		{
+			"type": "Listening",
+			"text": " members"
+		},
+		{
+			"type": "Listening",
+			"text": "WoF Audiobooks"
+		},
+		{
+			"type": "Watching",
+			"text": " on YouTube"
+		},
+		{
+			"type": "Playing",
+			"text": "Gayming"
+		},
+		{
+			"type": "Playing",
+			"text": "Fact of the Day: "
+		},
+		{
+			"type": "Playing",
+			"text": "Mega Gay"
+		}
+	]
 }
