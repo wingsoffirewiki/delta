@@ -8,10 +8,7 @@ export default new Command()
   .setDescription("Gets the leaderboard for scales")
   .setCategory("Scales")
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      ephemeral: false,
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const guild = interaction.guild;
     if (guild === null) {

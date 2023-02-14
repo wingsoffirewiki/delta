@@ -7,8 +7,7 @@ export default new Command()
   .setCategory("Database")
   .setRun(async (client, interaction) => {
     await interaction.deferReply({
-      ephemeral: true,
-      fetchReply: false
+      ephemeral: true
     });
 
     const guild = interaction.guild;

@@ -9,9 +9,7 @@ export default new Command()
   .setDescription("Get a random funnie (starboard) from the database")
   .setCategory("Funnies")
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const guild = interaction.guild;
     if (guild === null) {

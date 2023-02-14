@@ -42,10 +42,7 @@ export default new Command()
     }
   )
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      ephemeral: false,
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const guild = interaction.guild;
     if (guild === null) {

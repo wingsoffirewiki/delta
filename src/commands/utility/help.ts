@@ -19,8 +19,7 @@ export default new Command()
   })
   .setRun(async (client, interaction) => {
     await interaction.deferReply({
-      ephemeral: true,
-      fetchReply: false
+      ephemeral: true
     });
 
     const commandName = interaction.options.getString("command");

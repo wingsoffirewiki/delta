@@ -19,10 +19,7 @@ export default new Command()
     required: false
   })
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      ephemeral: false,
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const guild = interaction.guild;
     if (guild === null) {

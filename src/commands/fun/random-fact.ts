@@ -7,10 +7,7 @@ export default new Command()
   .setDescription("Gets a random fact")
   .setCategory("Fun")
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      ephemeral: false,
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const randomFact = await getRandomFact();
     if (randomFact === undefined) {

@@ -8,10 +8,7 @@ export default new Command()
   .setDescription("Gets the fact of the day")
   .setCategory("Fun")
   .setRun(async (client, interaction) => {
-    await interaction.deferReply({
-      ephemeral: false,
-      fetchReply: false
-    });
+    await interaction.deferReply();
 
     const factOfTheDay = await getFactOfTheDay();
     if (factOfTheDay === undefined) {
