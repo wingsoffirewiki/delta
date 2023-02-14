@@ -1,6 +1,7 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { Colors } from "discord.js";
 import { Command } from "fero-dc";
+import messages from "../../config/messages.json" assert { type: "json" };
 import { ms } from "fero-ms";
 
 export default new Command()
@@ -12,9 +13,7 @@ export default new Command()
 
     const embed = new EmbedBuilder()
       .setTitle("Delta: Bot Information")
-      .setDescription(
-        "Hi there, <:deltahi:713191592789409852>! I'm Delta, the Wings of Fire Wiki mascot. I'm a SkyWing/MudWing hybrid, and I go by they/them. I work as a barista. In my free time, I like reading, hanging out with my friends, offering help and advice, and trivia! <:delta:713191673924157471>."
-      )
+      .setDescription(messages.delta)
       .setColor(Colors.Blurple)
       .setAuthor({
         name: author.username,

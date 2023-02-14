@@ -1,6 +1,4 @@
 {
-  "missingPermissions": "You do not have the correct permissions to run this command!",
-  "missingMember": "The member you provided is not a part of this server!",
   "welcome": "Hi! I'm Delta, the Wings of Fire moderation bot! Please read the rules in #rules, grab some roles in #roles, and verify in #verify!",
-  "databaseError": "There was an error with the database."
+  "delta": "Hi there, <:deltahi:713191592789409852>! I'm Delta, the Wings of Fire Wiki mascot. I'm a SkyWing/MudWing hybrid, and I go by they/them. I work as a barista. In my free time, I like reading, hanging out with my friends, offering help and advice, and trivia! <:delta:713191673924157471>."
 }
