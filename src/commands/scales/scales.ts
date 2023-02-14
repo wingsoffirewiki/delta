@@ -62,8 +62,8 @@ export default new Command()
 
     const authorId = interaction.user.id;
 
-    const subCommand = interaction.options.getSubcommand();
-    switch (subCommand) {
+    const subcommand = interaction.options.getSubcommand();
+    switch (subcommand) {
       case "pay": {
         const user = interaction.options.getUser("user", true);
         const amount = interaction.options.getInteger("amount", true);
