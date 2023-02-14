@@ -62,7 +62,7 @@ export default new Command()
 
 		const authorId = interaction.user.id;
 
-		const subcommand = interaction.options.getSubcommand();
+		const subcommand = interaction.options.getSubcommand(true);
 		switch (subcommand) {
 			case "pay": {
 				const user = interaction.options.getUser("user", true);
@@ -169,8 +169,7 @@ export default new Command()
 			}
 
 			case "balance": {
-				const user =
-					interaction.options.getUser("user", false) ?? interaction.user;
+				const user = interaction.options.getUser("user") ?? interaction.user;
 
 				const userModel = await prisma.user.findUnique({
 					where: {

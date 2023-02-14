@@ -196,7 +196,7 @@ export default new Command()
 			return;
 		}
 
-		const subcommand = interaction.options.getSubcommand();
+		const subcommand = interaction.options.getSubcommand(true);
 		switch (subcommand) {
 			case "channels": {
 				const channelType = <keyof Channels>(
