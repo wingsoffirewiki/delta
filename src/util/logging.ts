@@ -17,7 +17,7 @@ export async function log<T extends LogType>(
 		return;
 	}
 
-	const logId =
+	const previousLogId =
 		(
 			await prisma.log.findMany({
 				where: {
@@ -32,6 +32,8 @@ export async function log<T extends LogType>(
 				}
 			})
 		)[0]?.logId ?? 1;
+
+	const logId = previousLogId + 1;
 
 	switch (type) {
 		case LogType.Ban: {
