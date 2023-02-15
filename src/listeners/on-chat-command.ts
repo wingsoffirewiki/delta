@@ -22,5 +22,15 @@ export default new EventListener<"interactionCreate">()
 
 			return;
 		}
-		command.data.run(client, interaction);
+
+		try {
+			command.data.run(client, interaction);
+		} catch (error) {
+			await interaction.reply({
+				ephemeral: true,
+				content: `An error occurred while running the command: ${error}`
+			});
+
+			console.error(error);
+		}
 	});
