@@ -111,7 +111,7 @@ export default new Command()
 			.send(
 				`You have been timed out from \`${guild.name}\` for \`${durationLongString}\`:\n\`${reason}\``
 			)
-			.catch(console.log);
+			.catch((error) => console.log(error.message));
 
 		await member.timeout(durationMilliseconds, reason);
 

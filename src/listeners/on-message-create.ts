@@ -19,10 +19,10 @@ export default new EventListener<"messageCreate">()
 
 		const lowerCaseMessageContent = message.content.toLowerCase();
 		if (lowerCaseMessageContent.includes("goose")) {
-			message.react("🦢").catch(console.log);
+			message.react("🦢").catch((error) => console.log(error.message));
 		}
 		if (lowerCaseMessageContent.includes("honk")) {
-			message.react(HONK_EMOJI_ID).catch(console.log);
+			message.react(HONK_EMOJI_ID).catch((error) => console.log(error.message));
 		}
 
 		if (!(await isFeatureEnabled(guild, "scales"))) {
@@ -43,5 +43,5 @@ export default new EventListener<"messageCreate">()
 					}
 				}
 			})
-			.catch(console.log);
+			.catch((error) => console.log(error.message));
 	});

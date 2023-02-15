@@ -22,7 +22,7 @@ export default new EventListener<"guildMemberAdd">()
 	.setListener(async (client, member) => {
 		const guild = member.guild;
 
-		member.send(messages.welcome).catch(console.log);
+		member.send(messages.welcome).catch((error) => console.log(error.message));
 
 		const username = member.user.username.toLowerCase();
 
@@ -41,7 +41,9 @@ export default new EventListener<"guildMemberAdd">()
 		const welcomeMessage = randomElement(welcomeMessages);
 
 		const systemChannel = member.guild.systemChannel;
-		systemChannel?.send(welcomeMessage).catch(console.log);
+		systemChannel
+			?.send(welcomeMessage)
+			.catch((error) => console.log(error.message));
 
 		const guildModel = await prisma.guild.findUnique({
 			where: {
@@ -78,5 +80,7 @@ export default new EventListener<"guildMemberAdd">()
 				text: "Delta, The Wings of Fire Moderation Bot",
 				iconURL: client.user.avatarURL() ?? ""
 			});
-		logsChannel.send({ embeds: [embed] }).catch(console.log);
+		logsChannel
+			.send({ embeds: [embed] })
+			.catch((error) => console.log(error.message));
 	});

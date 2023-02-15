@@ -62,7 +62,7 @@ export default new Command()
 
 		await user
 			.send(`You have been warned in \`${guild.name}\`:\n\`${reason}\``)
-			.catch(console.log);
+			.catch((error) => console.log(error.message));
 
 		await interaction.followUp({
 			content: `Successfully warned ${user} (\`${user.tag}\`) (\`${user.id}\`)`,
