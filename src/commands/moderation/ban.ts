@@ -103,10 +103,9 @@ export default new Command()
 			return;
 		}
 
-		let banMessage = `You have been banned from \`${guild.name}\`:\n\`${reason}\``;
-		if (durationLongString !== null) {
-			banMessage += ` for \`${durationLongString}\``;
-		}
+		const durationAddition =
+			durationLongString !== null ? ` for \`${durationLongString}\`` : "";
+		const banMessage = `You have been banned from \`${guild.name}\`${durationAddition}:\n\`${reason}\``;
 
 		const message = await user
 			.send(banMessage)
