@@ -95,7 +95,7 @@ export async function log<T extends LogType>(
 				return;
 			}
 
-			logUnban(options as LogOptions<LogType.Unban>, channel, logId);
+			logUnban(options as LogOptions<LogType.Unban>, channel);
 
 			break;
 		}
@@ -390,8 +390,7 @@ async function logTimeout(
 
 async function logUnban(
 	options: LogOptions<LogType.Unban>,
-	channel: GuildBasedChannel & TextBasedChannel,
-	logId: number
+	channel: GuildBasedChannel & TextBasedChannel
 ): Promise<Log> {
 	const { client, reason, moderator, args } = options;
 	const [user] = args;
@@ -430,9 +429,15 @@ async function logUnban(
 		throw new Error("Failed to update ban log.");
 	}
 
+	const embedMessageId = unbanLog.embedMessageId;
+	const embedMessage = await channel.messages.fetch(embedMessageId);
+	if (embedMessage === null) {
+		throw new Error("Failed to fetch embed message.");
+	}
+
 	const embed = new EmbedBuilder()
 		.setTitle("Delta: Unbanned User")
-		.setDescription(`Log ID: ${logId}`)
+		.setDescription(`[Jump to Log](${embedMessage.url})`)
 		.setColor(0x388e3c)
 		.setAuthor({
 			name: moderator.tag,
