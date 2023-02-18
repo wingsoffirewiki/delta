@@ -3,8 +3,9 @@ import { Command } from "fero-dc";
 import { isFeatureEnabled } from "../../util/features";
 import { log } from "../../util/logging";
 import { LogType } from "../../util/types";
+import { ms } from "fero-ms";
 
-const SECONDS_IN_DAY = 24 * 60 * 60;
+const SECONDS_IN_WEEK = 7 * 24 * 60 * 60;
 
 export default new Command()
 	.setName("ban")
@@ -18,15 +19,21 @@ export default new Command()
 			required: true
 		},
 		{
+			name: "duration",
+			description: "The duration to ban the user for",
+			type: ApplicationCommandOptionType.String,
+			required: false
+		},
+		{
 			name: "reason",
 			description: "The reason for banning the user",
 			type: ApplicationCommandOptionType.String,
 			required: false
 		},
 		{
-			name: "days",
-			description: "The number of days of messages to delete",
-			type: ApplicationCommandOptionType.Integer,
+			name: "delete-messages",
+			description: "Whether or not to delete messages from the user",
+			type: ApplicationCommandOptionType.Boolean,
 			required: false
 		}
 	)
@@ -40,7 +47,26 @@ export default new Command()
 		const user = interaction.options.getUser("user", true);
 		const reason =
 			interaction.options.getString("reason") ?? "No reason provided";
-		const days = interaction.options.getInteger("days") ?? 0;
+		const deleteMessages =
+			interaction.options.getBoolean("delete-messages") ?? false;
+
+		const durationString = interaction.options.getString("duration");
+		const durationMilliseconds =
+			durationString !== null
+				? ms(durationString, { returnDate: false })
+				: null;
+		const durationLongString =
+			durationMilliseconds !== null
+				? ms(durationMilliseconds, {
+						long: true,
+						unitTrailingSpace: true,
+						spacedOut: true
+				  })
+				: null;
+		const expires =
+			durationMilliseconds !== null
+				? new Date(Date.now() + durationMilliseconds)
+				: null;
 
 		const guild = interaction.guild;
 		if (guild === null) {
@@ -81,13 +107,18 @@ export default new Command()
 			return;
 		}
 
+		let banMessage = `You have been banned from \`${guild.name}\`:\n\`${reason}\``;
+		if (durationLongString !== null) {
+			banMessage += ` for \`${durationLongString}\``;
+		}
+
 		const message = await user
-			.send(`You have been banned from \`${guild.name}\`:\n\`${reason}\``)
+			.send(banMessage)
 			.catch((error) => console.log(error.message));
 
 		const result = await guild.members.ban(user, {
 			reason,
-			deleteMessageSeconds: days * SECONDS_IN_DAY
+			deleteMessageSeconds: deleteMessages ? SECONDS_IN_WEEK : 0
 		});
 		if (result === null) {
 			await interaction.followUp({
@@ -100,17 +131,33 @@ export default new Command()
 			return;
 		}
 
-		await log({
-			client,
-			type: LogType.Ban,
-			guild,
-			reason,
-			moderator: author,
-			args: [user]
-		});
+		if (expires === null || durationMilliseconds === null) {
+			await log({
+				client,
+				type: LogType.Ban,
+				guild,
+				reason,
+				moderator: author,
+				args: [user]
+			});
+		} else {
+			await log({
+				client,
+				type: LogType.TemporaryBan,
+				guild,
+				reason,
+				moderator: author,
+				args: [user, expires, durationMilliseconds]
+			});
+		}
+
+		let followUpMessage = `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``;
+		if (durationLongString !== null) {
+			followUpMessage += ` for \`${durationLongString}\``;
+		}
 
 		await interaction.followUp({
-			content: `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,
+			content: followUpMessage,
 			ephemeral: true
 		});
 	});
