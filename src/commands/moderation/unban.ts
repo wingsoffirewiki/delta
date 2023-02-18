@@ -81,10 +81,6 @@ export default new Command()
 			args: [user]
 		});
 
-		await user
-			.send(`You have been unbanned from \`${guild.name}\`:\n\`${reason}\``)
-			.catch((error) => console.log(error.message));
-
 		await interaction.followUp({
 			content: `Successfully unbanned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,
 			ephemeral: true
