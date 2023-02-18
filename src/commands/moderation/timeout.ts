@@ -71,7 +71,7 @@ export default new Command()
 		const durationMilliseconds = ms(durationString, { returnDate: false });
 
 		const reason =
-			interaction.options.getString("reason") ?? "No reason provided";
+			interaction.options.getString("reason") || "No reason provided";
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({

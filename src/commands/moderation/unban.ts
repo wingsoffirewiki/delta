@@ -31,7 +31,7 @@ export default new Command()
 
 		const user = interaction.options.getUser("user", true);
 		const reason =
-			interaction.options.getString("reason") ?? "No reason provided";
+			interaction.options.getString("reason") || "No reason provided";
 
 		const guild = interaction.guild;
 		if (guild === null) {
