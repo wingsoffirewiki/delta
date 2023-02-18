@@ -55,14 +55,6 @@ export default new Command()
 			durationString !== null
 				? ms(durationString, { returnDate: false })
 				: null;
-		const durationLongString =
-			durationMilliseconds !== null
-				? ms(durationMilliseconds, {
-						long: true,
-						unitTrailingSpace: true,
-						spacedOut: true
-				  })
-				: null;
 
 		const guild = interaction.guild;
 		if (guild === null) {
@@ -103,8 +95,16 @@ export default new Command()
 			return;
 		}
 
+		const formattedDuration =
+			durationMilliseconds !== null
+				? ms(durationMilliseconds, {
+						long: true,
+						unitTrailingSpace: true,
+						spacedOut: true
+				  })
+				: null;
 		const durationAddition =
-			durationLongString !== null ? ` for \`${durationLongString}\`` : "";
+			formattedDuration !== null ? ` for \`${formattedDuration}\`` : "";
 		const banMessage = `You have been banned from \`${guild.name}\`${durationAddition}:\n\`${reason}\``;
 
 		const message = await user
@@ -147,8 +147,8 @@ export default new Command()
 		);
 
 		let followUpMessage = `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``;
-		if (durationLongString !== null) {
-			followUpMessage += ` for \`${durationLongString}\``;
+		if (formattedDuration !== null) {
+			followUpMessage += ` for \`${formattedDuration}\``;
 		}
 
 		await interaction.followUp({

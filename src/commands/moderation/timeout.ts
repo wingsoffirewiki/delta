@@ -100,7 +100,7 @@ export default new Command()
 			moderator: author
 		});
 
-		const durationLongString = ms(durationMilliseconds, {
+		const formattedDuration = ms(durationMilliseconds, {
 			long: true,
 			unitTrailingSpace: true,
 			spacedOut: true
@@ -108,13 +108,13 @@ export default new Command()
 
 		await member
 			.send(
-				`You have been timed out from \`${guild.name}\` for \`${durationLongString}\`:\n\`${reason}\``
+				`You have been timed out from \`${guild.name}\` for \`${formattedDuration}\`:\n\`${reason}\``
 			)
 			.catch((error) => console.log(error.message));
 
 		await member.timeout(durationMilliseconds, reason);
 
 		await interaction.followUp({
-			content: `Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${durationLongString}\``
+			content: `Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${formattedDuration}\``
 		});
 	});
