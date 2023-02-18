@@ -63,10 +63,6 @@ export default new Command()
 						spacedOut: true
 				  })
 				: null;
-		const expires =
-			durationMilliseconds !== null
-				? new Date(Date.now() + durationMilliseconds)
-				: null;
 
 		const guild = interaction.guild;
 		if (guild === null) {
@@ -131,25 +127,25 @@ export default new Command()
 			return;
 		}
 
-		if (expires === null || durationMilliseconds === null) {
-			await log({
-				client,
-				type: LogType.Ban,
-				guild,
-				reason,
-				moderator: author,
-				args: [user]
-			});
-		} else {
-			await log({
-				client,
-				type: LogType.TemporaryBan,
-				guild,
-				reason,
-				moderator: author,
-				args: [user, expires, durationMilliseconds]
-			});
-		}
+		await log(
+			durationMilliseconds === null
+				? {
+						client,
+						type: LogType.Ban,
+						guild,
+						reason,
+						moderator: author,
+						args: [user]
+				  }
+				: {
+						client,
+						type: LogType.TemporaryBan,
+						guild,
+						reason,
+						moderator: author,
+						args: [user, durationMilliseconds]
+				  }
+		);
 
 		let followUpMessage = `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``;
 		if (durationLongString !== null) {

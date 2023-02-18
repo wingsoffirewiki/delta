@@ -69,7 +69,6 @@ export default new Command()
 
 		const durationString = interaction.options.getString("duration", true);
 		const durationMilliseconds = ms(durationString, { returnDate: false });
-		const expires = new Date(Date.now() + durationMilliseconds);
 
 		const reason =
 			interaction.options.getString("reason") ?? "No reason provided";
@@ -97,7 +96,7 @@ export default new Command()
 			type: LogType.Timeout,
 			guild,
 			reason,
-			args: [user, expires, durationMilliseconds],
+			args: [user, durationMilliseconds],
 			moderator: author
 		});
 

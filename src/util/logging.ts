@@ -247,7 +247,9 @@ async function logTemporaryBan(
 	logId: number
 ): Promise<Log> {
 	const { client, type, guild, reason, moderator, args } = options;
-	const [user, expires, duration] = args;
+	const [user, duration] = args;
+
+	const expires = new Date(Date.now() + duration);
 
 	const embed = new EmbedBuilder()
 		.setTitle("Delta: Temporarily Banned User")
@@ -319,7 +321,9 @@ async function logTimeout(
 	logId: number
 ): Promise<Log> {
 	const { client, type, guild, reason, moderator, args } = options;
-	const [user, expires, duration] = args;
+	const [user, duration] = args;
+
+	const expires = new Date(Date.now() + duration);
 
 	const embed = new EmbedBuilder()
 		.setTitle("Delta: Timed Out User")

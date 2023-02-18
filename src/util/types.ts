@@ -28,8 +28,8 @@ type MessageLogType =
 
 export interface LogData {
 	[LogType.Ban]: [User];
-	[LogType.TemporaryBan]: [User, Date, number];
-	[LogType.Timeout]: [User, Date, number];
+	[LogType.TemporaryBan]: [User, number];
+	[LogType.Timeout]: [User, number];
 	[LogType.Unban]: [User];
 	[LogType.Warn]: [User];
 	[LogType.Kick]: [User];
