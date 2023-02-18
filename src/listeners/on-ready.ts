@@ -5,6 +5,7 @@ import activities from "../config/activities.json" assert { type: "json" };
 import { ActivityType } from "discord.js";
 import { randomElement } from "../util/random";
 import { getFactOfTheDay } from "../util/fact-api";
+import { log } from "../util/logging";
 
 export default new EventListener<"ready">()
 	.setEvent("ready")
@@ -16,7 +17,7 @@ export default new EventListener<"ready">()
 	});
 
 async function autoUnban(client: Client<true>): Promise<void> {
-	const logs = await prisma.log.findMany({
+	const temporaryBanLogs = await prisma.log.findMany({
 		where: {
 			type: LogType.TemporaryBan,
 			undone: false,
@@ -25,34 +26,35 @@ async function autoUnban(client: Client<true>): Promise<void> {
 			}
 		}
 	});
-	for (const log of logs) {
-		const guild = await client.guilds.fetch(log.guildId).catch(() => undefined);
-		const user = await client.users.fetch(log.targetId).catch(() => undefined);
+	for (const temporaryBanLog of temporaryBanLogs) {
+		const guild = await client.guilds
+			.fetch(temporaryBanLog.guildId)
+			.catch(() => undefined);
+		const user = await client.users
+			.fetch(temporaryBanLog.targetId)
+			.catch(() => undefined);
 		if (guild === undefined || user === undefined) {
 			console.error("Guild or user not found");
 
 			continue;
 		}
 
-		const unbannedUser = await guild.members.unban(
-			user,
-			"Temporary ban expired"
-		);
+		const reason = "Temporary ban expired";
+
+		const unbannedUser = await guild.members.unban(user, reason);
 		if (unbannedUser === null) {
 			console.error("Failed to unban user");
 
 			continue;
 		}
 
-		// TODO: log the event here
-
-		await prisma.log.update({
-			where: {
-				id: log.id
-			},
-			data: {
-				undone: true
-			}
+		await log({
+			client,
+			type: LogType.Unban,
+			guild,
+			reason,
+			moderator: client.user,
+			args: [unbannedUser]
 		});
 	}
 }
