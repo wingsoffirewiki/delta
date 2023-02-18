@@ -62,12 +62,18 @@ export default new Command()
 			return;
 		}
 
+		const message = await user
+			.send(`You have been kicked from \`${guild.name}\`:\n\`${reason}\``)
+			.catch((error) => console.log(error.message));
+
 		const result = await guild.members.kick(user, reason);
 		if (result === null) {
 			await interaction.followUp({
 				content: "Failed to kick user",
 				ephemeral: true
 			});
+
+			await message?.delete();
 
 			return;
 		}
@@ -80,10 +86,6 @@ export default new Command()
 			moderator: author,
 			args: [user]
 		});
-
-		await user
-			.send(`You have been kicked from \`${guild.name}\`:\n\`${reason}\``)
-			.catch((error) => console.log(error.message));
 
 		await interaction.followUp({
 			content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,

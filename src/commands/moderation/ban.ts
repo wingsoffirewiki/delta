@@ -81,6 +81,10 @@ export default new Command()
 			return;
 		}
 
+		const message = await user
+			.send(`You have been banned from \`${guild.name}\`:\n\`${reason}\``)
+			.catch((error) => console.log(error.message));
+
 		const result = await guild.members.ban(user, {
 			reason,
 			deleteMessageSeconds: days * SECONDS_IN_DAY
@@ -90,6 +94,8 @@ export default new Command()
 				content: "Failed to ban user",
 				ephemeral: true
 			});
+
+			await message?.delete();
 
 			return;
 		}
@@ -102,10 +108,6 @@ export default new Command()
 			moderator: author,
 			args: [user]
 		});
-
-		await user
-			.send(`You have been banned from \`${guild.name}\`:\n\`${reason}\``)
-			.catch((error) => console.log(error.message));
 
 		await interaction.followUp({
 			content: `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,
