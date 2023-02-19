@@ -1,18 +1,18 @@
 import { EventListener } from "fero-dc";
-import { LogType } from "../util/types";
-import { log } from "../util/logging";
+import { log } from "../../util/logging";
+import { LogType } from "../../util/types";
 import { AuditLogEvent } from "discord.js";
 
-export default new EventListener<"guildMemberRemove">()
-	.setEvent("guildMemberRemove")
-	.setListener(async (client, member) => {
-		const guild = member.guild;
-		const user = member.user;
+export default new EventListener<"guildBanAdd">()
+	.setEvent("guildBanAdd")
+	.setListener(async (client, ban) => {
+		const guild = ban.guild;
+		const user = ban.user;
 
 		const auditLog = await guild
 			.fetchAuditLogs({
 				limit: 1,
-				type: AuditLogEvent.MemberKick
+				type: AuditLogEvent.MemberBanAdd
 			})
 			.then((auditLogs) => auditLogs.entries.first())
 			.catch(() => undefined);
@@ -29,7 +29,7 @@ export default new EventListener<"guildMemberRemove">()
 
 		await log({
 			client,
-			type: LogType.Kick,
+			type: LogType.Ban,
 			guild,
 			reason,
 			moderator,

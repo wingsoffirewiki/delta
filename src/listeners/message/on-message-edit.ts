@@ -1,6 +1,6 @@
 import { EventListener } from "fero-dc";
-import { log } from "../util/logging";
-import { LogType } from "../util/types";
+import { log } from "../../util/logging";
+import { LogType } from "../../util/types";
 
 export default new EventListener<"messageUpdate">()
 	.setEvent("messageUpdate")
