@@ -67,7 +67,7 @@ export default new Command()
 			return;
 		}
 		const funnieMessage = await funnieChannel.messages
-			.fetch(funnie.messageId)
+			.fetch(funnie.id)
 			.catch(() => null);
 		if (funnieMessage === null) {
 			await interaction.followUp({

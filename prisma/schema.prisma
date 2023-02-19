@@ -84,10 +84,8 @@ model Log {
 }
 
 model Funnie {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  id             String   @id @map("_id") @db.String
   guildId        String
-  userId         String
-  messageId      String
   channelId      String
   embedMessageId String
   createdAt      DateTime @default(now())
