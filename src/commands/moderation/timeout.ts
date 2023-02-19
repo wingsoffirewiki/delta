@@ -114,7 +114,7 @@ export default new Command()
 
 		await member.timeout(durationMilliseconds, reason);
 
-		await interaction.followUp({
-			content: `Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${formattedDuration}\``
-		});
+		await interaction.followUp(
+			`Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${formattedDuration}\``
+		);
 	});

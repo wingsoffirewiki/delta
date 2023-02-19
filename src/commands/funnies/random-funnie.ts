@@ -13,9 +13,7 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			await interaction.followUp({
-				content: "This command can only be used in a server."
-			});
+			await interaction.followUp("This command can only be used in a server.");
 
 			return;
 		}
@@ -25,16 +23,12 @@ export default new Command()
 			}
 		});
 		if (guildModel === null) {
-			await interaction.followUp({
-				content: "This server has not been initialized."
-			});
+			await interaction.followUp("This server has not been initialized.");
 
 			return;
 		}
 		if (!guildModel.features.funnies) {
-			await interaction.followUp({
-				content: "Funnies are not enabled in this server."
-			});
+			await interaction.followUp("Funnies are not enabled in this server.");
 
 			return;
 		}
@@ -48,9 +42,7 @@ export default new Command()
 			}
 		});
 		if (funnies.length === 0) {
-			await interaction.followUp({
-				content: "There are no funnies in this server."
-			});
+			await interaction.followUp("There are no funnies in this server.");
 
 			return;
 		}
@@ -60,9 +52,7 @@ export default new Command()
 			.fetch(funnie.channelId)
 			.catch(() => null);
 		if (funnieChannel === null || !funnieChannel.isTextBased()) {
-			await interaction.followUp({
-				content: "Failed to get funnie channel."
-			});
+			await interaction.followUp("Failed to get funnie channel.");
 
 			return;
 		}
@@ -70,9 +60,7 @@ export default new Command()
 			.fetch(funnie.id)
 			.catch(() => null);
 		if (funnieMessage === null) {
-			await interaction.followUp({
-				content: "Failed to get funnie message."
-			});
+			await interaction.followUp("Failed to get funnie message.");
 
 			return;
 		}

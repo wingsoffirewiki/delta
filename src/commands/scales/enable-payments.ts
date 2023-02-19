@@ -34,14 +34,14 @@ export default new Command()
 			}
 		});
 		if (authorModel === null) {
-			await interaction.followUp({
-				content: "An error occurred while updating your user model"
-			});
+			await interaction.followUp(
+				"An error occurred while updating your user model"
+			);
 
 			return;
 		}
 
-		await interaction.followUp({
-			content: `Successfully updated enablePayments to \`${enablePayments}\``
-		});
+		await interaction.followUp(
+			`Successfully updated enablePayments to \`${enablePayments}\``
+		);
 	});

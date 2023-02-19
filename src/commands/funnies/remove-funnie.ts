@@ -17,9 +17,7 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			await interaction.followUp({
-				content: "This command can only be used in a server."
-			});
+			await interaction.followUp("This command can only be used in a server.");
 
 			return;
 		}
@@ -29,16 +27,12 @@ export default new Command()
 			}
 		});
 		if (guildModel === null) {
-			await interaction.followUp({
-				content: "This server has not been initialized."
-			});
+			await interaction.followUp("This server has not been initialized.");
 
 			return;
 		}
 		if (!guildModel.features.funnies) {
-			await interaction.followUp({
-				content: "Funnies are not enabled in this server."
-			});
+			await interaction.followUp("Funnies are not enabled in this server.");
 
 			return;
 		}
@@ -50,9 +44,7 @@ export default new Command()
 			}
 		});
 		if (funnie === null) {
-			await interaction.followUp({
-				content: "That message is not a funnie."
-			});
+			await interaction.followUp("That message is not a funnie.");
 
 			return;
 		}
@@ -62,9 +54,7 @@ export default new Command()
 			guildModel.channelIds.funnies
 		);
 		if (funnieChannel === null || !funnieChannel.isTextBased()) {
-			await interaction.followUp({
-				content: "The funnies channel is not set up."
-			});
+			await interaction.followUp("The funnies channel is not set up.");
 
 			return;
 		}
@@ -73,9 +63,7 @@ export default new Command()
 			funnie.embedMessageId
 		);
 		if (funnieEmbedMessage === null) {
-			await interaction.followUp({
-				content: "The funnie embed message was not found."
-			});
+			await interaction.followUp("The funnie embed message was not found.");
 
 			return;
 		}
@@ -86,7 +74,5 @@ export default new Command()
 				id: messageId
 			}
 		});
-		await interaction.followUp({
-			content: "Removed funnie."
-		});
+		await interaction.followUp("Removed funnie.");
 	});

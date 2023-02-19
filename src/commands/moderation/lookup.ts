@@ -43,9 +43,7 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			await interaction.followUp({
-				content: "This command can only be used in a server."
-			});
+			await interaction.followUp("This command can only be used in a server.");
 
 			return;
 		}

@@ -5,7 +5,5 @@ export default new Command()
 	.setDescription("Honk!")
 	.setCategory("Fun")
 	.setRun(async (client, interaction) => {
-		await interaction.reply({
-			content: "<:honk:639271354734215178>"
-		});
+		await interaction.reply("<:honk:639271354734215178>");
 	});

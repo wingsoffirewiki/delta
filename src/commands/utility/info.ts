@@ -23,9 +23,7 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			await interaction.followUp({
-				content: "This command can only be used in a server"
-			});
+			await interaction.followUp("This command can only be used in a server");
 
 			return;
 		}
@@ -35,9 +33,7 @@ export default new Command()
 
 		const member = await guild.members.fetch(user.id).catch(() => null);
 		if (member === null) {
-			await interaction.followUp({
-				content: "Failed to get member"
-			});
+			await interaction.followUp("Failed to get member");
 
 			return;
 		}

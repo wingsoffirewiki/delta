@@ -27,9 +27,7 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			await interaction.followUp({
-				content: "This command can only be used in a server."
-			});
+			await interaction.followUp("This command can only be used in a server.");
 
 			return;
 		}
@@ -39,9 +37,9 @@ export default new Command()
 			}
 		});
 		if (guildModel === null) {
-			await interaction.followUp({
-				content: "This server is not initialized in the database."
-			});
+			await interaction.followUp(
+				"This server is not initialized in the database."
+			);
 
 			return;
 		}
@@ -64,9 +62,7 @@ export default new Command()
 			}
 		});
 		if (logModel === null) {
-			await interaction.followUp({
-				content: "That log entry does not exist."
-			});
+			await interaction.followUp("That log entry does not exist.");
 
 			return;
 		}
@@ -82,9 +78,9 @@ export default new Command()
 
 		const logsChannel = await guild.channels.fetch(guildModel.channelIds.logs);
 		if (logsChannel === null || !logsChannel.isTextBased()) {
-			await interaction.followUp({
-				content: "The logs channel is not a text channel or does not exist."
-			});
+			await interaction.followUp(
+				"The logs channel is not a text channel or does not exist."
+			);
 
 			return;
 		}
@@ -93,9 +89,7 @@ export default new Command()
 			logModel.embedMessageId
 		);
 		if (logMessage === null) {
-			await interaction.followUp({
-				content: "The log message does not exist."
-			});
+			await interaction.followUp("The log message does not exist.");
 
 			return;
 		}
@@ -105,9 +99,9 @@ export default new Command()
 			(field) => field.name === "Reason"
 		);
 		if (reasonFieldIndex === -1) {
-			await interaction.followUp({
-				content: "The log message does not have a reason field."
-			});
+			await interaction.followUp(
+				"The log message does not have a reason field."
+			);
 
 			return;
 		}
@@ -117,7 +111,5 @@ export default new Command()
 			embeds: [embed]
 		});
 
-		await interaction.followUp({
-			content: "Updated the reason of that log entry."
-		});
+		await interaction.followUp("Updated the reason of that log entry.");
 	});

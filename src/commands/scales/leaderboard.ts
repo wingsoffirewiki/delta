@@ -12,16 +12,12 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			interaction.followUp({
-				content: "Failed to get guild"
-			});
+			interaction.followUp("Failed to get guild");
 
 			return;
 		}
 		if (!(await isFeatureEnabled(guild, "scales"))) {
-			interaction.followUp({
-				content: "Scales feature is not enabled"
-			});
+			interaction.followUp("Scales feature is not enabled");
 
 			return;
 		}
@@ -39,9 +35,7 @@ export default new Command()
 			(userModel) => userModel.id === authorId
 		);
 		if (authorModel === undefined) {
-			interaction.followUp({
-				content: "Failed to get author model"
-			});
+			interaction.followUp("Failed to get author model");
 
 			return;
 		}
