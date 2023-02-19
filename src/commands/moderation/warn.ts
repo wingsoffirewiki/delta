@@ -37,7 +37,7 @@ export default new Command()
 		if (guild === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "This command can only be used in a server"
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -45,7 +45,7 @@ export default new Command()
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "Moderation is not enabled in this server"
+				content: "Moderation is not enabled in this server."
 			});
 
 			return;
@@ -61,11 +61,11 @@ export default new Command()
 		});
 
 		await user
-			.send(`You have been warned in \`${guild.name}\`:\n\`${reason}\``)
+			.send(`You have been warned in \`${guild.name}\`:\n\`${reason}\`.`)
 			.catch((error) => console.log(error.message));
 
 		await interaction.followUp({
 			ephemeral: true,
-			content: `Successfully warned ${user} (\`${user.tag}\`) (\`${user.id}\`)`
+			content: `Successfully warned ${user} (\`${user.tag}\`) (\`${user.id}\`).`
 		});
 	});

@@ -37,7 +37,7 @@ export default new Command()
 		if (guild === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "This command can only be used in a server"
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -56,21 +56,21 @@ export default new Command()
 		if (member !== null && !member.kickable) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "I cannot kick this user"
+				content: "I cannot kick this user."
 			});
 
 			return;
 		}
 
 		const message = await user
-			.send(`You have been kicked from \`${guild.name}\`:\n\`${reason}\``)
+			.send(`You have been kicked from \`${guild.name}\`:\n\`${reason}\`.`)
 			.catch((error) => console.log(error.message));
 
 		const result = await guild.members.kick(user, reason);
 		if (result === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "Failed to kick user"
+				content: "Failed to kick user."
 			});
 
 			await message?.delete();
@@ -89,6 +89,6 @@ export default new Command()
 
 		await interaction.followUp({
 			ephemeral: true,
-			content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
+			content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\`.`
 		});
 	});

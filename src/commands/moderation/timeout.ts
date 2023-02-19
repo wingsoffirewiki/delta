@@ -53,7 +53,7 @@ export default new Command()
 		if (member === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "The user is not in this server"
+				content: "The user is not in this server."
 			});
 
 			return;
@@ -61,7 +61,7 @@ export default new Command()
 		if (!member.moderatable) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "I cannot timeout this user"
+				content: "I cannot timeout this user."
 			});
 
 			return;
@@ -76,7 +76,7 @@ export default new Command()
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "Moderation is not enabled in this server"
+				content: "Moderation is not enabled in this server."
 			});
 
 			return;
@@ -85,7 +85,7 @@ export default new Command()
 		if (durationMilliseconds > TWO_WEEKS) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "You cannot timeout a user for more than two weeks"
+				content: "You cannot timeout a user for more than two weeks."
 			});
 
 			return;
@@ -108,13 +108,13 @@ export default new Command()
 
 		await member
 			.send(
-				`You have been timed out from \`${guild.name}\` for \`${formattedDuration}\`:\n\`${reason}\``
+				`You have been timed out from \`${guild.name}\` for \`${formattedDuration}\`:\n\`${reason}\`.`
 			)
 			.catch((error) => console.log(error.message));
 
 		await member.timeout(durationMilliseconds, reason);
 
 		await interaction.followUp(
-			`Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${formattedDuration}\``
+			`Successfully timed out ${member} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\` for \`${formattedDuration}\`.`
 		);
 	});

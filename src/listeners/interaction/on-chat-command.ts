@@ -28,7 +28,7 @@ export default new EventListener<"interactionCreate">()
 		} catch (error) {
 			await interaction.reply({
 				ephemeral: true,
-				content: `An error occurred while running the command: ${error}`
+				content: `An error occurred while running the command: ${error}.`
 			});
 
 			console.error(error);

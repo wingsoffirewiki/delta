@@ -46,12 +46,12 @@ export default new Command()
 
 		const guild = interaction.guild;
 		if (guild === null) {
-			interaction.followUp("Failed to get guild");
+			interaction.followUp("Failed to get guild.");
 
 			return;
 		}
 		if (!(await isFeatureEnabled(guild, "scales"))) {
-			interaction.followUp("Scales feature is not enabled");
+			interaction.followUp("Scales feature is not enabled.");
 
 			return;
 		}
@@ -65,13 +65,13 @@ export default new Command()
 				const amount = interaction.options.getInteger("amount", true);
 
 				if (user.id === author.id) {
-					interaction.followUp("You cannot pay yourself scales");
+					interaction.followUp("You cannot pay yourself scales.");
 
 					return;
 				}
 
 				if (amount < 1) {
-					interaction.followUp("You cannot pay less than 1 scale");
+					interaction.followUp("You cannot pay less than 1 scale.");
 
 					return;
 				}
@@ -82,18 +82,18 @@ export default new Command()
 					}
 				});
 				if (authorModel === null) {
-					interaction.followUp("Failed to get author model");
+					interaction.followUp("Failed to get author model.");
 
 					return;
 				}
 				if (authorModel.banned) {
-					interaction.followUp("You are banned from using scales");
+					interaction.followUp("You are banned from using scales.");
 
 					return;
 				}
 				if (authorModel.scales < amount) {
 					interaction.followUp(
-						"You do not have enough scales to pay that amount"
+						"You do not have enough scales to pay that amount."
 					);
 
 					return;
@@ -105,17 +105,17 @@ export default new Command()
 					}
 				});
 				if (userModel === null) {
-					interaction.followUp("Failed to get user model");
+					interaction.followUp("Failed to get user model.");
 
 					return;
 				}
 				if (userModel.banned) {
-					interaction.followUp("That user is banned from using scales");
+					interaction.followUp("That user is banned from using scales.");
 
 					return;
 				}
 				if (!userModel.enablePayments) {
-					interaction.followUp("That user has disabled payments");
+					interaction.followUp("That user has disabled payments.");
 
 					return;
 				}
@@ -143,7 +143,7 @@ export default new Command()
 
 				await Promise.all([authorUpdatePromise, userUpdatePromise]);
 
-				interaction.followUp(`You have paid ${user} ${amount} scales`);
+				interaction.followUp(`You have paid ${user} ${amount} scales.`);
 
 				break;
 			}
@@ -160,7 +160,7 @@ export default new Command()
 					}
 				});
 				if (userModel === null) {
-					interaction.followUp("Failed to get user model");
+					interaction.followUp("Failed to get user model.");
 
 					return;
 				}
@@ -174,6 +174,6 @@ export default new Command()
 			}
 
 			default:
-				interaction.followUp("Invalid subcommand");
+				interaction.followUp("Invalid subcommand.");
 		}
 	});

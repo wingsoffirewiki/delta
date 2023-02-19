@@ -11,7 +11,7 @@ export default new Command()
 
 		const randomFact = await getRandomFact();
 		if (randomFact === undefined) {
-			interaction.followUp("Failed to get random fact");
+			interaction.followUp("Failed to get random fact.");
 
 			return;
 		}

@@ -60,7 +60,7 @@ export default new Command()
 		if (guild === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "This command can only be used in a server"
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -69,7 +69,7 @@ export default new Command()
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "Moderation is not enabled in this server"
+				content: "Moderation is not enabled in this server."
 			});
 
 			return;
@@ -79,7 +79,7 @@ export default new Command()
 		if (member !== null && !member.bannable) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "I cannot ban this user"
+				content: "I cannot ban this user."
 			});
 
 			return;
@@ -89,7 +89,7 @@ export default new Command()
 		if (ban !== null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "This user is already banned"
+				content: "This user is already banned."
 			});
 
 			return;
@@ -105,7 +105,7 @@ export default new Command()
 				: null;
 		const durationAddition =
 			formattedDuration !== null ? ` for \`${formattedDuration}\`` : "";
-		const banMessage = `You have been banned from \`${guild.name}\`${durationAddition}:\n\`${reason}\``;
+		const banMessage = `You have been banned from \`${guild.name}\`${durationAddition}:\n\`${reason}\`.`;
 
 		const message = await user
 			.send(banMessage)
@@ -118,7 +118,7 @@ export default new Command()
 		if (result === null) {
 			await interaction.followUp({
 				ephemeral: true,
-				content: "Failed to ban user"
+				content: "Failed to ban user."
 			});
 
 			await message?.delete();
@@ -146,10 +146,9 @@ export default new Command()
 				  }
 		);
 
-		let followUpMessage = `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``;
-		if (formattedDuration !== null) {
-			followUpMessage += ` for \`${formattedDuration}\``;
-		}
+		const followUpAddition =
+			formattedDuration !== null ? ` for \`${formattedDuration}\`` : "";
+		const followUpMessage = `Successfully banned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\`${followUpAddition}.`;
 
 		await interaction.followUp({
 			ephemeral: true,

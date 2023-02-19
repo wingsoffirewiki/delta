@@ -35,13 +35,13 @@ export default new Command()
 		});
 		if (authorModel === null) {
 			await interaction.followUp(
-				"An error occurred while updating your user model"
+				"An error occurred while updating your user model."
 			);
 
 			return;
 		}
 
 		await interaction.followUp(
-			`Successfully updated enablePayments to \`${enablePayments}\``
+			`Successfully updated enablePayments to \`${enablePayments}\`.`
 		);
 	});

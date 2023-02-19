@@ -12,7 +12,7 @@ export default new Command()
 
 		const factOfTheDay = await getFactOfTheDay();
 		if (factOfTheDay === undefined) {
-			interaction.followUp("Failed to get fact of the day");
+			interaction.followUp("Failed to get fact of the day.");
 
 			return;
 		}
