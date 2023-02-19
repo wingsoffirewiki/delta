@@ -9,7 +9,15 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const client = new Client(options as ClientOptions, __dirname);
+import { Partials } from "discord.js";
+
+const client = new Client(
+	{
+		...(options as ClientOptions),
+		partials: [Partials.Reaction, Partials.Message]
+	},
+	__dirname
+);
 
 const token = process.env.TOKEN;
 if (token === undefined) {
