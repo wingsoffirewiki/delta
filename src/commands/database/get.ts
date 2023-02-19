@@ -6,7 +6,7 @@ export default new Command()
 	.setName("get")
 	.setDescription("Get server settings from the database")
 	.setCategory("Database")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

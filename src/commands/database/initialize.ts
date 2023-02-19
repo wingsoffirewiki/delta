@@ -5,7 +5,7 @@ export default new Command()
 	.setName("initialize")
 	.setDescription("Initialize server settings for the database")
 	.setCategory("Database")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

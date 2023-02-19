@@ -8,7 +8,7 @@ export default new Command()
 	.setName("random-funnie")
 	.setDescription("Get a random funnie (starboard) from the database")
 	.setCategory("Funnies")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
 		const guild = interaction.guild;

@@ -4,7 +4,7 @@ import { NULL_SNOWFLAKE } from "../../util/types";
 
 export default new EventListener<"interactionCreate">()
 	.setEvent("interactionCreate")
-	.setListener(async (client, interaction) => {
+	.setHandler(async (client, interaction) => {
 		if (!interaction.isButton()) {
 			return;
 		}

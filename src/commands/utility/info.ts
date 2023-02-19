@@ -18,7 +18,7 @@ export default new Command()
 		type: ApplicationCommandOptionType.User,
 		required: false
 	})
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
 		const guild = interaction.guild;

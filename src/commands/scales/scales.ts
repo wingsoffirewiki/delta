@@ -41,7 +41,7 @@ export default new Command()
 			]
 		}
 	)
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
 		const guild = interaction.guild;

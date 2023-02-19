@@ -9,7 +9,7 @@ import { log } from "../util/logging";
 
 export default new EventListener<"ready">()
 	.setEvent("ready")
-	.setListener(async (client) => {
+	.setHandler(async (client) => {
 		console.log(`${client.user.tag} is online!`);
 
 		setInterval(() => autoUnban(client), 10000);

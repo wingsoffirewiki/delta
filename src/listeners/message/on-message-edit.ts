@@ -4,7 +4,7 @@ import { LogType } from "../../util/types";
 
 export default new EventListener<"messageUpdate">()
 	.setEvent("messageUpdate")
-	.setListener(async (client, oldMessage, newMessage) => {
+	.setHandler(async (client, oldMessage, newMessage) => {
 		const fetchedNewMessage = await newMessage.fetch(true);
 
 		const guild = fetchedNewMessage.guild;

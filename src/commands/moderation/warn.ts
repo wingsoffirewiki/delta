@@ -22,7 +22,7 @@ export default new Command()
 			required: false
 		}
 	)
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

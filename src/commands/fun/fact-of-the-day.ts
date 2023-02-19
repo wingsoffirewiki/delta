@@ -7,7 +7,7 @@ export default new Command()
 	.setName("fact-of-the-day")
 	.setDescription("Gets the fact of the day")
 	.setCategory("Fun")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
 		const factOfTheDay = await getFactOfTheDay();

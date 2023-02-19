@@ -14,7 +14,7 @@ export default new Command()
 		minValue: 1,
 		maxValue: 100
 	})
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

@@ -4,7 +4,7 @@ import { prisma } from "../../util/prisma-client";
 
 export default new EventListener<"messageReactionRemove">()
 	.setEvent("messageReactionRemove")
-	.setListener(async (client, reaction) => {
+	.setHandler(async (client, reaction) => {
 		const message = reaction.message;
 		const guild = message.guild;
 		if (guild === null) {

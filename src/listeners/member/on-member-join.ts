@@ -19,7 +19,7 @@ const tribes = [
 
 export default new EventListener<"guildMemberAdd">()
 	.setEvent("guildMemberAdd")
-	.setListener(async (client, member) => {
+	.setHandler(async (client, member) => {
 		const guild = member.guild;
 
 		member.send(messages.welcome).catch((error) => console.log(error.message));

@@ -826,7 +826,7 @@ __metadata:
     eslint: 8.33.0
     eslint-config-prettier: 8.6.0
     eslint-plugin-prettier: 4.2.1
-    fero-dc: 4.0.0-dev-13
+    fero-dc: 4.0.0-dev-14
     fero-ms: 2.0.7
     glob: 8.1.0
     lodash: 4.17.21
@@ -1161,14 +1161,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fero-dc@npm:4.0.0-dev-13":
-  version: 4.0.0-dev-13
-  resolution: "fero-dc@npm:4.0.0-dev-13"
+"fero-dc@npm:4.0.0-dev-14":
+  version: 4.0.0-dev-14
+  resolution: "fero-dc@npm:4.0.0-dev-14"
   dependencies:
     discord.js: 14.7.1
     glob: 8.1.0
     lodash: 4.17.21
-  checksum: b76d0eafd990e3f77611a904b38648d243d0ceb7a06ca8ba235e4490ea938f908deb3d3865f734c69cf2d47d17177f6e62f87fb2f32fb99011e9b7f5c6006e30
+  checksum: daa81d3f30a686ab8a23523d04f4941c2c07c24495f10faec9d6dc089f2d4ebb17fae662397f57d12ecb6ecb639447f6ccd4750766340b406bc5792d94d15db3
   languageName: node
   linkType: hard
 

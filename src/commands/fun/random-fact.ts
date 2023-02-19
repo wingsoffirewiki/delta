@@ -6,7 +6,7 @@ export default new Command()
 	.setName("random-fact")
 	.setDescription("Gets a random fact")
 	.setCategory("Fun")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
 		const randomFact = await getRandomFact();

@@ -12,7 +12,7 @@ export default new Command()
 	.setName("verification-setup")
 	.setDescription("Sets up the verification system")
 	.setCategory("Verification")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

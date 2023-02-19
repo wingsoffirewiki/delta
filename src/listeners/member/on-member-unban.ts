@@ -5,7 +5,7 @@ import { AuditLogEvent } from "discord.js";
 
 export default new EventListener<"guildBanRemove">()
 	.setEvent("guildBanRemove")
-	.setListener(async (client, ban) => {
+	.setHandler(async (client, ban) => {
 		const guild = ban.guild;
 		const user = ban.user;
 

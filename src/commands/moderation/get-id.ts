@@ -12,7 +12,7 @@ export default new Command()
 		type: ApplicationCommandOptionType.User,
 		required: true
 	})
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});

@@ -5,7 +5,7 @@ const VERIFICATION_CHANNEL_ID = "734249352205434881";
 
 export default new EventListener<"guildMemberAdd">()
 	.setEvent("guildMemberAdd")
-	.setListener((client, member) => {
+	.setHandler((client, member) => {
 		const guild = member.guild;
 		if (guild.id !== WOF_CODE_PROJECTS_GUILD_ID) {
 			return;

@@ -4,7 +4,7 @@ import { createFunnie, getFunnieReactionCounts } from "../../util/funnies";
 
 export default new EventListener<"messageReactionAdd">()
 	.setEvent("messageReactionAdd")
-	.setListener(async (client, reaction) => {
+	.setHandler(async (client, reaction) => {
 		const message = reaction.message;
 		const guild = message.guild;
 		if (guild === null) {

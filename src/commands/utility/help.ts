@@ -17,7 +17,7 @@ export default new Command()
 		type: ApplicationCommandOptionType.String,
 		required: false
 	})
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true
 		});
@@ -44,22 +44,22 @@ export default new Command()
 		if (command !== null) {
 			embed
 				.setDescription(
-					`Here are all the properties for the ${command.data.name} command!`
+					`Here are all the properties for the ${command.name} command!`
 				)
 				.addFields(
 					{
 						name: "Command Name",
-						value: command.data.name,
+						value: command.name,
 						inline: true
 					},
 					{
 						name: "Command Description",
-						value: command.data.description,
+						value: command.description,
 						inline: true
 					},
 					{
 						name: "Command Category",
-						value: toPascalCase(command.data.category),
+						value: toPascalCase(command.category),
 						inline: true
 					}
 				);
@@ -90,7 +90,7 @@ export default new Command()
 					const name = `${category}${
 						category.endsWith("Commands") ? "" : " Commands"
 					}`;
-					const value = commands.map((command) => command.data.name).join("\n");
+					const value = commands.map((command) => command.name).join("\n");
 					return { name, value, inline: true };
 				}
 			);

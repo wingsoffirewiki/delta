@@ -7,7 +7,7 @@ const HONK_EMOJI_ID = "639271354734215178";
 
 export default new EventListener<"messageCreate">()
 	.setEvent("messageCreate")
-	.setListener(async (client, message) => {
+	.setHandler(async (client, message) => {
 		if (message.author.bot) {
 			return;
 		}

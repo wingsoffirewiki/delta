@@ -8,7 +8,7 @@ export default new Command()
 	.setName("delta")
 	.setDescription("Shows information about the bot")
 	.setCategory("Utility")
-	.setRun(async (client, interaction) => {
+	.setExecutor(async (client, interaction) => {
 		const author = interaction.user;
 
 		const embed = new EmbedBuilder()

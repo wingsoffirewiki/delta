@@ -4,7 +4,7 @@ import { LogType } from "../../util/types";
 
 export default new EventListener<"messageDeleteBulk">()
 	.setEvent("messageDeleteBulk")
-	.setListener(async (client, messages) => {
+	.setHandler(async (client, messages) => {
 		const guild = messages.first()?.guild ?? null;
 		if (guild === null) {
 			return;
