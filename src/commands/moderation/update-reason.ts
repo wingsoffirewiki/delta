@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 
@@ -6,6 +6,10 @@ export default new Command()
 	.setName("update-reason")
 	.setDescription("Update the reason of a log entry")
 	.setCategory("Moderation")
+	.setPermissions(
+		PermissionFlagsBits.ViewAuditLog,
+		PermissionFlagsBits.ModerateMembers
+	)
 	.setOptions(
 		{
 			name: "log-id",

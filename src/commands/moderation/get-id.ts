@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { isFeatureEnabled } from "../../util/features";
 
@@ -6,6 +6,7 @@ export default new Command()
 	.setName("get-id")
 	.setDescription("Gets the ID of a user")
 	.setCategory("Moderation")
+	.setPermissions(PermissionFlagsBits.ModerateMembers)
 	.setOptions({
 		name: "user",
 		description: "The user to get the ID of",

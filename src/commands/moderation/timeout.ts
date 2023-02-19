@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { ms } from "fero-ms";
 import { isFeatureEnabled } from "../../util/features";
@@ -11,6 +11,7 @@ export default new Command()
 	.setName("timeout")
 	.setDescription("Timeout a user")
 	.setCategory("Moderation")
+	.setPermissions(PermissionFlagsBits.ModerateMembers)
 	.setOptions(
 		{
 			name: "user",

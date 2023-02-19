@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionType, ChannelType } from "discord.js";
+import {
+	ApplicationCommandOptionType,
+	ChannelType,
+	PermissionFlagsBits
+} from "discord.js";
 import { Command } from "fero-dc";
 import { Channels, Emojis, Features, prisma } from "../../util/prisma-client";
 
@@ -6,6 +10,7 @@ export default new Command()
 	.setName("set")
 	.setDescription("Set server settings in the database")
 	.setCategory("Database")
+	.setPermissions(PermissionFlagsBits.ManageGuild)
 	.setOptions(
 		{
 			name: "channels",

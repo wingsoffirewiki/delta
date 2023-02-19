@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType, Colors, EmbedBuilder } from "discord.js";
+import {
+	ApplicationCommandOptionType,
+	Colors,
+	EmbedBuilder,
+	PermissionFlagsBits
+} from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 import { LogType } from "../../util/types";
@@ -8,6 +13,10 @@ export default new Command()
 	.setName("lookup")
 	.setDescription("Lookup a user or log entry")
 	.setCategory("Moderation")
+	.setPermissions(
+		PermissionFlagsBits.ModerateMembers,
+		PermissionFlagsBits.ManageGuild
+	)
 	.setOptions(
 		{
 			name: "user",

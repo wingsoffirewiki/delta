@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { isFeatureEnabled } from "../../util/features";
 import { log } from "../../util/logging";
@@ -8,6 +8,7 @@ export default new Command()
 	.setName("warn")
 	.setDescription("Warns a user")
 	.setCategory("Moderation")
+	.setPermissions(PermissionFlagsBits.ModerateMembers)
 	.setOptions(
 		{
 			name: "user",

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { isFeatureEnabled } from "../../util/features";
 import { LogType } from "../../util/types";
@@ -8,6 +8,7 @@ export default new Command()
 	.setName("unban")
 	.setDescription("Unbans a user from the server.")
 	.setCategory("Moderation")
+	.setPermissions(PermissionFlagsBits.BanMembers)
 	.setOptions(
 		{
 			name: "user",

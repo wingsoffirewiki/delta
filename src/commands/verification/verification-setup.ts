@@ -5,13 +5,15 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	Colors,
-	EmbedBuilder
+	EmbedBuilder,
+	PermissionFlagsBits
 } from "discord.js";
 
 export default new Command()
 	.setName("verification-setup")
 	.setDescription("Sets up the verification system")
 	.setCategory("Verification")
+	.setPermissions(PermissionFlagsBits.ManageGuild)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true

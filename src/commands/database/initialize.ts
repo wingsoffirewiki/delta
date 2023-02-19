@@ -1,10 +1,12 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
+import { PermissionFlagsBits } from "discord.js";
 
 export default new Command()
 	.setName("initialize")
 	.setDescription("Initialize server settings for the database")
 	.setCategory("Database")
+	.setPermissions(PermissionFlagsBits.ManageGuild)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 
@@ -6,6 +6,7 @@ export default new Command()
 	.setName("remove-funnie")
 	.setDescription("Remove a funnie from the database")
 	.setCategory("Funnies")
+	.setPermissions(PermissionFlagsBits.ManageGuild)
 	.setOptions({
 		name: "message-id",
 		description: "The ID of the message to remove",

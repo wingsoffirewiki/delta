@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 
@@ -6,6 +6,7 @@ export default new Command()
 	.setName("get")
 	.setDescription("Get server settings from the database")
 	.setCategory("Database")
+	.setPermissions(PermissionFlagsBits.ManageGuild)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply({
 			ephemeral: true

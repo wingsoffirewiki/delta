@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { isFeatureEnabled } from "../../util/features";
 
@@ -6,6 +6,7 @@ export default new Command()
 	.setName("clear")
 	.setDescription("Clears messages in the current channel")
 	.setCategory("Moderation")
+	.setPermissions(PermissionFlagsBits.ManageMessages)
 	.setOptions({
 		name: "amount",
 		description: "The amount of messages to delete",
