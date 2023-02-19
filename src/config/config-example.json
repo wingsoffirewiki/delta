@@ -8,7 +8,8 @@
 		"GuildPresences",
 		"GuildEmojisAndStickers",
 		"GuildMembers",
-		"GuildBans"
+		"GuildModeration",
+		"GuildMessageReactions"
 	],
 	"commandsPath": "./commands",
 	"eventListenersPath": "./listeners",
