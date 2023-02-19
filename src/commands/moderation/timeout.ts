@@ -41,8 +41,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -52,16 +52,16 @@ export default new Command()
 		const member = await guild.members.fetch(user.id);
 		if (member === null) {
 			await interaction.followUp({
-				content: "The user is not in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "The user is not in this server"
 			});
 
 			return;
 		}
 		if (!member.moderatable) {
 			await interaction.followUp({
-				content: "I cannot timeout this user",
-				ephemeral: true
+				ephemeral: true,
+				content: "I cannot timeout this user"
 			});
 
 			return;
@@ -75,8 +75,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -84,8 +84,8 @@ export default new Command()
 
 		if (durationMilliseconds > TWO_WEEKS) {
 			await interaction.followUp({
-				content: "You cannot timeout a user for more than two weeks",
-				ephemeral: true
+				ephemeral: true,
+				content: "You cannot timeout a user for more than two weeks"
 			});
 
 			return;

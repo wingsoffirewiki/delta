@@ -45,8 +45,8 @@ export default new Command()
 		}
 		if (!guildModel.features.moderation) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;

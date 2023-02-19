@@ -20,8 +20,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -33,8 +33,8 @@ export default new Command()
 		});
 		if (guildModel === null) {
 			await interaction.followUp({
-				content: "This server has not been initialized.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This server has not been initialized."
 			});
 
 			return;
@@ -45,8 +45,8 @@ export default new Command()
 			.catch(() => null);
 		if (verificationChannel === null || !verificationChannel.isTextBased()) {
 			await interaction.followUp({
-				content: "Failed to get verification channel.",
-				ephemeral: true
+				ephemeral: true,
+				content: "Failed to get verification channel."
 			});
 
 			return;
@@ -89,7 +89,7 @@ export default new Command()
 		});
 
 		await interaction.followUp({
-			content: "Verification message sent!",
-			ephemeral: true
+			ephemeral: true,
+			content: "Verification message sent!"
 		});
 	});

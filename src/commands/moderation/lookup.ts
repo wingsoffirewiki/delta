@@ -50,8 +50,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -117,8 +117,8 @@ export default new Command()
 			});
 			if (logModel === null) {
 				await interaction.followUp({
-					content: "That log entry does not exist.",
-					ephemeral: true
+					ephemeral: true,
+					content: "That log entry does not exist."
 				});
 
 				return;
@@ -131,8 +131,8 @@ export default new Command()
 			});
 			if (guildModel === null) {
 				await interaction.followUp({
-					content: "This guild does not exist in the database.",
-					ephemeral: true
+					ephemeral: true,
+					content: "This guild does not exist in the database."
 				});
 
 				return;
@@ -143,8 +143,8 @@ export default new Command()
 			);
 			if (logsChannel === null || !logsChannel.isTextBased()) {
 				await interaction.followUp({
-					content: "The logs channel is not a text channel or does not exist.",
-					ephemeral: true
+					ephemeral: true,
+					content: "The logs channel is not a text channel or does not exist."
 				});
 
 				return;
@@ -155,8 +155,8 @@ export default new Command()
 			);
 			if (embedMessage === null) {
 				await interaction.followUp({
-					content: "The log entry's embed does not exist.",
-					ephemeral: true
+					ephemeral: true,
+					content: "The log entry's embed does not exist."
 				});
 
 				return;
@@ -165,8 +165,8 @@ export default new Command()
 			const embed = embedMessage.embeds[0];
 			if (embed === null) {
 				await interaction.followUp({
-					content: "The log entry's embed does not exist.",
-					ephemeral: true
+					ephemeral: true,
+					content: "The log entry's embed does not exist."
 				});
 
 				return;

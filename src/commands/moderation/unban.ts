@@ -36,8 +36,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server"
 			});
 
 			return;
@@ -45,8 +45,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -55,8 +55,8 @@ export default new Command()
 		const ban = await guild.bans.fetch(user).catch(() => null);
 		if (ban === null) {
 			await interaction.followUp({
-				content: "This user is not banned",
-				ephemeral: true
+				ephemeral: true,
+				content: "This user is not banned"
 			});
 
 			return;
@@ -65,8 +65,8 @@ export default new Command()
 		const result = await guild.members.unban(user, reason);
 		if (result === null) {
 			await interaction.followUp({
-				content: "Failed to unban user",
-				ephemeral: true
+				ephemeral: true,
+				content: "Failed to unban user"
 			});
 
 			return;
@@ -82,7 +82,7 @@ export default new Command()
 		});
 
 		await interaction.followUp({
-			content: `Successfully unbanned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,
-			ephemeral: true
+			ephemeral: true,
+			content: `Successfully unbanned ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
 		});
 	});

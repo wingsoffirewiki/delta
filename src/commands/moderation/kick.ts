@@ -36,8 +36,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server"
 			});
 
 			return;
@@ -45,8 +45,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -55,8 +55,8 @@ export default new Command()
 		const member = await guild.members.fetch(user).catch(() => null);
 		if (member !== null && !member.kickable) {
 			await interaction.followUp({
-				content: "I cannot kick this user",
-				ephemeral: true
+				ephemeral: true,
+				content: "I cannot kick this user"
 			});
 
 			return;
@@ -69,8 +69,8 @@ export default new Command()
 		const result = await guild.members.kick(user, reason);
 		if (result === null) {
 			await interaction.followUp({
-				content: "Failed to kick user",
-				ephemeral: true
+				ephemeral: true,
+				content: "Failed to kick user"
 			});
 
 			await message?.delete();
@@ -88,7 +88,7 @@ export default new Command()
 		});
 
 		await interaction.followUp({
-			content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``,
-			ephemeral: true
+			ephemeral: true,
+			content: `Successfully kicked ${user} (\`${user.tag}\`) (\`${user.id}\`) from \`${guild.name}\``
 		});
 	});

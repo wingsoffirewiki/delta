@@ -59,8 +59,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server"
 			});
 
 			return;
@@ -68,8 +68,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -78,8 +78,8 @@ export default new Command()
 		const member = await guild.members.fetch(user).catch(() => null);
 		if (member !== null && !member.bannable) {
 			await interaction.followUp({
-				content: "I cannot ban this user",
-				ephemeral: true
+				ephemeral: true,
+				content: "I cannot ban this user"
 			});
 
 			return;
@@ -88,8 +88,8 @@ export default new Command()
 		const ban = await guild.bans.fetch(user).catch(() => null);
 		if (ban !== null) {
 			await interaction.followUp({
-				content: "This user is already banned",
-				ephemeral: true
+				ephemeral: true,
+				content: "This user is already banned"
 			});
 
 			return;
@@ -117,8 +117,8 @@ export default new Command()
 		});
 		if (result === null) {
 			await interaction.followUp({
-				content: "Failed to ban user",
-				ephemeral: true
+				ephemeral: true,
+				content: "Failed to ban user"
 			});
 
 			await message?.delete();
@@ -152,7 +152,7 @@ export default new Command()
 		}
 
 		await interaction.followUp({
-			content: followUpMessage,
-			ephemeral: true
+			ephemeral: true,
+			content: followUpMessage
 		});
 	});

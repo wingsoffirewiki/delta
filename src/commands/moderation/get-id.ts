@@ -20,16 +20,16 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server"
 			});
 
 			return;
 		}
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -38,7 +38,7 @@ export default new Command()
 		const user = interaction.options.getUser("user", true);
 
 		await interaction.followUp({
-			content: `The ID of ${user.tag} is \`${user.id}\``,
-			ephemeral: true
+			ephemeral: true,
+			content: `The ID of ${user.tag} is \`${user.id}\``
 		});
 	});

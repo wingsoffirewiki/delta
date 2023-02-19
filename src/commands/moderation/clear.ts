@@ -22,8 +22,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server"
 			});
 
 			return;
@@ -31,8 +31,8 @@ export default new Command()
 
 		if (!(await isFeatureEnabled(guild, "moderation"))) {
 			await interaction.followUp({
-				content: "Moderation is not enabled in this server",
-				ephemeral: true
+				ephemeral: true,
+				content: "Moderation is not enabled in this server"
 			});
 
 			return;
@@ -43,8 +43,8 @@ export default new Command()
 		const channel = interaction.channel;
 		if (channel === null || !channel.isTextBased() || channel.isDMBased()) {
 			await interaction.followUp({
-				content: "This command can only be used in a text channel",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a text channel"
 			});
 
 			return;
@@ -57,7 +57,7 @@ export default new Command()
 		const deletedMessages = await channel.bulkDelete(messages, true);
 
 		await interaction.followUp({
-			content: `Deleted ${deletedMessages.size} messages`,
-			ephemeral: true
+			ephemeral: true,
+			content: `Deleted ${deletedMessages.size} messages`
 		});
 	});

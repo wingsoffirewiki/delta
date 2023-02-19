@@ -13,8 +13,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -27,8 +27,8 @@ export default new Command()
 		});
 		if (guildModel !== null) {
 			interaction.followUp({
-				content: "This server has already been initialized.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This server has already been initialized."
 			});
 
 			return;
@@ -46,7 +46,7 @@ export default new Command()
 		});
 
 		await interaction.followUp({
-			content: "Successfully initialized this server in the database.",
-			ephemeral: true
+			ephemeral: true,
+			content: "Successfully initialized this server in the database."
 		});
 	});

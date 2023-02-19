@@ -175,8 +175,8 @@ export default new Command()
 		const guild = interaction.guild;
 		if (guild === null) {
 			await interaction.followUp({
-				content: "This command can only be used in a server.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This command can only be used in a server."
 			});
 
 			return;
@@ -189,8 +189,8 @@ export default new Command()
 		});
 		if (guildModel === null) {
 			await interaction.followUp({
-				content: "This server has not been initialized.",
-				ephemeral: true
+				ephemeral: true,
+				content: "This server has not been initialized."
 			});
 
 			return;
@@ -205,8 +205,8 @@ export default new Command()
 				const channel = interaction.options.getChannel("channel", true);
 				if (channel.type !== ChannelType.GuildText) {
 					await interaction.followUp({
-						content: "This channel is not a text channel.",
-						ephemeral: true
+						ephemeral: true,
+						content: "This channel is not a text channel."
 					});
 
 					return;
@@ -226,8 +226,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully set the \`${channelType}\` channel to <#${channel.id}>.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully set the \`${channelType}\` channel to <#${channel.id}>.`
 				});
 
 				break;
@@ -252,8 +252,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully added the \`${role.name}\` role to the list of moderator roles.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully added the \`${role.name}\` role to the list of moderator roles.`
 				});
 
 				break;
@@ -267,8 +267,8 @@ export default new Command()
 				const index = roleIds.mods.indexOf(role.id);
 				if (index === -1) {
 					await interaction.followUp({
-						content: "This role is not a moderator role.",
-						ephemeral: true
+						ephemeral: true,
+						content: "This role is not a moderator role."
 					});
 
 					return;
@@ -286,8 +286,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully removed the \`${role.name}\` role from the list of moderator roles.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully removed the \`${role.name}\` role from the list of moderator roles.`
 				});
 
 				break;
@@ -305,8 +305,8 @@ export default new Command()
 				const isUnicodeEmoji = emoji.length === 1; // TODO: better unicode emoji detection
 				if (!isGuildEmoji && !isUnicodeEmoji) {
 					await interaction.followUp({
-						content: "This is not a valid emoji.",
-						ephemeral: true
+						ephemeral: true,
+						content: "This is not a valid emoji."
 					});
 
 					return;
@@ -326,8 +326,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully set the \`${emojiType}\` emoji to ${emoji}.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully set the \`${emojiType}\` emoji to ${emoji}.`
 				});
 
 				break;
@@ -350,8 +350,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully set the verified role to ${role.name}.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully set the verified role to ${role.name}.`
 				});
 
 				break;
@@ -377,8 +377,8 @@ export default new Command()
 				});
 
 				await interaction.followUp({
-					content: `Successfully set the \`${feature}\` feature to ${value}.`,
-					ephemeral: true
+					ephemeral: true,
+					content: `Successfully set the \`${feature}\` feature to ${value}.`
 				});
 
 				break;
