@@ -56,7 +56,7 @@ export default new Command()
 			return;
 		}
 
-		const authorId = interaction.user.id;
+		const author = interaction.user;
 
 		const subcommand = interaction.options.getSubcommand(true);
 		switch (subcommand) {
@@ -64,7 +64,7 @@ export default new Command()
 				const user = interaction.options.getUser("user", true);
 				const amount = interaction.options.getInteger("amount", true);
 
-				if (user.id === authorId) {
+				if (user.id === author.id) {
 					interaction.followUp("You cannot pay yourself scales");
 
 					return;
@@ -78,7 +78,7 @@ export default new Command()
 
 				const authorModel = await prisma.user.findUnique({
 					where: {
-						id: authorId
+						id: author.id
 					}
 				});
 				if (authorModel === null) {
@@ -122,7 +122,7 @@ export default new Command()
 
 				const authorUpdatePromise = prisma.user.update({
 					where: {
-						id: authorId
+						id: author.id
 					},
 					data: {
 						scales: {
@@ -166,7 +166,7 @@ export default new Command()
 				}
 
 				const message =
-					user.id === authorId ? "You have" : `\`${user.tag}\` has`;
+					user.id === author.id ? "You have" : `\`${user.tag}\` has`;
 
 				interaction.followUp(`${message} \`${userModel.scales}\` scales!`);
 

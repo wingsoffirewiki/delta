@@ -30,9 +30,9 @@ export default new Command()
 		});
 		userModels.sort((a, b) => b.scales - a.scales);
 
-		const authorId = interaction.user.id;
+		const author = interaction.user;
 		const authorModel = userModels.find(
-			(userModel) => userModel.id === authorId
+			(userModel) => userModel.id === author.id
 		);
 		if (authorModel === undefined) {
 			interaction.followUp("Failed to get author model");

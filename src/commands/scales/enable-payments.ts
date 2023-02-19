@@ -24,10 +24,10 @@ export default new Command()
 
 		const enablePayments = interaction.options.getBoolean("value", true);
 
-		const authorId = interaction.user.id;
+		const author = interaction.user;
 		const authorModel = await prisma.user.update({
 			where: {
-				id: authorId
+				id: author.id
 			},
 			data: {
 				enablePayments
