@@ -1,10 +1,22 @@
-import { Guild } from "./prisma-client";
-import { Collection, GuildMember, Message } from "discord.js";
+import { Client } from "fero-dc";
+import { Guild, prisma } from "./prisma-client";
+import {
+	Collection,
+	EmbedBuilder,
+	GuildMember,
+	Message,
+	PartialMessage
+} from "discord.js";
+
+type FunnieReactionCounts = [
+	funnieUpvoteCount: number,
+	funnieModUpvoteCount: number
+];
 
 export async function getFunnieReactionCounts(
 	guildModel: Guild,
-	message: Message<true>
-): Promise<[funnieUpvoteCount: number, funnieModUpvoteCount: number]> {
+	message: Message<boolean> | PartialMessage
+): Promise<FunnieReactionCounts> {
 	const guild = message.guild;
 
 	const modRoleIds = guildModel.roleIds.mods;
@@ -21,7 +33,7 @@ export async function getFunnieReactionCounts(
 	const funnieModUpvoteMembers = (
 		await Promise.all(
 			funnieModUpvoteUsers.map((user) =>
-				guild.members.fetch(user.id).catch(() => null)
+				guild?.members.fetch(user.id).catch(() => null)
 			)
 		)
 	).filter((member): member is GuildMember => member !== null);
@@ -34,4 +46,67 @@ export async function getFunnieReactionCounts(
 	const funnieModUpvoteCount = funnieModUpvoteMembersFiltered.length;
 
 	return [funnieUpvoteCount, funnieModUpvoteCount];
+}
+
+export async function createFunnie(
+	client: Client<true>,
+	guildModel: Guild,
+	message: Message | PartialMessage,
+	counts: FunnieReactionCounts
+): Promise<void> {
+	const channel = message.channel;
+	const member = message.member;
+	const guild = await message.guild?.fetch();
+	if (guild === undefined || member === null || member.user === null) {
+		return;
+	}
+
+	const funnieChannel = await guild.channels.fetch(
+		guildModel.channelIds.funnies
+	);
+	if (funnieChannel === null || !funnieChannel.isTextBased()) {
+		return;
+	}
+
+	const funnieUpvoteEmoji = guildModel.emojis.funnieUpvote;
+	const funnieModUpvoteEmoji = guildModel.emojis.funnieModUpvote;
+	const [funnieUpvoteCount, funnieModUpvoteCount] = counts;
+
+	const embed = new EmbedBuilder()
+		.setTitle(`${guild.name}: ${channel}`)
+		.setDescription(`${message.content}\n\n[Jump to Message](${message.url})`)
+		.setColor(member.displayColor)
+		.setAuthor({
+			name: member.user.tag,
+			iconURL: member.displayAvatarURL()
+		})
+		.addFields(
+			{
+				name: funnieUpvoteEmoji,
+				value: funnieUpvoteCount.toString(),
+				inline: true
+			},
+			{
+				name: funnieModUpvoteEmoji,
+				value: funnieModUpvoteCount.toString(),
+				inline: true
+			}
+		)
+		.setImage(message.attachments.first()?.url ?? null)
+		.setTimestamp()
+		.setFooter({
+			text: "Delta, The Wings of Fire Moderation Bot",
+			iconURL: client.user.avatarURL() ?? ""
+		});
+
+	const embedMessage = await funnieChannel.send({ embeds: [embed] });
+
+	await prisma.funnie.create({
+		data: {
+			id: message.id,
+			guildId: guild.id,
+			channelId: channel.id,
+			embedMessageId: embedMessage.id
+		}
+	});
 }
