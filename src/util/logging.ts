@@ -622,12 +622,12 @@ async function logMessageEdit(
 		.addFields(
 			{
 				name: "Old Message",
-				value: limitStringLength(oldMessage.content ?? "No content.", 1000),
+				value: limitStringLength(oldMessage.content || "No content.", 1000),
 				inline: true
 			},
 			{
 				name: "New Message",
-				value: limitStringLength(newMessage.content ?? "No content.", 1000),
+				value: limitStringLength(newMessage.content || "No content.", 1000),
 				inline: true
 			},
 			{
@@ -680,7 +680,7 @@ async function logMessageDelete(
 		.addFields(
 			{
 				name: "Message",
-				value: limitStringLength(message.content ?? "No content.", 1000),
+				value: limitStringLength(message.content || "No content.", 1000),
 				inline: true
 			},
 			{
@@ -742,7 +742,7 @@ async function logBulkMessageDelete(
 				name: message.id,
 				value: [
 					`${message.channel} | ${message.author}`,
-					`${limitStringLength(message.content ?? "No content.")}`
+					`${limitStringLength(message.content || "No content.")}`
 				].join("\n")
 			})),
 			{
