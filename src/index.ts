@@ -14,7 +14,15 @@ import { Partials } from "discord.js";
 const client = new Client(
 	{
 		...(options as ClientOptions),
-		partials: [Partials.Reaction, Partials.Message]
+		partials: [
+			Partials.Reaction,
+			Partials.Message,
+			Partials.Channel,
+			Partials.GuildMember,
+			Partials.ThreadMember,
+			Partials.User,
+			Partials.GuildScheduledEvent
+		]
 	},
 	__dirname
 );
