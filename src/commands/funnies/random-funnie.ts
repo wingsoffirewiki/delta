@@ -1,13 +1,14 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 import { randomElement } from "../../util/random";
-import { Colors, EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { getFunnieReactionCounts } from "../../util/funnies";
 
 export default new Command()
 	.setName("random-funnie")
 	.setDescription("Get a random funnie (starboard) from the database")
 	.setCategory("Funnies")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

@@ -1,12 +1,13 @@
 import { Command } from "fero-dc";
 import { getFactOfTheDay } from "../../util/fact-api";
 import { EmbedBuilder } from "@discordjs/builders";
-import { Colors } from "discord.js";
+import { Colors, PermissionFlagsBits } from "discord.js";
 
 export default new Command()
 	.setName("fact-of-the-day")
 	.setDescription("Gets the fact of the day")
 	.setCategory("Fun")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

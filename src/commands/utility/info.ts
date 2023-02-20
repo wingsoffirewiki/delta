@@ -3,7 +3,8 @@ import {
 	ApplicationCommandOptionType,
 	Colors,
 	EmbedBuilder,
-	EmbedField
+	EmbedField,
+	PermissionFlagsBits
 } from "discord.js";
 import { Command } from "fero-dc";
 import { toPascalCase } from "../../util/strings";
@@ -18,6 +19,7 @@ export default new Command()
 		type: ApplicationCommandOptionType.User,
 		required: false
 	})
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

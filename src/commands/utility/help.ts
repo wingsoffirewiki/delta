@@ -2,7 +2,8 @@ import {
 	ApplicationCommandOptionType,
 	Collection,
 	EmbedBuilder,
-	EmbedField
+	EmbedField,
+	PermissionFlagsBits
 } from "discord.js";
 import { Command } from "fero-dc";
 import { toPascalCase } from "../../util/strings";
@@ -11,6 +12,7 @@ export default new Command()
 	.setName("help")
 	.setDescription("Shows a help embed")
 	.setCategory("Utility")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setOptions({
 		name: "command",
 		description: "The command to receive help for",

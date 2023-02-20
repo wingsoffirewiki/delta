@@ -1,11 +1,12 @@
 import { Command } from "fero-dc";
 import { getRandomFact } from "../../util/fact-api";
-import { Colors, EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 
 export default new Command()
 	.setName("random-fact")
 	.setDescription("Gets a random fact")
 	.setCategory("Fun")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

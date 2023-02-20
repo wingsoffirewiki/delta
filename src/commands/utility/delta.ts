@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "@discordjs/builders";
-import { Colors } from "discord.js";
+import { Colors, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json" assert { type: "json" };
 import { ms } from "fero-ms";
@@ -8,6 +8,7 @@ export default new Command()
 	.setName("delta")
 	.setDescription("Shows information about the bot")
 	.setCategory("Utility")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		const author = interaction.user;
 
