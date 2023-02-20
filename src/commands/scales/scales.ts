@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 import { isFeatureEnabled } from "../../util/features";
@@ -41,6 +41,7 @@ export default new Command()
 			]
 		}
 	)
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

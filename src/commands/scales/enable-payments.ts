@@ -1,6 +1,6 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
 
 export default new Command()
 	.setName("enable-payments")
@@ -14,6 +14,7 @@ export default new Command()
 		type: ApplicationCommandOptionType.Boolean,
 		required: true
 	})
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 

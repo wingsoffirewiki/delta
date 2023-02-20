@@ -1,12 +1,13 @@
 import { Command } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
-import { Colors, EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import { isFeatureEnabled } from "../../util/features";
 
 export default new Command()
 	.setName("leaderboard")
 	.setDescription("Gets the leaderboard for scales")
 	.setCategory("Scales")
+	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setExecutor(async (client, interaction) => {
 		await interaction.deferReply();
 
