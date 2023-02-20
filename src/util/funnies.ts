@@ -70,9 +70,9 @@ export async function createFunnie(
 	counts: FunnieReactionCounts
 ): Promise<void> {
 	const channel = message.channel;
-	const member = message.member;
+	const member = await message.member?.fetch();
 	const guild = await message.guild?.fetch();
-	if (guild === undefined || member === null || member.user === null) {
+	if (guild === undefined || member === undefined) {
 		return;
 	}
 
