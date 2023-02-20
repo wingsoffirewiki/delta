@@ -69,10 +69,11 @@ export async function createFunnie(
 	message: Message | PartialMessage,
 	counts: FunnieReactionCounts
 ): Promise<void> {
-	const channel = message.channel;
-	const member = await message.member?.fetch();
-	const guild = await message.guild?.fetch();
-	if (guild === undefined || member === undefined) {
+	const fetchedMessage = await message.fetch();
+	const channel = fetchedMessage.channel;
+	const member = fetchedMessage.member;
+	const guild = await fetchedMessage.guild?.fetch();
+	if (guild === undefined || member === null) {
 		return;
 	}
 
@@ -89,7 +90,9 @@ export async function createFunnie(
 
 	const embed = new EmbedBuilder()
 		.setTitle(`${guild.name}: ${channel}`)
-		.setDescription(`${message.content}\n\n[Jump to Message](${message.url})`)
+		.setDescription(
+			`${fetchedMessage.content}\n\n[Jump to Message](${fetchedMessage.url})`
+		)
 		.setColor(member.displayColor)
 		.setAuthor({
 			name: member.user.tag,
@@ -107,7 +110,7 @@ export async function createFunnie(
 				inline: true
 			}
 		)
-		.setImage(message.attachments.first()?.url ?? null)
+		.setImage(fetchedMessage.attachments.first()?.url ?? null)
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
@@ -118,7 +121,7 @@ export async function createFunnie(
 
 	await prisma.funnie.create({
 		data: {
-			id: message.id,
+			id: fetchedMessage.id,
 			guildId: guild.id,
 			channelId: channel.id,
 			embedMessageId: embedMessage.id
