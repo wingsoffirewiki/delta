@@ -5,6 +5,7 @@ import {
 	EmbedBuilder,
 	GuildMember,
 	Message,
+	MessageReaction,
 	PartialMessage
 } from "discord.js";
 
@@ -12,6 +13,17 @@ type FunnieReactionCounts = [
 	funnieUpvoteCount: number,
 	funnieModUpvoteCount: number
 ];
+
+interface ReactionFilter {
+	(reaction: MessageReaction): boolean;
+}
+
+function filterReaction(emoji: string): ReactionFilter {
+	return (reaction) =>
+		emoji === reaction.emoji.id ||
+		emoji === reaction.emoji.name ||
+		emoji === reaction.emoji.toString();
+}
 
 export async function getFunnieReactionCounts(
 	guildModel: Guild,
@@ -23,9 +35,12 @@ export async function getFunnieReactionCounts(
 	const funnieModUpvoteEmoji = guildModel.emojis.funnieModUpvote;
 	const funnieUpvoteEmoji = guildModel.emojis.funnieUpvote;
 
-	const funnieUpvoteReaction = message.reactions.cache.get(funnieUpvoteEmoji);
-	const funnieModUpvoteReaction =
-		message.reactions.cache.get(funnieModUpvoteEmoji);
+	const funnieUpvoteReaction = message.reactions.cache.find(
+		filterReaction(funnieUpvoteEmoji)
+	);
+	const funnieModUpvoteReaction = message.reactions.cache.find(
+		filterReaction(funnieModUpvoteEmoji)
+	);
 
 	const funnieModUpvoteUsers =
 		(await funnieModUpvoteReaction?.users.fetch()) ?? new Collection();
