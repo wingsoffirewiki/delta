@@ -95,7 +95,7 @@ export default new Command()
 				.setDescription(`${user.tag} has ${logModels.length} entries!`)
 				.setColor(Colors.Blurple)
 				.setAuthor({
-					name: author.username ?? "",
+					name: author.username,
 					iconURL: author.avatarURL() ?? undefined
 				})
 				.addFields(
