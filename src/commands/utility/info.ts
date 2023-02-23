@@ -108,7 +108,7 @@ export default new Command()
 				name: author.username,
 				iconURL: author.avatarURL() ?? undefined
 			})
-			.setThumbnail(user.avatarURL() ?? undefined)
+			.setThumbnail(user.avatarURL())
 			.addFields(
 				{
 					name: "Account Creation Date",

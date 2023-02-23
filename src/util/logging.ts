@@ -196,7 +196,7 @@ async function logBan(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -259,7 +259,7 @@ async function logTemporaryBan(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -333,7 +333,7 @@ async function logTimeout(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -443,7 +443,7 @@ async function logUnban(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -491,7 +491,7 @@ async function logWarn(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -551,7 +551,7 @@ async function logKick(
 			name: moderator.tag,
 			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? undefined)
+		.setThumbnail(user.avatarURL())
 		.addFields(
 			{
 				name: "Username",
@@ -618,7 +618,7 @@ async function logMessageEdit(
 			name: newMessage.author?.tag ?? "Unknown",
 			iconURL: newMessage.author?.avatarURL() ?? undefined
 		})
-		.setThumbnail(newMessage.author?.avatarURL() ?? undefined)
+		.setThumbnail(newMessage.author?.avatarURL() ?? null)
 		.addFields(
 			{
 				name: "Old Message",
@@ -676,7 +676,7 @@ async function logMessageDelete(
 			name: message.author?.tag ?? "Unknown",
 			iconURL: message.author?.avatarURL() ?? undefined
 		})
-		.setThumbnail(message.author?.avatarURL() ?? undefined)
+		.setThumbnail(message.author?.avatarURL() ?? null)
 		.addFields(
 			{
 				name: "Message",

@@ -20,7 +20,7 @@ export default new Command()
 				name: author.username,
 				iconURL: author.avatarURL() ?? undefined
 			})
-			.setThumbnail(client.user.avatarURL() ?? undefined)
+			.setThumbnail(client.user.avatarURL())
 			.addFields(
 				{
 					name: "Bot Tag",

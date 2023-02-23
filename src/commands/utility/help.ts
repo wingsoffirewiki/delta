@@ -36,7 +36,7 @@ export default new Command()
 				name: author.username,
 				iconURL: author.avatarURL() ?? undefined
 			})
-			.setThumbnail(client.user.avatarURL() ?? undefined)
+			.setThumbnail(client.user.avatarURL())
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
