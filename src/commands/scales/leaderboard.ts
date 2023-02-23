@@ -60,13 +60,13 @@ export default new Command()
 			.setColor(Colors.Blurple)
 			.setAuthor({
 				name: interaction.user.username,
-				iconURL: interaction.user.avatarURL() ?? ""
+				iconURL: interaction.user.avatarURL() ?? undefined
 			})
 			.addFields(...topTenFields)
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 		if (authorModelIndex > 10) {
 			embed.addFields({

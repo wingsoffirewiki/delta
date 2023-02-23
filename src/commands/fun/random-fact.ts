@@ -34,7 +34,7 @@ export default new Command()
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 		interaction.followUp({
 			embeds: [embed]

@@ -106,9 +106,9 @@ export default new Command()
 			.setColor(member.displayColor || Colors.Blurple)
 			.setAuthor({
 				name: author.username,
-				iconURL: author.avatarURL() ?? ""
+				iconURL: author.avatarURL() ?? undefined
 			})
-			.setThumbnail(user.avatarURL() ?? "")
+			.setThumbnail(user.avatarURL() ?? undefined)
 			.addFields(
 				{
 					name: "Account Creation Date",
@@ -140,7 +140,7 @@ export default new Command()
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 
 		await interaction.followUp({

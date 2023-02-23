@@ -33,12 +33,12 @@ export default new EventListener<"guildMemberRemove">()
 			.setDescription(`\`${member.user.username}\` has left \`${guild.name}\``)
 			.setAuthor({
 				name: `${member.user.tag} (${member.id})`,
-				iconURL: member.user.avatarURL() ?? ""
+				iconURL: member.user.avatarURL() ?? undefined
 			})
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 		logsChannel.send({ embeds: [embed] });
 	});

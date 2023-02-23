@@ -194,9 +194,9 @@ async function logBan(
 		.setColor(0xe74d3c)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -220,7 +220,7 @@ async function logBan(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	const message = await channel.send({ embeds: [embed] });
@@ -257,9 +257,9 @@ async function logTemporaryBan(
 		.setColor(0xe67e22)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -293,7 +293,7 @@ async function logTemporaryBan(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	const message = await channel.send({ embeds: [embed] });
@@ -331,9 +331,9 @@ async function logTimeout(
 		.setColor(0x27346f)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -367,7 +367,7 @@ async function logTimeout(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	const message = await channel.send({ embeds: [embed] });
@@ -441,9 +441,9 @@ async function logUnban(
 		.setColor(0x388e3c)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -467,7 +467,7 @@ async function logUnban(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	await channel.send({ embeds: [embed] });
@@ -489,9 +489,9 @@ async function logWarn(
 		.setColor(0x0289d1)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -515,7 +515,7 @@ async function logWarn(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	const message = await channel.send({ embeds: [embed] });
@@ -549,9 +549,9 @@ async function logKick(
 		.setColor(0xfdd835)
 		.setAuthor({
 			name: moderator.tag,
-			iconURL: moderator.avatarURL() ?? ""
+			iconURL: moderator.avatarURL() ?? undefined
 		})
-		.setThumbnail(user.avatarURL() ?? "")
+		.setThumbnail(user.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Username",
@@ -575,7 +575,7 @@ async function logKick(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	const message = await channel.send({ embeds: [embed] });
@@ -616,9 +616,9 @@ async function logMessageEdit(
 		.setColor(0x388e3c)
 		.setAuthor({
 			name: newMessage.author?.tag ?? "Unknown",
-			iconURL: newMessage.author?.avatarURL() ?? ""
+			iconURL: newMessage.author?.avatarURL() ?? undefined
 		})
-		.setThumbnail(newMessage.author?.avatarURL() ?? "")
+		.setThumbnail(newMessage.author?.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Old Message",
@@ -648,7 +648,7 @@ async function logMessageEdit(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	await channel.send({ embeds: [embed] });
@@ -674,9 +674,9 @@ async function logMessageDelete(
 		.setColor(0x388e3c)
 		.setAuthor({
 			name: message.author?.tag ?? "Unknown",
-			iconURL: message.author?.avatarURL() ?? ""
+			iconURL: message.author?.avatarURL() ?? undefined
 		})
-		.setThumbnail(message.author?.avatarURL() ?? "")
+		.setThumbnail(message.author?.avatarURL() ?? undefined)
 		.addFields(
 			{
 				name: "Message",
@@ -701,7 +701,7 @@ async function logMessageDelete(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	await channel.send({ embeds: [embed] });
@@ -766,7 +766,7 @@ async function logBulkMessageDelete(
 		.setTimestamp()
 		.setFooter({
 			text: "Delta, The Wings of Fire Moderation Bot",
-			iconURL: client.user.avatarURL() ?? ""
+			iconURL: client.user.avatarURL() ?? undefined
 		});
 
 	await channel.send({ embeds: [embed] });

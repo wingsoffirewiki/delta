@@ -84,7 +84,9 @@ export default new Command()
 			.setAuthor({
 				name: funnieMember?.displayName ?? author.username,
 				iconURL:
-					funnieMember?.user.displayAvatarURL() ?? author.avatarURL() ?? ""
+					funnieMember?.user.displayAvatarURL() ??
+					author.avatarURL() ??
+					undefined
 			})
 			.addFields(
 				{
@@ -101,7 +103,7 @@ export default new Command()
 			.setTimestamp(funnieMessage.createdAt)
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 
 		if (funnieMessage.attachments.size > 0) {

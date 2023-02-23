@@ -58,7 +58,7 @@ export default new Command()
 			.setColor("Random")
 			.setAuthor({
 				name: author.username,
-				iconURL: author.avatarURL() ?? ""
+				iconURL: author.avatarURL() ?? undefined
 			})
 			.setThumbnail(guild.iconURL())
 			.addFields(
@@ -110,7 +110,7 @@ export default new Command()
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 		await interaction.followUp({
 			embeds: [embed],

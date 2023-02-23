@@ -34,13 +34,13 @@ export default new Command()
 			.setColor("Random")
 			.setAuthor({
 				name: author.username,
-				iconURL: author.avatarURL() ?? ""
+				iconURL: author.avatarURL() ?? undefined
 			})
-			.setThumbnail(client.user.avatarURL() ?? "")
+			.setThumbnail(client.user.avatarURL() ?? undefined)
 			.setTimestamp()
 			.setFooter({
 				text: "Delta, The Wings of Fire Moderation Bot",
-				iconURL: client.user.avatarURL() ?? ""
+				iconURL: client.user.avatarURL() ?? undefined
 			});
 
 		if (command !== null) {
