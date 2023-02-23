@@ -19,7 +19,7 @@ export default new EventListener<"messageCreate">()
 
 		const lowerCaseMessageContent = message.content.toLowerCase();
 		if (lowerCaseMessageContent.includes("goose")) {
-			message.react("🦢").catch((error) => console.log(error.message));
+			message.react("🦆").catch((error) => console.log(error.message));
 		}
 		if (lowerCaseMessageContent.includes("honk")) {
 			message.react(HONK_EMOJI_ID).catch((error) => console.log(error.message));
