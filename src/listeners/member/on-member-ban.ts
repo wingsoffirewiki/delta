@@ -12,7 +12,8 @@ export default new EventListener<"guildBanAdd">()
 		const auditLog = await guild
 			.fetchAuditLogs({
 				limit: 1,
-				type: AuditLogEvent.MemberBanAdd
+				type: AuditLogEvent.MemberBanAdd,
+				user
 			})
 			.then((auditLogs) => auditLogs.entries.first())
 			.catch(() => undefined);
