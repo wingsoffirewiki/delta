@@ -12,7 +12,8 @@ export default new EventListener<"guildMemberRemove">()
 		const auditLog = await guild
 			.fetchAuditLogs({
 				limit: 1,
-				type: AuditLogEvent.MemberKick
+				type: AuditLogEvent.MemberKick,
+				user
 			})
 			.then((auditLogs) => auditLogs.entries.first())
 			.catch(() => undefined);
