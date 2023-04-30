@@ -4,7 +4,12 @@ import {
 	PermissionFlagsBits
 } from "discord.js";
 import { Command } from "fero-dc";
-import { Channels, Emojis, Features, prisma } from "../../util/prisma-client";
+import {
+	type Channels,
+	type Emojis,
+	type Features,
+	prisma
+} from "../../util/prisma-client";
 
 export default new Command()
 	.setName("set")

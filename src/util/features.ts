@@ -1,4 +1,4 @@
-import { Features, prisma } from "./prisma-client";
+import { type Features, prisma } from "./prisma-client";
 import { Guild } from "discord.js";
 
 export async function isFeatureEnabled(

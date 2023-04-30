@@ -1,6 +1,10 @@
-import { GuildBasedChannel, TextBasedChannel, EmbedBuilder } from "discord.js";
-import { Log, prisma } from "./prisma-client";
-import { LogOptions, LogType } from "./types";
+import {
+	type GuildBasedChannel,
+	type TextBasedChannel,
+	EmbedBuilder
+} from "discord.js";
+import { type Log, prisma } from "./prisma-client";
+import { type LogOptions, LogType } from "./types";
 import { ms } from "fero-ms";
 
 export async function log<T extends LogType>(

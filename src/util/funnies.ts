@@ -1,12 +1,12 @@
 import { Client } from "fero-dc";
-import { Guild, prisma } from "./prisma-client";
+import { type Guild, prisma } from "./prisma-client";
 import {
 	Collection,
 	EmbedBuilder,
 	GuildMember,
 	Message,
 	MessageReaction,
-	PartialMessage
+	type PartialMessage
 } from "discord.js";
 
 type FunnieReactionCounts = [

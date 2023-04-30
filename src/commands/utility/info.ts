@@ -3,7 +3,7 @@ import {
 	ApplicationCommandOptionType,
 	Colors,
 	EmbedBuilder,
-	EmbedField,
+	type EmbedField,
 	PermissionFlagsBits
 } from "discord.js";
 import { Command } from "fero-dc";

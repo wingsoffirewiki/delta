@@ -1,6 +1,6 @@
 import { Client, EventListener } from "fero-dc";
 import { prisma } from "../util/prisma-client";
-import { JsonActivity, LogType } from "../util/types";
+import { type JsonActivity, LogType } from "../util/types";
 import activities from "../config/activities.json" assert { type: "json" };
 import { ActivityType } from "discord.js";
 import { randomElement } from "../util/random";

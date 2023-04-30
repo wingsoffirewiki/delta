@@ -1,4 +1,4 @@
-import { UselessFactsResponse } from "./types";
+import type { UselessFactsResponse } from "./types";
 import apiUrls from "../config/api-urls.json" assert { type: "json" };
 
 export async function getFactOfTheDay(): Promise<

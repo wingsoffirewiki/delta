@@ -26,6 +26,7 @@
 				"allowHigherOrderFunctions": true
 			}
 		],
+		"@typescript-eslint/no-import-type-side-effects": "error",
 		"curly": ["error", "all"],
 		"quotes": ["error", "double"]
 	},

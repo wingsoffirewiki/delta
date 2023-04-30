@@ -16,8 +16,9 @@
 		"sourceRoot": "../src",
 		"newLine": "lf",
 		"esModuleInterop": true,
+		"verbatimModuleSyntax": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
-		"skipDefaultLibCheck": true
+		"skipLibCheck": true
 	}
 }
