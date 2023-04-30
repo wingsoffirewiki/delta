@@ -6,7 +6,7 @@
 	"type": "module",
 	"repository": "https://github.com/wofwiki/Delta",
 	"engines": {
-		"node": "18.14.2",
+		"node": "18.16.0",
 		"pnpm": "8.3.1"
 	},
 	"scripts": {
