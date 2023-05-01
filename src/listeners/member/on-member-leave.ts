@@ -1,5 +1,4 @@
-import { EmbedBuilder } from "@discordjs/builders";
-import { Colors } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { EventListener } from "fero-dc";
 import { prisma } from "../../util/prisma-client";
 

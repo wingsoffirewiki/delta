@@ -1,7 +1,6 @@
 import { Command } from "fero-dc";
 import { getFactOfTheDay } from "../../util/fact-api";
-import { EmbedBuilder } from "@discordjs/builders";
-import { Colors, PermissionFlagsBits } from "discord.js";
+import { Colors, PermissionFlagsBits, EmbedBuilder } from "discord.js";
 
 export default new Command()
 	.setName("fact-of-the-day")

@@ -1,5 +1,4 @@
-import { EmbedBuilder } from "@discordjs/builders";
-import { Colors, PermissionFlagsBits } from "discord.js";
+import { Colors, PermissionFlagsBits, EmbedBuilder } from "discord.js";
 import { Command } from "fero-dc";
 import messages from "../../config/messages.json" assert { type: "json" };
 import { ms } from "fero-ms";
