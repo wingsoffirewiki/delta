@@ -5,14 +5,14 @@ dependencies:
     specifier: 4.13.0
     version: 4.13.0(prisma@4.13.0)
   discord.js:
-    specifier: 14.7.1
-    version: 14.7.1
+    specifier: 14.9.0
+    version: 14.9.0
   dotenv:
     specifier: 16.0.3
     version: 16.0.3
   fero-dc:
-    specifier: 4.0.0-dev-20
-    version: 4.0.0-dev-20
+    specifier: 4.0.0-dev-21
+    version: 4.0.0-dev-21
   fero-ms:
     specifier: 2.0.7
     version: 2.0.7
@@ -110,11 +110,6 @@ packages:
       file-type: 18.3.0
       tslib: 2.5.0
       undici: 5.22.0
-    dev: false
-
-  /@discordjs/util@0.1.0:
-    resolution: {integrity: sha512-e7d+PaTLVQav6rOc2tojh2y6FE8S7REkqLldq1XF4soCx74XB/DIjbVbVLtBemf0nLW77ntz0v+o5DytKwFNLQ==}
-    engines: {node: '>=16.9.0'}
     dev: false
 
   /@discordjs/util@0.2.0:
@@ -649,15 +644,15 @@ packages:
     resolution: {integrity: sha512-LMALvtO+p6ERK8rwWoaI490NfIE/egbqjR4/rfLL1z9gQE1gqLiTpIUUDIunfAtKYzeH6ucyXhaXXWpfZh/Q6g==}
     dev: false
 
-  /discord.js@14.7.1:
-    resolution: {integrity: sha512-1FECvqJJjjeYcjSm0IGMnPxLqja/pmG1B0W2l3lUY2Gi4KXiyTeQmU1IxWcbXHn2k+ytP587mMWqva2IA87EbA==}
+  /discord.js@14.9.0:
+    resolution: {integrity: sha512-ygGms5xP4hG+QrrY9k7d/OYCzMltSMtdl/2Snzq/nLCiZo+Sna91Ulv9l0+B5Jd/Czcq37B7wJAnmja7GOa+bg==}
     engines: {node: '>=16.9.0'}
-    deprecated: Hard crashes on interactions with a channel in the payload, use 14.8.0 and up
     dependencies:
       '@discordjs/builders': 1.6.1
       '@discordjs/collection': 1.5.0
+      '@discordjs/formatters': 0.3.0
       '@discordjs/rest': 1.7.0
-      '@discordjs/util': 0.1.0
+      '@discordjs/util': 0.2.0
       '@sapphire/snowflake': 3.4.2
       '@types/ws': 8.5.4
       discord-api-types: 0.37.40
@@ -858,10 +853,10 @@ packages:
       reusify: 1.0.4
     dev: true
 
-  /fero-dc@4.0.0-dev-20:
-    resolution: {integrity: sha512-jc3aRfUEWlJ7ShpuOIG8lrIDTD+KOLH7plUg2cvmHGb4VlLD+jKGhvgta4OzXCyUceVRlr863siCi1nc7vqRVQ==}
+  /fero-dc@4.0.0-dev-21:
+    resolution: {integrity: sha512-XIjGQvGXK78eh3q/WHmgVs7rcSzbeMPxoYPMNR4KiFwfxnpPIC4ulmEtfdV5ddYXRUWS4EfKoawut412uoBlFA==}
     dependencies:
-      discord.js: 14.7.1
+      discord.js: 14.9.0
       glob: 8.1.0
       lodash: 4.17.21
     transitivePeerDependencies:
