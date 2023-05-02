@@ -10,7 +10,7 @@
 		"pnpm": "8.3.1"
 	},
 	"scripts": {
-		"start": "node --no-warnings --experimental-specifier-resolution=node --enable-source-maps .",
+		"start": "node --no-warnings --enable-source-maps .",
 		"dev": "nodemon",
 		"build": "pnpm swc && pnpm type-check",
 		"type-check": "tsc --noEmit",
