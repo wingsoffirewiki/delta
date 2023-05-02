@@ -1,0 +1,19 @@
+{
+	"$schema": "https://json.schemastore.org/swcrc",
+	"jsc": {
+		"experimental": {
+			"keepImportAssertions": true
+		},
+		"parser": {
+			"syntax": "typescript",
+			"dynamicImport": true,
+			"importAssertions": true
+		},
+		"target": "esnext"
+	},
+	"module": {
+		"type": "es6",
+		"strictMode": true
+	},
+	"sourceMaps": true
+}
