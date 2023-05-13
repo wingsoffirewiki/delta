@@ -29,20 +29,18 @@ async function autoUnban(client: Client<true>): Promise<void> {
 	for (const temporaryBanLog of temporaryBanLogs) {
 		const guild = await client.guilds
 			.fetch(temporaryBanLog.guildId)
-			.catch(() => undefined);
+			.catch(() => null);
 		const user = await client.users
 			.fetch(temporaryBanLog.targetId)
-			.catch(() => undefined);
-		if (guild === undefined || user === undefined) {
+			.catch(() => null);
+		if (guild === null || user === null) {
 			console.error("Guild or user not found");
 
 			continue;
 		}
 
 		const reason = `~${temporaryBanLog.reason}~\n\nTemporary ban expired`;
-		const unbannedUser = await guild.members
-			.unban(user, reason)
-			.catch(() => null);
+		const unbannedUser = await guild.members.unban(user, reason);
 		if (unbannedUser === null) {
 			console.error("Failed to unban user");
 

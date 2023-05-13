@@ -42,9 +42,9 @@ export default new Command()
 			return;
 		}
 
-		const verificationChannel = await guild.channels
-			.fetch(guildModel.channelIds.verification)
-			.catch(() => null);
+		const verificationChannel = await guild.channels.fetch(
+			guildModel.channelIds.verification
+		);
 		if (verificationChannel === null || !verificationChannel.isTextBased()) {
 			await interaction.followUp({
 				ephemeral: true,

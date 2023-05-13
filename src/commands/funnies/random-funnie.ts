@@ -49,9 +49,7 @@ export default new Command()
 		}
 
 		const funnie = randomElement(funnies);
-		const funnieChannel = await guild.channels
-			.fetch(funnie.channelId)
-			.catch(() => null);
+		const funnieChannel = await guild.channels.fetch(funnie.channelId);
 		if (funnieChannel === null || !funnieChannel.isTextBased()) {
 			await interaction.followUp("Failed to get funnie channel.");
 
