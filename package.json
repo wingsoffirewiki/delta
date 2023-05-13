@@ -19,7 +19,7 @@
 		"pretty-fix": "prettier --write \"src/**/*.ts\"",
 		"lint": "eslint \"src/**/*.ts\"",
 		"lint-fix": "eslint --fix \"src/**/*.ts\"",
-		"prisma": "prisma generate"
+		"prisma": "prisma"
 	},
 	"author": "wofwiki <wings.of.fire.fandom.wiki@gmail.com>",
 	"license": "MIT",
