@@ -39,8 +39,7 @@ async function autoUnban(client: Client<true>): Promise<void> {
 			continue;
 		}
 
-		const reason = "Temporary ban expired";
-
+		const reason = `~${temporaryBanLog.reason}~\n\nTemporary ban expired`;
 		const unbannedUser = await guild.members
 			.unban(user, reason)
 			.catch(() => null);
