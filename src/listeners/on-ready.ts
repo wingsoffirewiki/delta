@@ -12,7 +12,7 @@ export default new EventListener<"ready">()
 	.setHandler(async (client) => {
 		console.log(`${client.user.tag} is online!`);
 
-		setInterval(() => autoUnban(client), 10000);
+		setInterval(() => autoUnban(client).catch(console.log), 10000);
 		setInterval(() => setPresence(client), 60000);
 	});
 
