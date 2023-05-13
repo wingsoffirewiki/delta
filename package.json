@@ -24,10 +24,10 @@
 	"author": "wofwiki <wings.of.fire.fandom.wiki@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"@ferod/client": "0.1.12",
 		"@prisma/client": "4.14.0",
 		"discord.js": "14.11.0",
 		"dotenv": "16.0.3",
-		"fero-dc": "4.0.0-dev-21",
 		"fero-ms": "2.0.7",
 		"glob": "10.2.3",
 		"lodash": "4.17.21"

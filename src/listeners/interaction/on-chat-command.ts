@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 
 export default new EventListener<"interactionCreate">()
 	.setEvent("interactionCreate")

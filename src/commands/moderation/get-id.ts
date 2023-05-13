@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType, PermissionFlagsBits } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import { isFeatureEnabled } from "../../util/features";
 
 export default new Command()

@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 import messages from "../../config/messages.json" assert { type: "json" };
 import { prisma } from "../../util/prisma-client";
 import { Colors, EmbedBuilder } from "discord.js";

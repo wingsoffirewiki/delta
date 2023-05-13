@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 import { prisma } from "../../util/prisma-client";
 import { NULL_SNOWFLAKE } from "../../util/types";
 

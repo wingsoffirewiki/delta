@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 import { getFunnieReactionCounts } from "../../util/funnies";
 import { prisma } from "../../util/prisma-client";
 

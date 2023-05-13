@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 import { LogType } from "../../util/types";
 import { log } from "../../util/logging";
 import { AuditLogEvent } from "discord.js";

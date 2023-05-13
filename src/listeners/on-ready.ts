@@ -1,4 +1,4 @@
-import { Client, EventListener } from "fero-dc";
+import { Client, EventListener } from "@ferod/client";
 import { prisma } from "../util/prisma-client";
 import { type JsonActivity, LogType } from "../util/types";
 import activities from "../config/activities.json" assert { type: "json" };

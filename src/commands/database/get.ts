@@ -1,5 +1,5 @@
 import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import { prisma } from "../../util/prisma-client";
 
 export default new Command()

@@ -3,7 +3,7 @@ import {
 	ChannelType,
 	PermissionFlagsBits
 } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import {
 	type Channels,
 	type Emojis,

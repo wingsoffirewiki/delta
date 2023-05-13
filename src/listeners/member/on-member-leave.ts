@@ -1,5 +1,5 @@
 import { Colors, EmbedBuilder } from "discord.js";
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 import { prisma } from "../../util/prisma-client";
 
 export default new EventListener<"guildMemberRemove">()

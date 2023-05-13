@@ -1,5 +1,5 @@
 import { Colors, PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import messages from "../../config/messages.json" assert { type: "json" };
 import { ms } from "fero-ms";
 

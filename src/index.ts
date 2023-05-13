@@ -1,4 +1,4 @@
-import { Client, type ClientOptions } from "fero-dc";
+import { Client, type ClientOptions } from "@ferod/client";
 
 import options from "./config/config.json" assert { type: "json" };
 

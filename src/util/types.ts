@@ -5,7 +5,7 @@ import type {
 	PartialMessage,
 	Guild
 } from "discord.js";
-import { Client } from "fero-dc";
+import { Client } from "@ferod/client";
 
 export const NULL_SNOWFLAKE = "0000000000000000000";
 

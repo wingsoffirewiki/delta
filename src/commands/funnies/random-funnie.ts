@@ -1,4 +1,4 @@
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import { prisma } from "../../util/prisma-client";
 import { randomElement } from "../../util/random";
 import { Colors, EmbedBuilder, PermissionFlagsBits } from "discord.js";

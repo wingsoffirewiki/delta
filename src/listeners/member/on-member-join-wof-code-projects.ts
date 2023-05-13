@@ -1,4 +1,4 @@
-import { EventListener } from "fero-dc";
+import { EventListener } from "@ferod/client";
 
 const WOF_CODE_PROJECTS_GUILD_ID = "576534597697798154";
 const VERIFICATION_CHANNEL_ID = "734249352205434881";

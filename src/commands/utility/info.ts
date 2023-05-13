@@ -6,7 +6,7 @@ import {
 	type EmbedField,
 	PermissionFlagsBits
 } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import { toPascalCase } from "../../util/strings";
 
 export default new Command()

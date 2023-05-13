@@ -1,18 +1,29 @@
+import { Command } from "@ferod/client";
 import {
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	Collection,
 	EmbedBuilder,
-	type EmbedField,
-	PermissionFlagsBits
+	type EmbedField
 } from "discord.js";
-import { Command } from "fero-dc";
-import { toPascalCase } from "../../util/strings";
+
+/**
+ * Converts a string to PascalCase
+ * @param string The string to convert
+ * @param separator The separator to use
+ * @returns The converted string
+ */
+function toPascalCase(string: string, separator = " "): string {
+	return string
+		.split(separator)
+		.map((word) => word[0].toUpperCase() + word.slice(1))
+		.join(separator);
+}
 
 export default new Command()
 	.setName("help")
 	.setDescription("Shows a help embed")
 	.setCategory("Utility")
-	.setPermissions(PermissionFlagsBits.SendMessages)
 	.setOptions({
 		name: "command",
 		description: "The command to receive help for",
@@ -30,7 +41,7 @@ export default new Command()
 
 		const author = interaction.user;
 		const embed = new EmbedBuilder()
-			.setTitle("Delta: Help")
+			.setTitle("Help")
 			.setColor("Random")
 			.setAuthor({
 				name: author.username,
@@ -39,7 +50,7 @@ export default new Command()
 			.setThumbnail(client.user.avatarURL())
 			.setTimestamp()
 			.setFooter({
-				text: "Delta, The Wings of Fire Moderation Bot",
+				text: "Ferod",
 				iconURL: client.user.avatarURL() ?? undefined
 			});
 
@@ -66,8 +77,8 @@ export default new Command()
 					}
 				);
 
-			const usage = command.getUsage();
-			const args = command.getArguments();
+			const usage = command.usage;
+			const args = command.arguments;
 			if (usage && args) {
 				embed.addFields(
 					{
@@ -81,9 +92,14 @@ export default new Command()
 				);
 			}
 		} else {
-			const commandsByCategory = new Collection<string, Command[]>();
+			const commandsByCategory = new Collection<
+				string,
+				Command<ApplicationCommandType>[]
+			>();
 			for (const category of client.categories) {
-				const commands = client.getCommandsByCategory(category).values();
+				const commands = client.commands
+					.filter((cmd) => cmd.category === category)
+					.values();
 				commandsByCategory.set(toPascalCase(category, " "), [...commands]);
 			}
 
@@ -92,7 +108,7 @@ export default new Command()
 					const name = `${category}${
 						category.endsWith("Commands") ? "" : " Commands"
 					}`;
-					const value = commands.map((command) => command.name).join("\n");
+					const value = commands.map((cmd) => cmd.name).join("\n");
 					return { name, value, inline: true };
 				}
 			);

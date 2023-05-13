@@ -1,4 +1,4 @@
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 import { getRandomFact } from "../../util/fact-api";
 import { Colors, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 

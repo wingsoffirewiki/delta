@@ -1,4 +1,4 @@
-import { Client } from "fero-dc";
+import { Client } from "@ferod/client";
 import { type Guild, prisma } from "./prisma-client";
 import {
 	Collection,

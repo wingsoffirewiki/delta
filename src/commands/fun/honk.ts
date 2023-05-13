@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { Command } from "fero-dc";
+import { Command } from "@ferod/client";
 
 export default new Command()
 	.setName("honk")
