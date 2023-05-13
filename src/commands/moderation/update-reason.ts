@@ -80,6 +80,12 @@ export default new Command()
 			}
 		});
 
+		if (guildModel.channelIds.logs === null) {
+			await interaction.followUp("The logs channel is not set up.");
+
+			return;
+		}
+
 		const logsChannel = await guild.channels.fetch(guildModel.channelIds.logs);
 		if (logsChannel === null || !logsChannel.isTextBased()) {
 			await interaction.followUp(

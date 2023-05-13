@@ -50,6 +50,12 @@ export default new Command()
 			return;
 		}
 
+		if (guildModel.channelIds.funnies === null) {
+			await interaction.followUp("The funnies channel is not set up.");
+
+			return;
+		}
+
 		// delete the embed message
 		const funnieChannel = await guild.channels.fetch(
 			guildModel.channelIds.funnies

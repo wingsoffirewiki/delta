@@ -42,6 +42,15 @@ export default new Command()
 			return;
 		}
 
+		if (guildModel.channelIds.verification === null) {
+			await interaction.followUp({
+				ephemeral: true,
+				content: "The verification channel is not set up."
+			});
+
+			return;
+		}
+
 		const verificationChannel = await guild.channels.fetch(
 			guildModel.channelIds.verification
 		);

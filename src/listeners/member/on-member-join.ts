@@ -56,6 +56,10 @@ export default new EventListener<"guildMemberAdd">()
 			return;
 		}
 
+		if (guildModel.channelIds.logs === null) {
+			return;
+		}
+
 		const logsChannel = guild.channels.cache.get(guildModel.channelIds.logs);
 		if (
 			logsChannel === undefined ||

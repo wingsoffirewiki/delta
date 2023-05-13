@@ -77,6 +77,10 @@ export async function createFunnie(
 		return;
 	}
 
+	if (guildModel.channelIds.funnies === null) {
+		return;
+	}
+
 	const funnieChannel = await guild.channels.fetch(
 		guildModel.channelIds.funnies
 	);

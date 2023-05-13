@@ -1,6 +1,5 @@
 import { EventListener } from "@ferod/client";
 import { prisma } from "../../util/prisma-client";
-import { NULL_SNOWFLAKE } from "../../util/types";
 
 export default new EventListener<"interactionCreate">()
 	.setEvent("interactionCreate")
@@ -26,7 +25,7 @@ export default new EventListener<"interactionCreate">()
 		if (guildModel === null) {
 			return;
 		}
-		if (guildModel.messageIds.verification === NULL_SNOWFLAKE) {
+		if (guildModel.messageIds.verification === null) {
 			return;
 		}
 
@@ -38,7 +37,7 @@ export default new EventListener<"interactionCreate">()
 		}
 
 		const roleId = guildModel.roleIds.verified;
-		if (roleId === NULL_SNOWFLAKE) {
+		if (roleId === null) {
 			return;
 		}
 

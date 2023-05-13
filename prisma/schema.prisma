@@ -12,16 +12,16 @@ datasource db {
 }
 
 type Channels {
-  logs         String @default("0000000000000000000")
-  modLogs      String @default("0000000000000000000")
-  adminLogs    String @default("0000000000000000000")
-  funnies      String @default("0000000000000000000")
-  verification String @default("0000000000000000000")
+  logs         String?
+  modLogs      String?
+  adminLogs    String?
+  funnies      String?
+  verification String?
 }
 
 type Roles {
   mods     String[] @default([])
-  verified String   @default("0000000000000000000")
+  verified String?
 }
 
 type Messages {

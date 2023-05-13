@@ -34,42 +34,48 @@ export default new EventListener<"messageReactionAdd">()
 				id: message.id
 			}
 		});
-		if (funnie !== null) {
-			const funnieChannel = await guild.channels.fetch(
-				guildModel.channelIds.funnies
-			);
-			if (funnieChannel === null || !funnieChannel.isTextBased()) {
+		if (funnie === null) {
+			const isEnough = upvoteCount >= 8 || modUpvoteCount >= 1;
+			if (!isEnough) {
 				return;
 			}
 
-			const embedMessage = await funnieChannel.messages.fetch(
-				funnie.embedMessageId
-			);
-
-			const embed = embedMessage.embeds[0];
-			const upvoteField = embed.fields.find(
-				(field) => field.name === funnieUpvoteEmoji
-			);
-			const upvoteModField = embed.fields.find(
-				(field) => field.name === funnieModUpvoteEmoji
-			);
-
-			if (upvoteField !== undefined) {
-				upvoteField.value = upvoteCount.toString();
-			}
-			if (upvoteModField !== undefined) {
-				upvoteModField.value = modUpvoteCount.toString();
-			}
-
-			await embedMessage.edit({ embeds: [embed] });
+			await createFunnie(client, guildModel, message, counts);
 
 			return;
 		}
 
-		const isEnough = upvoteCount >= 8 || modUpvoteCount >= 1;
-		if (!isEnough) {
+		if (guildModel.channelIds.funnies === null) {
 			return;
 		}
 
-		await createFunnie(client, guildModel, message, counts);
+		const funnieChannel = await guild.channels.fetch(
+			guildModel.channelIds.funnies
+		);
+		if (funnieChannel === null || !funnieChannel.isTextBased()) {
+			return;
+		}
+
+		const embedMessage = await funnieChannel.messages.fetch(
+			funnie.embedMessageId
+		);
+
+		const embed = embedMessage.embeds[0];
+		const upvoteField = embed.fields.find(
+			(field) => field.name === funnieUpvoteEmoji
+		);
+		const upvoteModField = embed.fields.find(
+			(field) => field.name === funnieModUpvoteEmoji
+		);
+
+		if (upvoteField !== undefined) {
+			upvoteField.value = upvoteCount.toString();
+		}
+		if (upvoteModField !== undefined) {
+			upvoteModField.value = modUpvoteCount.toString();
+		}
+
+		await embedMessage.edit({ embeds: [embed] });
+
+		return;
 	});

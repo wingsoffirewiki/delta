@@ -7,8 +7,6 @@ import type {
 } from "discord.js";
 import { Client } from "@ferod/client";
 
-export const NULL_SNOWFLAKE = "0000000000000000000";
-
 export enum LogType {
 	Ban,
 	TemporaryBan,

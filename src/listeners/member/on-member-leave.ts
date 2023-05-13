@@ -17,6 +17,10 @@ export default new EventListener<"guildMemberRemove">()
 			return;
 		}
 
+		if (guildModel.channelIds.logs === null) {
+			return;
+		}
+
 		const logsChannel = guild.channels.cache.get(guildModel.channelIds.logs);
 		if (
 			logsChannel === undefined ||

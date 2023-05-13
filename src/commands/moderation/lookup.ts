@@ -147,6 +147,15 @@ export default new Command()
 				return;
 			}
 
+			if (guildModel.channelIds.logs === null) {
+				await interaction.followUp({
+					ephemeral: true,
+					content: "The logs channel is not set up."
+				});
+
+				return;
+			}
+
 			const logsChannel = await guild.channels.fetch(
 				guildModel.channelIds.logs
 			);

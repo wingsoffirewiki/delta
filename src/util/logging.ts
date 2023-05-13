@@ -45,6 +45,10 @@ export async function log<T extends LogType>(
 				return;
 			}
 
+			if (guildModel.channelIds.logs === null) {
+				return;
+			}
+
 			const channel = guild.channels.cache.get(guildModel.channelIds.logs);
 			if (channel === undefined || !channel.isTextBased()) {
 				return;
@@ -57,6 +61,10 @@ export async function log<T extends LogType>(
 
 		case LogType.TemporaryBan: {
 			if (!guildModel.features.logging) {
+				return;
+			}
+
+			if (guildModel.channelIds.logs === null) {
 				return;
 			}
 
@@ -79,6 +87,10 @@ export async function log<T extends LogType>(
 				return;
 			}
 
+			if (guildModel.channelIds.logs === null) {
+				return;
+			}
+
 			const channel = guild.channels.cache.get(guildModel.channelIds.logs);
 			if (channel === undefined || !channel.isTextBased()) {
 				return;
@@ -91,6 +103,10 @@ export async function log<T extends LogType>(
 
 		case LogType.Unban: {
 			if (!guildModel.features.logging) {
+				return;
+			}
+
+			if (guildModel.channelIds.logs === null) {
 				return;
 			}
 
@@ -109,6 +125,10 @@ export async function log<T extends LogType>(
 				return;
 			}
 
+			if (guildModel.channelIds.logs === null) {
+				return;
+			}
+
 			const channel = guild.channels.cache.get(guildModel.channelIds.logs);
 			if (channel === undefined || !channel.isTextBased()) {
 				return;
@@ -121,6 +141,10 @@ export async function log<T extends LogType>(
 
 		case LogType.Kick: {
 			if (!guildModel.features.logging) {
+				return;
+			}
+
+			if (guildModel.channelIds.logs === null) {
 				return;
 			}
 
@@ -139,6 +163,10 @@ export async function log<T extends LogType>(
 				return;
 			}
 
+			if (guildModel.channelIds.modLogs === null) {
+				return;
+			}
+
 			const channel = guild.channels.cache.get(guildModel.channelIds.modLogs);
 			if (channel === undefined || !channel.isTextBased()) {
 				return;
@@ -154,6 +182,10 @@ export async function log<T extends LogType>(
 				return;
 			}
 
+			if (guildModel.channelIds.modLogs === null) {
+				return;
+			}
+
 			const channel = guild.channels.cache.get(guildModel.channelIds.modLogs);
 			if (channel === undefined || !channel.isTextBased()) {
 				return;
@@ -166,6 +198,10 @@ export async function log<T extends LogType>(
 
 		case LogType.BulkMessageDelete: {
 			if (!guildModel.features.modLogging) {
+				return;
+			}
+
+			if (guildModel.channelIds.modLogs === null) {
 				return;
 			}
 
