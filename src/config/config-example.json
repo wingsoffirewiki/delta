@@ -13,7 +13,6 @@
 	],
 	"commandsPath": "./commands",
 	"eventListenersPath": "./listeners",
-	"commandLoadedMessage": true,
 	"deleteUnusedApplicationCommands": true,
 	"editApplicationCommands": true
 }
