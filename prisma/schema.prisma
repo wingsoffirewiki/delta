@@ -25,7 +25,7 @@ type Roles {
 }
 
 type Messages {
-  verification String
+  verification String?
 }
 
 type Emojis {
