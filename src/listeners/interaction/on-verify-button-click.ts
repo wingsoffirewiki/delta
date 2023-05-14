@@ -25,9 +25,6 @@ export default new EventListener<"interactionCreate">()
 		if (guildModel === null) {
 			return;
 		}
-		if (guildModel.messageIds.verification === null) {
-			return;
-		}
 
 		if (
 			interaction.channelId !== guildModel.channelIds.verification ||
